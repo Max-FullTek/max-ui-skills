@@ -1,0 +1,6 @@
+interface:
+  display_name: "Orange Matters"
+  short_description: "Portable warm-orange glass UI theme"
+  default_prompt: "Use $orange-matters to restyle this project with the Da Ju Wei Zhong orange-glass theme."
+policy:
+  allow_implicit_invocation: true
