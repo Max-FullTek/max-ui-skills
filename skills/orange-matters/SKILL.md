@@ -1,56 +1,43 @@
 ---
 name: orange-matters
-description: 'Apply or extend the "Orange Matters" UI theme ("大橘為重"): warm off-white light mode, charcoal dark mode, orange-to-orange-red accents, glass panels, rounded cards, soft shadows, and restrained playful motion. Use when Codex needs to theme a frontend project, restyle pages or shared components to match this visual system, create new UI that should stay consistent with this theme, or keep future additions aligned with the same tokens, component language, and dark-mode rules.'
+description: 'Apply or extend the "Orange Matters" UI theme ("大橘為重"): warm off-white light mode, charcoal dark mode, orange primary actions, teal secondary actions, glass panels, compact app shells, strict local overflow, and restrained motion. Use for frontend UI, admin panels, internal tools, data browsers, dashboards, component styling, layout polish, theme tokens, and dark-mode alignment.'
 ---
 
 # Orange Matters
 
-Use this skill as the implementation guide for the `大橘為重` theme. Treat it as a portable visual system for content tools, admin panels, internal tools, data browsers, and lightweight dashboards that should feel warm, polished, and slightly playful instead of generic SaaS.
+Use this as a concise implementation guide for the Orange Matters product UI system. Read [references/theme-spec.md](references/theme-spec.md) before visual work. For React projects, also read [references/react-spec.md](references/react-spec.md).
 
-## Start Here
+## Workflow
 
-- Read [references/theme-spec.md](references/theme-spec.md) before making visual changes.
-- Extract or map tokens first. Set global colors, typography, radius, shadows, and motion timing before styling individual screens.
-- Implement light mode and dark mode together.
-- Preserve the theme identity: warm light surfaces, charcoal dark surfaces, orange accents, glass panels, rounded cards, and soft depth.
+- Inspect the existing stack, token layer, shared components, theme entry points, routes, and layouts.
+- Map the theme into existing abstractions. For new app-like frontends with no stack, prefer React + TSX + SCSS + Vite.
+- In React, follow `references/react-spec.md`: colocated CSS Modules, per-component folders, page modules, and minimal globals only.
+- For a new app shell, load `references/layouts/app-shell.md`, `references/components/header.md`, and `references/components/menubar.md`.
+- Implement light and dark mode together.
+- Keep dark-mode token scope compatible with portals: floating menus, selects, tooltips, and dialogs rendered under `document.body` must inherit or receive the active theme.
+- Default app screens to a full-viewport shell: top header, left menu, main content at the lower/right work area.
+- Control the left sidebar with a header icon button placed beside the brand/title cluster. When horizontal space is tight, auto-collapse the sidebar and reopen it as a left-side floating drawer.
+- Keep `html` and `body` free of horizontal and vertical scrollbars. Put scrolling only inside intentional regions such as main panels, lists, sidebars, drawers, or tables.
+- Prefer fluid width. Avoid narrow global max-width wrappers except for long-form content.
+- Use minimal product copy only: titles, clear labels, necessary helper text. Strictly never render agent/LLM explanations, prompts, requirements, or limitation notes in the UI.
+- Use space efficiently. Short fields, short selects, status controls, numeric inputs, and compact actions should sit inline or in dense grids when there is room; do not let low-complexity controls each consume a full row or large vertical block by default.
 
-## Apply The Theme
+## Visual Rules
 
-1. Set up global tokens.
-- Define the documented theme variables as project-level tokens or CSS variables.
-- If the project already has a token layer, map it to this theme instead of creating a second parallel system.
+- Use warm light surfaces, charcoal dark surfaces, glass panels, soft depth, compact controls, and orange primary emphasis.
+- Use teal only as the secondary action/status family; do not let it compete with orange as the brand accent.
+- Derive buttons from `primary`, `primary-outline`, `secondary`, `secondary-outline`, `ghost`, `danger`, or `icon-only`.
+- Derive surfaces from panel, card, drawer, toolbar, tooltip, snackbar, search, table/list, and menu patterns in the reference.
+- Use orange accent borders/glow for focus; never default blue focus rings.
+- Keep motion short: small lift, soft shadow change, slight saturation increase.
 
-2. Style the app shell and surfaces.
-- Use a warm, slightly atmospheric workspace in light mode and restrained charcoal depth in dark mode.
-- Make topbars, result panels, drawers, and secondary panes share the same glass-panel or gradient-surface language.
-- Prefer soft layered shadows over sharp, high-contrast "enterprise dashboard" shadows.
+## Guardrails
 
-3. Style interaction patterns.
-- Use accent borders and glow for focus; do not use default blue focus rings.
-- Keep hover motion short and intentional, mostly small `translateY`, shadow deepening, and slight saturation increase.
-- Reuse the documented motion names and behavior before inventing new animations.
-
-4. Extend the system carefully.
-- Derive new buttons from `primary`, `ghost`, `danger`, or `icon-only`.
-- Derive new containers from the existing panel, card, drawer, tooltip, and snackbar language.
-- Keep new UI consistent with the same radius family, accent family, and motion vocabulary.
-
-## Non-Negotiables
-
-- Do not introduce purple accents.
-- Do not fall back to corporate blue focus styling.
-- Do not flatten the interface into generic white SaaS cards.
-- Do not create a new primary color family alongside orange.
-- Do not ship light mode without matching dark mode.
-- Do not mix too many unrelated easing curves or long animations on the same page.
-
-## Working Rules
-
-- If the target project already has a strong brand language, confirm before replacing the entire product identity.
-- If the user asks for this theme, apply it consistently across shared layout, shared components, and key screens rather than only recoloring one isolated widget.
-- When forced to adapt around existing implementation constraints, preserve the theme's feel first: warm surfaces, orange emphasis, soft depth, and compact playful motion.
-
-## Reference
-
-- Use [references/theme-spec.md](references/theme-spec.md) for the exact token values, typography stack, layout rules, component behavior, motion rules, and responsive guidance.
-- Reuse the closest existing pattern from that reference before inventing a new component treatment.
+- Do not build app screens as hero/feature-card landing pages.
+- Do not add decorative subtitle/helper copy just to fill space.
+- Do not waste rows or height on short data. Prefer `auto-fit`, `minmax()`, fixed-width compact controls, and inline action rows before stacking.
+- Do not introduce purple accents, corporate blue focus, generic white SaaS cards, or a second primary color system.
+- Do not ship light mode without dark mode.
+- Do not solve overflow with document-level scrolling.
+- Do not let dense tables or fixed-width lists get clipped on mobile; use internal horizontal scroll viewports when columns cannot collapse cleanly.
+- Finish by summarizing theme changes, key files touched, and any rollout gaps.

@@ -1,0 +1,99 @@
+.root {
+  grid-area: header;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto auto auto minmax(180px, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-elevated);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow-soft);
+  z-index: 3;
+}
+
+.brandMark {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  color: #fff;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  box-shadow: 0 12px 24px var(--accent-soft);
+}
+
+.brandText {
+  min-width: 132px;
+  display: grid;
+  gap: 1px;
+
+  strong {
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  span {
+    color: var(--text-soft);
+    font-size: 12px;
+  }
+}
+
+.sidebarToggle {
+  flex: 0 0 auto;
+}
+
+.search {
+  min-width: 0;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 0 14px;
+  background: var(--bg-strong);
+  transition: border-color var(--ease), box-shadow var(--ease);
+
+  &:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+
+  svg {
+    width: 17px;
+    color: var(--text-soft);
+  }
+
+  input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    color: var(--text);
+    background: transparent;
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (max-width: 820px) {
+  .root {
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    grid-template-areas:
+      "mark title toggle actions"
+      "search search search search";
+  }
+
+  .brandMark { grid-area: mark; }
+  .brandText { grid-area: title; }
+  .sidebarToggle { grid-area: toggle; }
+  .search { grid-area: search; }
+  .actions { grid-area: actions; }
+}

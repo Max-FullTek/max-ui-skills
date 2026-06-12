@@ -1,0 +1,47 @@
+.root {
+  min-width: 0;
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 12px;
+}
+
+.roiPrimary,
+.roiSecondary {
+  fill: transparent;
+  stroke-width: 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.roiPrimary {
+  stroke: var(--accent);
+  filter: drop-shadow(0 0 8px var(--accent-soft));
+}
+
+.roiSecondary {
+  stroke: var(--secondary);
+  filter: drop-shadow(0 0 8px var(--secondary-soft));
+}
+
+.scanLine {
+  fill: none;
+  stroke: var(--accent-strong);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 18 16;
+  opacity: .82;
+}
+
+.label {
+  fill: #fff;
+  font: 700 22px "Outfit", "Noto Sans TC", sans-serif;
+  paint-order: stroke;
+  stroke: rgba(0, 0, 0, .72);
+  stroke-width: 5px;
+}
+
+.anchor {
+  fill: var(--bg-panel);
+  stroke: var(--accent);
+  stroke-width: 3;
+}

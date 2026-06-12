@@ -1,76 +1,156 @@
 # Max UI Skills
 
-這個 repo 是一組可攜式的 UI theme skills，目的是讓未來的 Codex agents 可以直接從 GitHub 取得、安裝、套用到其他專案。
+[English](./README.md) | [繁體中文](./README.zh-TW.md)
 
-每個 theme 都是一個獨立 skill，放在 `skills/<skill-name>/` 之下。  
-目前第一個 theme 是：
+![Codex Skill](https://img.shields.io/badge/Codex-Skill-ff7a00) ![Theme](https://img.shields.io/badge/theme-orange--matters-ff4f0f) ![React Recipes](https://img.shields.io/badge/recipes-React%20%2B%20SCSS-0f9f8f) ![Install](https://img.shields.io/badge/install-copy%20skill%20folder-lightgrey)
 
-- `orange-matters`
-  中文概念是「大橘為重」。
-  視覺方向是暖米白 light mode、深炭灰 dark mode、橘到橘紅 accent、glass panel、rounded card、soft shadow。
+Portable UI design-system skills for Codex agents.
 
-## Repo Structure
+This repository currently provides `orange-matters` (`大橘為重`): a warm, compact app UI theme with off-white light mode, charcoal dark mode, orange primary actions, muted teal secondary actions, glass panels, local scrolling, and reusable React component recipes.
+
+## Quick Install
+
+Install only this folder:
+
+```text
+skills/orange-matters/
+```
+
+Do not install the sample app. `sample-orange-matters/` is only a demo and regression check.
+
+### Skill Installer Prompt
+
+```md
+Use $skill-installer to install the `orange-matters` skill from this GitHub repo.
+```
+
+### Manual Install
+
+Copy:
+
+```text
+skills/orange-matters
+```
+
+to:
+
+```text
+~/.codex/skills/orange-matters
+```
+
+Common Windows path:
+
+```text
+C:\Users\<you>\.codex\skills\orange-matters
+```
+
+The installed folder should contain:
+
+- `SKILL.md`
+- `agents/openai.yaml`
+- `references/theme-spec.md`
+- `references/react-spec.md`
+- `references/components/`
+- `references/layouts/`
+
+## Usage
+
+Invoke the skill explicitly:
+
+```md
+Use $orange-matters to restyle this dashboard.
+```
+
+Examples:
+
+```md
+Use $orange-matters to build a compact React app shell with a collapsible sidebar.
+Use $orange-matters to create image-processing result cards and a video ROI debug view.
+Use $orange-matters to align this admin panel with the Orange Matters component language.
+```
+
+## What Is Included
 
 ```text
 skills/
   orange-matters/
     SKILL.md
     agents/openai.yaml
-    references/theme-spec.md
+    references/
+      theme-spec.md
+      react-spec.md
+      layouts/
+        app-shell.md
+      components/
+        alert.md
+        button.md
+        card.md
+        control-card.md
+        dialog.md
+        field.md
+        header.md
+        heading.md
+        image-card.md
+        menubar.md
+        table.md
+        vision-stage.md
+
+sample-orange-matters/
+  React/Vite demo for visual verification.
 ```
 
-## Install
+## For Agents
 
-### Option 1: Install with a skill installer agent
+When installing or using this repo as an agent:
 
-如果你的 agent 支援 skill 安裝流程，直接把這個 GitHub repo 連結丟給它，並指定要安裝的 skill 名稱即可。
+- Treat `skills/orange-matters/` as the only installable skill directory.
+- Read `skills/orange-matters/SKILL.md` first.
+- Use progressive disclosure:
+  - read `references/theme-spec.md` for visual rules and the component index
+  - read `references/react-spec.md` only for React work
+  - read `references/layouts/app-shell.md` only for a full app shell
+  - read component recipes only for the components being implemented
+- Do not copy `sample-orange-matters/` into a user's Codex skills directory.
+- Do not depend on sample files at runtime; reusable patterns belong under `skills/orange-matters/references/`.
 
-Example prompt:
+## Sample App
 
-```md
-Use $skill-installer to install the `orange-matters` skill from this GitHub repo.
+`sample-orange-matters/` demonstrates the recipes in a real React/Vite app:
+
+- full-viewport app shell
+- header with sidebar toggle
+- collapsible/floating left menu
+- side-menu page switching
+- records table and dashboard composition
+- image result cards
+- video/SVG ROI debug stage
+- control cards
+- light and dark theme tokens
+
+Run locally:
+
+```bash
+cd sample-orange-matters
+npm install
+npm run dev
 ```
 
-### Option 2: Manual install
+Build check:
 
-把想要的 skill 資料夾複製到本機 Codex skills 目錄：
-
-```text
-~/.codex/skills/orange-matters
+```bash
+npm run build
 ```
 
-Windows 常見位置也可以是：
+Generated files such as `node_modules/`, `dist/`, `.vite/`, coverage output, logs, and TypeScript build info are ignored.
 
-```text
-C:\Users\<you>\.codex\skills\orange-matters
-```
+## Adding More Skills
 
-複製完成後，確認目錄裡至少包含：
+New themes should follow this structure:
 
-- `SKILL.md`
-- `agents/openai.yaml`
+- one skill per folder under `skills/<skill-name>/`
+- required: `SKILL.md`
+- recommended: `agents/openai.yaml`
+- durable rules and recipes under `references/`
+- optional demo app as `sample-<skill-name>/`
 
-## Use
-
-安裝後，可以直接在 prompt 裡明示使用這個 skill：
-
-```md
-Use $orange-matters to restyle this project with the Da Ju Wei Zhong orange-glass theme.
-```
-
-也可以更具體：
-
-```md
-Use $orange-matters to redesign the dashboard and shared components while preserving the existing product structure.
-```
-
-## Add More Themes
-
-之後新增 theme 時，請沿用同樣結構：
-
-- 每個 theme 一個資料夾：`skills/<theme-name>/`
-- 每個 theme 至少包含 `SKILL.md`
-- 建議包含 `agents/openai.yaml`
-- 詳細規格放在 `references/`
-
-這樣未來其他 agent 就可以從同一個 repo 挑選並安裝指定 theme。
+Keep `SKILL.md` short. Put larger implementation details in targeted reference files so agents only load what they need.

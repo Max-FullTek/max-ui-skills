@@ -1,0 +1,148 @@
+.root {
+  min-width: 0;
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr);
+  gap: 10px;
+}
+
+.filterSelect {
+  width: 112px;
+}
+
+.metricRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.metricCard {
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+
+  span {
+    color: var(--text-soft);
+    font-size: 13px;
+  }
+
+  strong {
+    font-size: 26px;
+    line-height: 1;
+  }
+}
+
+.grid {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 14px;
+}
+
+.status {
+  width: fit-content;
+  border-radius: var(--radius-pill);
+  padding: 4px 9px;
+  font-size: 12px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.ready {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.review {
+  background: var(--secondary-soft);
+  color: var(--secondary-strong);
+}
+
+.hold {
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+}
+
+.inspectorPanel {
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+
+  h2 {
+    margin: 0;
+    font-size: 22px;
+    line-height: 1.15;
+  }
+
+  dl {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+  }
+
+  dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+  }
+
+  dt {
+    color: var(--text-soft);
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 700;
+  }
+}
+
+.inspectorHeader {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+
+@media (max-width: 980px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .inspectorPanel {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .metricRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dialogForm {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px;
+  align-items: center;
+  column-gap: 10px;
+  row-gap: 14px;
+}
+
+.dialogActions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+@media (max-width: 560px) {
+  .dialogForm {
+    grid-template-columns: 1fr;
+  }
+}

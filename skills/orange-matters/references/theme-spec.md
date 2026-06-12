@@ -2,60 +2,27 @@
 
 中文別名：`大橘為重`
 
-這個名字取的是雙關語感，核心意思不是「真的翻成一句英文成語」，而是讓這個 theme 在英文環境裡也保留「橘色最重要」的感覺。這份規格仍然保留中文語意，方便之後延伸時不失真。
+Portable UI spec for warm, compact product screens: content tools, admin panels, internal systems, data browsers, and lightweight dashboards. Keep project paths, prompt text, requirements, and framework-specific notes out of this file.
 
-這份文件是可攜式的 UI 規格參考，目的是讓之後其他專案的 agent 可以直接沿用同一套視覺語言。
+## Targets
 
-它不是綁定某個專案的實作文件，所以內容應該聚焦在：
+- Warm off-white light mode; neutral charcoal glass dark mode.
+- Orange to orange-red is the primary accent.
+- Muted teal is the secondary action/status family.
+- Surfaces are translucent, rounded, softly layered, and product-like.
+- UI is compact, fluid, and functional, not marketing-like.
 
-- 色彩系統
-- 字體與層級
-- 元件語言
-- 動效規則
-- 後續 agent 的延伸原則
+## Copy Rules
 
-不要在這份文件裡放專案路徑、檔名、框架耦合資訊，或特定頁面文案。
+- Visible UI text must be product copy only.
+- Strictly never render agent/LLM explanations, prompt summaries, requirement lists, constraints, implementation notes, or limitation notes in the UI.
+- Keep text sparse: title, clear labels, values, actions, necessary helper/error text.
+- Avoid decorative subtitles, filler descriptions, and repeated explanatory paragraphs.
+- Do not add eyebrow/meta text above a title when it only restates selection, section type, or obvious context.
+- If context is already clear from layout or title, remove the extra label and use title styling instead.
+- Use tooltips, placeholders, icons, labels, and progressive disclosure before adding long helper copy.
 
-## 設計目標
-
-這套 UI 適合用在：
-
-- 內容工具
-- 後台介面
-- 內部管理系統
-- 資料瀏覽工具
-- 輕量但有質感的 dashboard
-
-核心氣質：
-
-- light mode 是暖米白工作台
-- dark mode 是深炭灰玻璃面板
-- accent 固定走橘到橘紅
-- 介面要有柔和浮動感，但不能花俏
-- 互動要清楚、穩定、帶一點玩味
-
-## 核心視覺方向
-
-- 整體不是純白 dashboard，而是偏暖、帶紙感與內容工具感的工作區
-- surface 使用半透明 panel + blur + 柔和陰影
-- 主視覺重點放在 sticky topbar、圓角卡片、封面或媒體 hover sheen、橘色 CTA
-- dark theme 不走藍黑，也不走 pure black，而是中性深炭灰
-- 不用企業藍 focus ring，不用紫色系，也不要做成通用 SaaS 模板風格
-
-## Typography
-
-- 主字體建議：`Outfit`
-- 中文搭配建議：`Noto Sans TC`
-- 基本字體堆疊建議：
-  `"Outfit", "Noto Sans TC", sans-serif`
-
-字體使用原則：
-
-- 標題短、重、緊，字距略收
-- 內文與說明維持清楚，不要過細
-- eyebrow / meta 走小字、uppercase、低對比
-
-## Theme Tokens
+## Tokens
 
 ### Light
 
@@ -71,6 +38,9 @@
 - `--accent: #ff7a00`
 - `--accent-strong: #ff4f0f`
 - `--accent-soft: rgba(255, 122, 0, 0.12)`
+- `--secondary: #0f9f8f`
+- `--secondary-strong: #08796f`
+- `--secondary-soft: rgba(15, 159, 143, 0.13)`
 - `--danger: #da3b67`
 - `--shadow: 0 24px 70px rgba(55, 37, 16, 0.12)`
 - `--shadow-soft: 0 16px 36px rgba(31, 23, 14, 0.08)`
@@ -89,158 +59,202 @@
 - `--accent: #ff9350`
 - `--accent-strong: #ff6736`
 - `--accent-soft: rgba(255, 147, 80, 0.14)`
+- `--secondary: #46cbbd`
+- `--secondary-strong: #7ee4d8`
+- `--secondary-soft: rgba(70, 203, 189, 0.16)`
 - `--danger: #ff5c8a`
 - `--shadow: 0 28px 90px rgba(0, 0, 0, 0.42)`
 - `--shadow-soft: 0 18px 42px rgba(0, 0, 0, 0.24)`
 
-## Layout Rules
+### Shared
 
-- App shell 建議最大寬度：`1560px`
-- 外層內容左右留白：桌機約 `40px`，手機約 `20px`
-- Topbar 建議 sticky，距離頂部約 `16px`
-- 主內容優先採單欄 section 疊放，不做過度複雜的 dashboard mosaic
-- 主結果區與次要面板應維持同一套 panel 語言
-
-Radius 規則建議：
-
+- Font stack: `"Outfit", "Noto Sans TC", sans-serif`
 - `--radius-xl: 30px`
 - `--radius-lg: 24px`
 - `--radius-md: 18px`
 - `--radius-sm: 14px`
 - `--radius-pill: 999px`
+- `--ease: 200ms cubic-bezier(0.22, 1, 0.36, 1)`
 
-## Surface Language
+## Layout
 
-- Topbar、results panel、drawer panel、source card 都適合使用 glass panel
-- 卡片本體建議使用 gradient surface，不是單色平面
-- 陰影要柔和深層，不要銳利 web2.0 式陰影
-- light mode 可保留白色高光 inset
-- dark mode 改成較低對比的邊界與陰影，不要亮邊過重
+- Default app shell: `100dvw` by `100dvh`, no document scrolling.
+- Required structure for app screens: top `Header`, left `Menu`, lower/right `Main`.
+- Use [layouts/app-shell.md](layouts/app-shell.md) for React app-shell implementation code.
+- Use CSS grid or flex so header height and menu width are stable.
+- Add a sidebar toggle icon button in the header, adjacent to the brand/title cluster. It controls the left menu on both desktop and compact layouts.
+- When there is not enough width to show the menu and main content together, auto-collapse the menu. Reopen it as an absolute/floating left drawer with a backdrop, similar to a dialog but anchored to the left edge below the header.
+- Prefer fluid width. Do not wrap the whole app in a narrow `max-width`.
+- Use max-width only for long-form reading, modals, or intentionally constrained forms.
+- `html`, `body`, and root app nodes must not show horizontal or vertical scrollbars.
+- Set global overflow deliberately, then assign scrolling to internal regions only.
+- Valid scroll regions: main content, side menu, table body, table horizontal viewport, result list, drawer, modal body, code/log panel.
+- Style internal scrollbars with subtle rounded thumbs and transparent/low-contrast tracks.
+- Popovers, custom select lists, dropdown menus, tooltips, and date pickers must not be clipped by dialog/drawer/panel overflow. Render them through a portal or top-level floating layer, position them with fixed coordinates, and flip above the trigger when there is not enough room below.
+- Portal/floating layers must inherit the same theme tokens as the trigger. Put `data-theme` on `html`, `body`, or the portal host, or copy the active theme onto the floating panel. Do not scope dark mode only to an app-shell node when portals render under `document.body`.
+- On mobile or constrained widths, collapse the left menu into a left drawer controlled by the header sidebar button while preserving local scrolling.
+- If mobile navigation hides visible labels and shows icons only, each nav action must keep an accessible label and preferably a tooltip/title.
+- Use space-efficient composition. Short controls should be inline or in responsive dense grids when horizontal room exists.
+- Do not stack short fields into separate full-width rows unless the viewport is narrow or the field truly needs long text entry.
+- Prefer `grid-template-columns: minmax(0, 1fr) auto`, `auto-fit`, fixed-width compact controls, and inline action rows.
 
-## 元件規格
+Keep the layout recipe in [layouts/app-shell.md](layouts/app-shell.md) as the source of truth. This file owns the shorter design rules only.
 
-### Topbar
+## Surfaces
 
-- 三段式：品牌、搜尋、工具列
-- sticky 且高 z-index
-- 自帶半透明背景、blur、陰影
-- 品牌 mark 適合用橘色 gradient block，hover 時可輕微旋轉
+- Use glass panels for header, menu, toolbars, result panels, drawers, filters, source cards, and secondary panes.
+- Use gradient card surfaces; avoid flat white SaaS cards.
+- Keep shadows soft and deep.
+- Light mode can use subtle white inset highlights.
+- Dark mode should keep borders low-contrast and avoid bright rims.
+- Keep empty space intentional; compact work surfaces beat decorative whitespace.
+- Do not give large vertical space to low-information metrics. A label plus number should usually fit in a compact strip, row, chip, or small stat tile.
+- Large cards are only for rich content, charts, previews, forms, or multi-field summaries.
 
-### Search
+## Components
 
-- 搜尋輸入框適合使用 pill 容器
-- focus 時可放大到更寬，並增加 accent glow
-- placeholder 可改用 ghost typing 動畫
-- submit button 建議保持主 CTA 地位
+Exact implementation recipes live under `components/`. Load only the component recipe needed for the task:
+
+- [components/alert.md](components/alert.md)
+- [components/button.md](components/button.md)
+- [components/card.md](components/card.md)
+- [components/control-card.md](components/control-card.md)
+- [components/dialog.md](components/dialog.md)
+- [components/field.md](components/field.md)
+- [components/header.md](components/header.md)
+- [components/heading.md](components/heading.md)
+- [components/image-card.md](components/image-card.md)
+- [components/menubar.md](components/menubar.md)
+- [components/table.md](components/table.md)
+- [components/vision-stage.md](components/vision-stage.md)
+
+### React Structure
+
+- Follow [react-spec.md](react-spec.md).
+- Use colocated CSS Modules for reusable components and route/page screens.
+- Keep global styles limited to reset, base elements, tokens, fonts, and true third-party global overrides.
+
+### Header
+
+- Contains brand/context, primary search or page title, and tools/actions.
+- Includes the sidebar toggle button beside the logo/title cluster when the screen has a left menu.
+- Sticky or fixed inside the shell, with blur, border, and soft shadow.
+- Use [components/header.md](components/header.md) for React/CSS Modules implementation code.
+- Avoid large hero copy in app screens.
+- Page/section titles should feel designed through weight, spacing, alignment, and restrained dividers, not redundant subtitle text.
+- Avoid AI-looking title decoration: large accent bars, gradient rails, oversized underlines, glow strips, or decorative blocks beside simple text.
+
+### Menu
+
+- Left-side navigation by default.
+- Is controlled by the header sidebar toggle. On roomy screens it can collapse by reducing the sidebar grid column to `0`; on constrained screens it becomes an absolute left drawer that slides over main content.
+- Use compact labels, icons where useful, active orange indicator, and local overflow if needed.
+- Do not create a long page just to expose navigation.
+- Menu hover is simple background/text change only. Do not lift or press menu items.
+- Use [components/menubar.md](components/menubar.md) for React/CSS Modules implementation code.
+
+### Main
+
+- Occupies the lower/right work area.
+- Use panels, tables, lists, inspectors, tabs, and drawers.
+- Put overflow on the relevant child region, not on `body`.
 
 ### Buttons
 
-- `primary`
-  橘到橘紅漸層，白字，外部陰影明顯
-- `ghost`
-  低對比 surface + 邊框，hover 後用 accent-soft 染色
-- `danger`
-  粉紅紅系，不和 accent 混用
-- `icon-only`
-  方形圓角按鈕，內含 SVG，hover 可有微浮動
+- `primary`: solid orange/orange-red gradient, white text, clear shadow.
+- `primary-outline`: transparent or warm surface, orange border/text, orange hover fill/glow.
+- `secondary`: muted teal fill, white or charcoal text based on contrast.
+- `secondary-outline`: transparent or surface fill, teal border/text, teal hover tint.
+- `ghost`: low-contrast surface/border, orange-soft hover.
+- `danger`: pink/red family, not orange.
+- `icon-only`: square rounded icon button with tooltip when meaning is not obvious.
+- Keep buttons compact; avoid oversized marketing CTAs in app screens.
+- Hover lifts slightly; active must press downward with a small inset shadow.
 
-### Cards
+For exact React/CSS Modules implementation code, use [components/button.md](components/button.md).
 
-- 卡片建議固定為媒體區 + 標題 + action
-- 媒體區可保留 gloss 與 sweep sheen
-- hover 以整卡 lift 為主，不要按鈕各自過度彈跳
-- badge 建議尺寸小、位置固定、不干擾主視覺
+### Icons
 
-### Drawer
+- Use a stable icon library such as `lucide-react` in React projects.
+- Do not hand-author one-off SVG icons unless a product-specific mark or custom illustration is required.
+- Do not use plain text glyphs such as `X`, `+`, or `?` as reusable UI icons; use the icon library equivalent.
+- Keep icon sizing and stroke weight consistent within a surface.
 
-- 從右側滑入
-- backdrop 要有半透明暗遮罩
-- drawer panel 和主要 panel 同一套材質語言
+### Search And Inputs
 
-### Snackbar
+- Use pill or rounded panel inputs.
+- Focus uses orange border/glow, never browser-blue rings.
+- Placeholder text should be short and task-specific.
+- Short selects/status fields should use content-sized or fixed compact widths, not full-width rows.
+- Custom select option panels must render as portal/floating layers so they are not cut off inside dialogs, drawers, cards, or scroll panels.
+- Use [components/field.md](components/field.md) for text input and select implementation code.
 
-- 固定右下角
-- 要有 scale + fade in
-- success / error 用不同底色
-- 可保留短暫粒子 burst，但不要過強
+### Cards And Lists
 
-### Tooltip
+- Cards: preview/media or key value, short title, metadata, action.
+- Lists/tables: dense enough for scanning, with sticky headers when useful.
+- Table/list row hover is simple background/border change only. Do not lift or press rows.
+- Card hover can lift only when the whole card is a primary clickable command.
+- Badges are small, stable, and non-distracting.
+- Inspector/card headers should be compact. Use a simple row, tight `h2`, and optional thin divider; avoid decorative title treatments that consume vertical space.
+- Metric cards should be compact by default: horizontal label/value alignment, low padding, and no decorative empty lower half.
+- If a metric card has only one label and one number, target a height around `48px` to `64px`.
+- Image-processing result cards should preserve the full output with `object-fit: contain`; do not crop inspection images.
+- Control cards pair a compact title/description with inline controls and optional dense content.
+- Use [components/card.md](components/card.md), [components/control-card.md](components/control-card.md), [components/heading.md](components/heading.md), [components/image-card.md](components/image-card.md), and [components/table.md](components/table.md) for implementation code.
 
-- 深色、小型、圓角
-- 不要使用亮色 tooltip
-- 進場是短距離 rise，不要彈跳
+### Vision And Media Debug
 
-## 動效規則
+- Use [components/vision-stage.md](components/vision-stage.md) for video/canvas/SVG overlay surfaces.
+- Keep media and ROI overlays in one stable aspect-ratio stage so debug geometry is readable.
+- Use SVG overlays for editable ROI and vector annotations; use canvas overlays for masks, heatmaps, or high-frequency drawing.
+- Keep HUD labels short and non-obstructive: FPS, resolution, latency, frame id, or model status.
+- Do not blur, darken, crop, or decorate live/debug media in a way that hides processing results.
 
-全站 transition 基準建議：
+### Dashboard Composition
 
-- `200ms cubic-bezier(0.22, 1, 0.36, 1)`
+- Prefer one compact page heading with inline actions, then a short alert/status strip when needed.
+- Metric rows should be compact strips or small stat cards, not tall empty cards.
+- Main work areas can pair a locally scrolling table/list with a right inspector panel on roomy screens.
+- On constrained widths, hide or move secondary inspector panels before shrinking the primary work area too far.
 
-建議保留的動效語言：
+### Drawer, Tooltip, Snackbar
 
-- `fade-slide`
-  section 切換時由下往上淡入
-- `ghost-caret`
-  搜尋 ghost 文案打字游標
-- `icon-idle-float`
-  icon 靜態輕微漂浮
-- `icon-bob`
-  hover 時 icon 小幅彈動
-- `snackbar-burst`
-  snackbar 出現時粒子式 burst
-- `tooltip-rise`
-  tooltip 輕微上浮進場
+- Drawer slides from right by default, with translucent backdrop and matching glass panel.
+- Dialogs use `compact`, `default`, or `wide` width variants. Simple content defaults to about `50vw`; dense settings/content can use `80-90vw`.
+- Dialog panel max height is `90dvh`; the dialog body scrolls internally.
+- Dialog header and body do not use a separator line.
+- Dialog close buttons are borderless by default and show button treatment only on hover.
+- Dialog actions/footer must have clear spacing from fields/content without adding a divider line. If actions live inside the body grid, use a dedicated action row with `row-gap` or top padding so buttons do not visually touch the last field row.
+- Tooltip is small, dark, rounded, and enters with a short rise.
+- Snackbar appears lower-right, scale/fade in, with subtle success/error styling.
+- Use [components/dialog.md](components/dialog.md) and [components/alert.md](components/alert.md) for implementation code.
 
-互動原則：
+## Motion
 
-- hover 主要是 `translateY(-1px ~ -6px)`、陰影變深、飽和微升
-- focus 主要用 accent 邊框與 glow，不用預設藍框
-- 動效要短，不要拖
-- 同一頁不能同時有太多不同節奏的動畫
+- Base transition: `var(--ease)`.
+- Use `fade-slide`, `icon-idle-float`, `icon-bob`, `tooltip-rise`, and subtle snackbar burst only when useful.
+- Hover: `translateY(-1px)` to `translateY(-6px)`, deeper shadow, slight saturation increase.
+- Avoid unrelated easing curves, long animations, and decorative motion clutter.
 
-## 背景規則
+## Background
 
-### Light Mode
+- Light: layered radial gradients for warmth; orange/red/teal only as faint haze.
+- Dark: restrained low-opacity white haze; avoid muddy colorful dark gradients.
+- Backgrounds support the product shell; they are not hero illustrations.
 
-- 使用多層 radial gradient
-- 橘、橘紅、青綠只出現在背景霧光，不可變成主色塊
-- 目的是增加空氣感，不是做 hero 背景
+## Responsive
 
-### Dark Mode
+- Below `1180px`: header can stack; search stretches; menu may narrow.
+- Below the point where sidebar plus main cannot fit comfortably, reduce outer spacing/radii and make the menu an absolute left drawer controlled by the header sidebar button.
+- Keep stable dimensions for toolbars, counters, icon buttons, tables, boards, and cards so text or hover states do not shift layout.
+- Dense tables that cannot fit on narrow screens must use an internal horizontal scroll viewport that keeps the header and rows aligned. Do not let fixed-width table columns overflow and get clipped by a rounded outer card.
 
-- 背景改成更克制的白色低透明度霧光
-- 避免在 dark mode 再塞彩色漸層，會顯得髒
+## Guardrails
 
-## 響應式規則
-
-- `1180px` 以下：topbar 變單欄，搜尋區撐滿
-- `720px` 以下：
-  - 外層左右縮窄
-  - topbar / panel radius 可縮到 `24px`
-  - 搜尋區改單欄
-  - 結果卡最小寬度可降到約 `154px`
-  - snackbar 靠近螢幕邊緣
-
-## Agent 實作守則
-
-之後任何 agent 在新專案延伸這套 UI，請遵守：
-
-- 沿用現有 token，不要另起一套主色
-- 新 panel、drawer、popover 都先沿用 glass panel 語言
-- 新按鈕優先從 `primary / ghost / danger / icon-only` 演化
-- 新卡片優先延續目前媒體卡的 hover / sheen / radius 語言
-- 新 icon 動效沿用現有 idle float / hover bob，不要加入其他花式 easing
-- dark mode 必須同步設計，不允許只補 light mode
-- 不要引入另一套 UI framework 覆蓋這套視覺
-
-## 可以直接貼給後續 Agent 的提示詞
-
-```md
-請沿用這份 UI system：
-- 暖米白 light mode / 深炭灰 dark mode
-- 橘到橘紅 accent
-- glass panel + rounded card + soft shadow
-- 搜尋區、卡片、drawer、snackbar 的動效語言一致
-- 不使用紫色、企業藍 focus ring、通用 SaaS 模板風格
-如果新增元件，請先從既有 `primary / ghost / danger / icon-only / card / drawer` 語言延伸。
-```
+- Do not use purple accents, corporate blue focus, generic white SaaS cards, or a second primary system.
+- Do not render prompt/agent text into UI.
+- Do not add filler subtitles or explanatory paragraphs.
+- Do not use body/page scroll for app screens.
+- Do not ship light mode without matching dark mode.
+- Do not replace an existing strong brand unless explicitly asked.
