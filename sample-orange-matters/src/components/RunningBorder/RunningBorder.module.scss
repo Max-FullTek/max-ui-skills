@@ -1,0 +1,56 @@
+.root {
+  position: relative;
+  box-sizing: border-box;
+  display: block;
+  overflow: visible;
+  border: 1px solid var(--rb-border-color, #000);
+  border-radius: var(--radius-sm);
+  transition:
+    border-color 140ms var(--ease),
+    box-shadow 140ms var(--ease),
+    transform 140ms var(--ease);
+}
+
+.root:not([data-rb-disabled="true"]):hover,
+.root:not([data-rb-disabled="true"]):focus-visible {
+  border-color: var(--rb-active-border-color, #c8a27a);
+}
+
+.root:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.svg {
+  position: absolute;
+  z-index: 3;
+  display: block;
+  overflow: visible;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 140ms var(--ease);
+}
+
+.runner {
+  stroke-dashoffset: 100;
+}
+
+.root:not([data-rb-disabled="true"]):hover .svg,
+.root:not([data-rb-disabled="true"]):focus-visible .svg {
+  opacity: 1;
+}
+
+.root:not([data-rb-disabled="true"]):hover .runner,
+.root:not([data-rb-disabled="true"]):focus-visible .runner {
+  animation: rb-run var(--rb-speed, 1.15s) linear infinite;
+}
+
+.root[data-rb-disabled="true"] {
+  opacity: 0.62;
+}
+
+@keyframes rb-run {
+  to {
+    stroke-dashoffset: 0;
+  }
+}

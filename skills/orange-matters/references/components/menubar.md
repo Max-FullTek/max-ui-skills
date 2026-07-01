@@ -1,6 +1,6 @@
 # Menubar
 
-Left navigation for app shells. Use library icons such as `lucide-react`.
+Left navigation for dashboard frames. Use library icons such as `lucide-react`.
 
 ```tsx
 import type { ElementType } from "react";
@@ -122,6 +122,6 @@ export function Menubar({ items, open, floating = false, onClose }: MenubarProps
 
 - Put the sidebar toggle button in the header beside the brand/title cluster. Use `aria-controls="primary-sidebar"` and `aria-expanded={open}`.
 - When the viewport cannot comfortably show menu and main together, set `floating` and auto-close the menu. Reopen it as a left drawer with a backdrop.
-- The app shell should collapse its sidebar grid column to `0` when `open` is false or `floating` is true.
+- The dashboard frame should collapse its sidebar grid column to `0` when `open` is false or `floating` is true.
 - If responsive styles hide the visible text label, keep `aria-label` on the button and use `title` or a tooltip for mouse users.
 - Menu items use background/text changes only; do not lift or press rows.

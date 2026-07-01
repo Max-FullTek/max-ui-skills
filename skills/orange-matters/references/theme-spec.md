@@ -78,9 +78,9 @@ Portable UI spec for warm, compact product screens: content tools, admin panels,
 
 ## Layout
 
-- Default app shell: `100dvw` by `100dvh`, no document scrolling.
+- Default dashboard frame: `100dvw` by `100dvh`, no document scrolling.
 - Required structure for app screens: top `Header`, left `Menu`, lower/right `Main`.
-- Use [layouts/app-shell.md](layouts/app-shell.md) for React app-shell implementation code.
+- Use [layouts/dashboard-frame.md](layouts/dashboard-frame.md) for React dashboard frame implementation code.
 - Use CSS grid or flex so header height and menu width are stable.
 - Add a sidebar toggle icon button in the header, adjacent to the brand/title cluster. It controls the left menu on both desktop and compact layouts.
 - When there is not enough width to show the menu and main content together, auto-collapse the menu. Reopen it as an absolute/floating left drawer with a backdrop, similar to a dialog but anchored to the left edge below the header.
@@ -91,14 +91,14 @@ Portable UI spec for warm, compact product screens: content tools, admin panels,
 - Valid scroll regions: main content, side menu, table body, table horizontal viewport, result list, drawer, modal body, code/log panel.
 - Style internal scrollbars with subtle rounded thumbs and transparent/low-contrast tracks.
 - Popovers, custom select lists, dropdown menus, tooltips, and date pickers must not be clipped by dialog/drawer/panel overflow. Render them through a portal or top-level floating layer, position them with fixed coordinates, and flip above the trigger when there is not enough room below.
-- Portal/floating layers must inherit the same theme tokens as the trigger. Put `data-theme` on `html`, `body`, or the portal host, or copy the active theme onto the floating panel. Do not scope dark mode only to an app-shell node when portals render under `document.body`.
+- Portal/floating layers must inherit the same theme tokens as the trigger. Put `data-theme` on `html`, `body`, or the portal host, or copy the active theme onto the floating panel. Do not scope dark mode only to a layout root when portals render under `document.body`.
 - On mobile or constrained widths, collapse the left menu into a left drawer controlled by the header sidebar button while preserving local scrolling.
 - If mobile navigation hides visible labels and shows icons only, each nav action must keep an accessible label and preferably a tooltip/title.
 - Use space-efficient composition. Short controls should be inline or in responsive dense grids when horizontal room exists.
 - Do not stack short fields into separate full-width rows unless the viewport is narrow or the field truly needs long text entry.
 - Prefer `grid-template-columns: minmax(0, 1fr) auto`, `auto-fit`, fixed-width compact controls, and inline action rows.
 
-Keep the layout recipe in [layouts/app-shell.md](layouts/app-shell.md) as the source of truth. This file owns the shorter design rules only.
+Keep the layout recipe in [layouts/dashboard-frame.md](layouts/dashboard-frame.md) as the source of truth. This file owns the shorter design rules only.
 
 ## Surfaces
 
@@ -125,7 +125,9 @@ Exact implementation recipes live under `components/`. Load only the component r
 - [components/heading.md](components/heading.md)
 - [components/image-card.md](components/image-card.md)
 - [components/menubar.md](components/menubar.md)
+- [components/running-border.md](components/running-border.md)
 - [components/table.md](components/table.md)
+- [components/toast.md](components/toast.md)
 - [components/vision-stage.md](components/vision-stage.md)
 
 ### React Structure
@@ -133,12 +135,13 @@ Exact implementation recipes live under `components/`. Load only the component r
 - Follow [react-spec.md](react-spec.md).
 - Use colocated CSS Modules for reusable components and route/page screens.
 - Keep global styles limited to reset, base elements, tokens, fonts, and true third-party global overrides.
+- Put shared business state hooks in a flat `services/` folder when they are not owned by a single page or component. Prefer responsibility names such as backend socket, device connection, settings, or diagnostics over generic runtime buckets.
 
 ### Header
 
 - Contains brand/context, primary search or page title, and tools/actions.
 - Includes the sidebar toggle button beside the logo/title cluster when the screen has a left menu.
-- Sticky or fixed inside the shell, with blur, border, and soft shadow.
+- Sticky or fixed inside the dashboard frame, with blur, border, and soft shadow.
 - Use [components/header.md](components/header.md) for React/CSS Modules implementation code.
 - Avoid large hero copy in app screens.
 - Page/section titles should feel designed through weight, spacing, alignment, and restrained dividers, not redundant subtitle text.
@@ -203,6 +206,12 @@ For exact React/CSS Modules implementation code, use [components/button.md](comp
 - Control cards pair a compact title/description with inline controls and optional dense content.
 - Use [components/card.md](components/card.md), [components/control-card.md](components/control-card.md), [components/heading.md](components/heading.md), [components/image-card.md](components/image-card.md), and [components/table.md](components/table.md) for implementation code.
 
+### Running Border
+
+- Use [components/running-border.md](components/running-border.md) for hover-only moving border emphasis.
+- Keep the normal CSS border visible. On hover or focus, shift it to warm milk-tea while the animated orange stroke travels on the measured border path.
+- Do not use rotating full-frame gradients or `conic-gradient` for this effect.
+
 ### Vision And Media Debug
 
 - Use [components/vision-stage.md](components/vision-stage.md) for video/canvas/SVG overlay surfaces.
@@ -218,7 +227,7 @@ For exact React/CSS Modules implementation code, use [components/button.md](comp
 - Main work areas can pair a locally scrolling table/list with a right inspector panel on roomy screens.
 - On constrained widths, hide or move secondary inspector panels before shrinking the primary work area too far.
 
-### Drawer, Tooltip, Snackbar
+### Drawer, Tooltip, Toast
 
 - Drawer slides from right by default, with translucent backdrop and matching glass panel.
 - Dialogs use `compact`, `default`, or `wide` width variants. Simple content defaults to about `50vw`; dense settings/content can use `80-90vw`.
@@ -227,13 +236,13 @@ For exact React/CSS Modules implementation code, use [components/button.md](comp
 - Dialog close buttons are borderless by default and show button treatment only on hover.
 - Dialog actions/footer must have clear spacing from fields/content without adding a divider line. If actions live inside the body grid, use a dedicated action row with `row-gap` or top padding so buttons do not visually touch the last field row.
 - Tooltip is small, dark, rounded, and enters with a short rise.
-- Snackbar appears lower-right, scale/fade in, with subtle success/error styling.
-- Use [components/dialog.md](components/dialog.md) and [components/alert.md](components/alert.md) for implementation code.
+- Toast appears lower-right, scale/fade in, with subtle info/success/warning/danger styling.
+- Use [components/dialog.md](components/dialog.md), [components/alert.md](components/alert.md), and [components/toast.md](components/toast.md) for implementation code.
 
 ## Motion
 
 - Base transition: `var(--ease)`.
-- Use `fade-slide`, `icon-idle-float`, `icon-bob`, `tooltip-rise`, and subtle snackbar burst only when useful.
+- Use `fade-slide`, `icon-idle-float`, `icon-bob`, `tooltip-rise`, and subtle toast entry only when useful.
 - Hover: `translateY(-1px)` to `translateY(-6px)`, deeper shadow, slight saturation increase.
 - Avoid unrelated easing curves, long animations, and decorative motion clutter.
 
@@ -241,7 +250,7 @@ For exact React/CSS Modules implementation code, use [components/button.md](comp
 
 - Light: layered radial gradients for warmth; orange/red/teal only as faint haze.
 - Dark: restrained low-opacity white haze; avoid muddy colorful dark gradients.
-- Backgrounds support the product shell; they are not hero illustrations.
+- Backgrounds support the product workspace; they are not hero illustrations.
 
 ## Responsive
 

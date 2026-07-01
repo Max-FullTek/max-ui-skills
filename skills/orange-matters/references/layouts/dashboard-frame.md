@@ -1,6 +1,6 @@
-# App Shell
+# Dashboard Frame
 
-Use for app-like screens with a top header, collapsible left sidebar, and main work area. Keep this layout recipe small; page-specific content belongs in page modules.
+Use for product screens with a top header, collapsible left sidebar, and main work area. Keep this layout recipe small; page-specific content belongs in page modules.
 
 ## React State
 
@@ -9,16 +9,16 @@ import type { ElementType, ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { Header } from "../../components/Header";
 import { Menubar } from "../../components/Menubar";
-import styles from "./AppShell.module.scss";
+import styles from "./DashboardFrame.module.scss";
 
 const SIDEBAR_FLOATING_QUERY = "(max-width: 980px)";
 
-type AppShellProps = {
+type DashboardFrameProps = {
   children: ReactNode;
   items: Array<{ label: string; icon: ElementType; active?: boolean }>;
 };
 
-export function AppShell({ children, items }: AppShellProps) {
+export function DashboardFrame({ children, items }: DashboardFrameProps) {
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarFloating, setSidebarFloating] = useState(false);
@@ -127,7 +127,7 @@ export function AppShell({ children, items }: AppShellProps) {
 
 ## Rules
 
-- The shell owns theme synchronization, sidebar open state, and the floating breakpoint.
+- The frame owns theme synchronization, sidebar open state, and the floating breakpoint.
 - When floating, the sidebar overlays main content; do not reserve a grid column for it.
 - The backdrop starts after the drawer width so clicking the visible main area closes the drawer.
 - Keep page content inside `main` with local scrolling. Never restore document-level scroll for app screens.

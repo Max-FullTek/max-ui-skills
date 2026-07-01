@@ -6,7 +6,7 @@
 
 給 Codex agents 使用的可攜式 UI design-system skills。
 
-目前提供的 skill 是 `orange-matters`（`大橘為重`）：一套暖色、緊湊、偏 app shell 的 UI theme，包含暖米白 light mode、深炭灰 dark mode、橘色主操作、低飽和青綠輔助操作、glass panels、局部滾動，以及可重複使用的 React component recipes。
+目前提供的 skill 是 `orange-matters`（`大橘為重`）：一套暖色、緊湊、偏 product UI 的 theme，包含暖米白 light mode、深炭灰 dark mode、橘色主操作、低飽和青綠輔助操作、glass panels、局部滾動，以及可重複使用的 React component recipes。
 
 ## 快速安裝
 
@@ -64,7 +64,7 @@ Use $orange-matters to restyle this dashboard.
 範例：
 
 ```md
-Use $orange-matters to build a compact React app shell with a collapsible sidebar.
+Use $orange-matters to build a compact React dashboard frame with a collapsible sidebar.
 Use $orange-matters to create image-processing result cards and a video ROI debug view.
 Use $orange-matters to align this admin panel with the Orange Matters component language.
 ```
@@ -80,7 +80,7 @@ skills/
       theme-spec.md
       react-spec.md
       layouts/
-        app-shell.md
+        dashboard-frame.md
       components/
         alert.md
         button.md
@@ -92,7 +92,9 @@ skills/
         heading.md
         image-card.md
         menubar.md
+        running-border.md
         table.md
+        toast.md
         vision-stage.md
 
 sample-orange-matters/
@@ -108,7 +110,7 @@ sample-orange-matters/
 - 使用 progressive disclosure：
   - 視覺規則與元件索引讀 `references/theme-spec.md`
   - React 專案才讀 `references/react-spec.md`
-  - 要建立完整 app shell 才讀 `references/layouts/app-shell.md`
+  - 要建立完整 dashboard frame 才讀 `references/layouts/dashboard-frame.md`
   - 只讀當前需要實作的 component recipes
 - 不要把 `sample-orange-matters/` 複製到使用者的 Codex skills 目錄。
 - 不要讓 skill runtime 依賴 sample files；可重複使用的模式都應該放在 `skills/orange-matters/references/`。
@@ -119,7 +121,7 @@ sample-orange-matters/
 
 它展示：
 
-- full-viewport app shell
+- full-viewport dashboard frame
 - header sidebar toggle
 - 可收合 / floating 的左側 menu
 - side-menu 換頁
@@ -127,6 +129,8 @@ sample-orange-matters/
 - image result cards
 - video/SVG ROI debug stage
 - control cards
+- running border hover states
+- toast feedback
 - light / dark theme tokens
 
 本機執行：

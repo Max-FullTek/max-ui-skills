@@ -1,6 +1,6 @@
 # Header
 
-Use for app-shell headers with brand/context, sidebar toggle, search, and compact actions.
+Use for dashboard frame headers with brand/context, sidebar toggle, search, and compact actions.
 
 ## React
 
@@ -152,5 +152,5 @@ export function Header({
 
 - Place the sidebar toggle immediately after the brand/title cluster.
 - Use `aria-controls="primary-sidebar"` and keep `aria-expanded` in sync with sidebar state.
-- Keep header actions compact; avoid large CTA styling in app shells.
-- Search may become the second row on compact widths, but the header remains fixed-height via the app shell.
+- Keep header actions compact; avoid large CTA styling in dashboard frames.
+- Search may become the second row on compact widths, but the header remains fixed-height inside the frame.

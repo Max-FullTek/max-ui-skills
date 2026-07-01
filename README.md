@@ -6,7 +6,7 @@
 
 Portable UI design-system skills for Codex agents.
 
-This repository currently provides `orange-matters` (`大橘為重`): a warm, compact app UI theme with off-white light mode, charcoal dark mode, orange primary actions, muted teal secondary actions, glass panels, local scrolling, and reusable React component recipes.
+This repository currently provides `orange-matters` (`大橘為重`): a warm, compact product UI theme with off-white light mode, charcoal dark mode, orange primary actions, muted teal secondary actions, glass panels, local scrolling, and reusable React component recipes.
 
 ## Quick Install
 
@@ -64,7 +64,7 @@ Use $orange-matters to restyle this dashboard.
 Examples:
 
 ```md
-Use $orange-matters to build a compact React app shell with a collapsible sidebar.
+Use $orange-matters to build a compact React dashboard frame with a collapsible sidebar.
 Use $orange-matters to create image-processing result cards and a video ROI debug view.
 Use $orange-matters to align this admin panel with the Orange Matters component language.
 ```
@@ -80,7 +80,7 @@ skills/
       theme-spec.md
       react-spec.md
       layouts/
-        app-shell.md
+        dashboard-frame.md
       components/
         alert.md
         button.md
@@ -92,7 +92,9 @@ skills/
         heading.md
         image-card.md
         menubar.md
+        running-border.md
         table.md
+        toast.md
         vision-stage.md
 
 sample-orange-matters/
@@ -108,7 +110,7 @@ When installing or using this repo as an agent:
 - Use progressive disclosure:
   - read `references/theme-spec.md` for visual rules and the component index
   - read `references/react-spec.md` only for React work
-  - read `references/layouts/app-shell.md` only for a full app shell
+  - read `references/layouts/dashboard-frame.md` only for a full dashboard frame
   - read component recipes only for the components being implemented
 - Do not copy `sample-orange-matters/` into a user's Codex skills directory.
 - Do not depend on sample files at runtime; reusable patterns belong under `skills/orange-matters/references/`.
@@ -117,7 +119,7 @@ When installing or using this repo as an agent:
 
 `sample-orange-matters/` demonstrates the recipes in a real React/Vite app:
 
-- full-viewport app shell
+- full-viewport dashboard frame
 - header with sidebar toggle
 - collapsible/floating left menu
 - side-menu page switching
@@ -125,6 +127,8 @@ When installing or using this repo as an agent:
 - image result cards
 - video/SVG ROI debug stage
 - control cards
+- running border hover states
+- toast feedback
 - light and dark theme tokens
 
 Run locally:

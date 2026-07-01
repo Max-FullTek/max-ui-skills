@@ -19,7 +19,7 @@ Use this with Orange Matters when the target project uses React.
 - Shared design values must be CSS variables or SCSS partials/mixins, not copied component styles.
 - Do not modify global styles unless the change truly affects the entire application.
 - Use an established icon library such as `lucide-react`; do not hand-code reusable UI icons as inline SVG.
-- Theme state must reach portal content. If components render menus, dialogs, tooltips, or select panels under `document.body`, put `data-theme` on `document.documentElement`, `body`, or the portal host instead of scoping it only to an app-shell component.
+- Theme state must reach portal content. If components render menus, dialogs, tooltips, toasts, or select panels under `document.body`, put `data-theme` on `document.documentElement`, `body`, or the portal host instead of scoping it only to a layout component.
 
 ## Structure
 
@@ -29,10 +29,14 @@ src/
     globals.scss
     tokens.scss
   layouts/
-    AppShell/
-      AppShell.tsx
-      AppShell.module.scss
+    DashboardFrame/
+      DashboardFrame.tsx
+      DashboardFrame.module.scss
       index.ts
+  services/
+    useBackendSocketService.ts
+    useDeviceConnectionService.ts
+    useSettingsService.ts
   components/
     Button/
       Button.tsx
@@ -41,6 +45,14 @@ src/
     Header/
       Header.tsx
       Header.module.scss
+      index.ts
+    RunningBorder/
+      RunningBorder.tsx
+      RunningBorder.module.scss
+      index.ts
+    ToastProvider/
+      ToastProvider.tsx
+      ToastProvider.module.scss
       index.ts
   pages/
     UserListPage/

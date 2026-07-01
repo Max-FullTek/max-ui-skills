@@ -1,12 +1,16 @@
-import { Play, RotateCcw, Save, Zap } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Info, Play, RotateCcw, Save, XCircle, Zap } from "lucide-react";
 import { Alert } from "../../components/Alert";
 import { Button } from "../../components/Button";
 import { ControlCard } from "../../components/ControlCard";
 import { SelectField, TextField } from "../../components/Field";
 import { Heading } from "../../components/Heading";
+import { RunningBorder } from "../../components/RunningBorder";
+import { useToast } from "../../components/ToastProvider";
 import styles from "./ControlPanels.module.scss";
 
 export function ControlPanels() {
+  const { pushToast } = useToast();
+
   return (
     <section className={styles.root} aria-label="Control card samples">
       <Heading
@@ -80,6 +84,43 @@ export function ControlPanels() {
           <div className={styles.stack}>
             <Alert tone="success">Pipeline ready</Alert>
             <Alert tone="warning">2 ROIs need review</Alert>
+          </div>
+        </ControlCard>
+
+        <ControlCard
+          title="Toasts"
+          description="Transient feedback for saves, warnings, and background work."
+        >
+          <div className={styles.toastActions}>
+            <Button tone="secondaryOutline" icon={<Info aria-hidden="true" />} onClick={() => pushToast("Background sync finished.", "info")}>
+              Info
+            </Button>
+            <Button tone="secondary" icon={<CheckCircle2 aria-hidden="true" />} onClick={() => pushToast("Settings saved.", "success")}>
+              Success
+            </Button>
+            <Button tone="primaryOutline" icon={<AlertTriangle aria-hidden="true" />} onClick={() => pushToast("Review thresholds before running.", "warning")}>
+              Warning
+            </Button>
+            <Button tone="danger" icon={<XCircle aria-hidden="true" />} onClick={() => pushToast("Connection failed.", "danger")}>
+              Danger
+            </Button>
+          </div>
+        </ControlCard>
+
+        <ControlCard
+          title="Running borders"
+          description="Hover each surface to preview the border runner."
+        >
+          <div className={styles.runningBorderGrid}>
+            <RunningBorder className={styles.runningCard}>
+              Card hover
+            </RunningBorder>
+            <RunningBorder as="button" type="button" className={styles.runningPill} dash="18 82">
+              Button hover
+            </RunningBorder>
+            <RunningBorder className={styles.runningWide} speed=".95s" dash="30 70">
+              Wide component hover
+            </RunningBorder>
           </div>
         </ControlCard>
       </div>
