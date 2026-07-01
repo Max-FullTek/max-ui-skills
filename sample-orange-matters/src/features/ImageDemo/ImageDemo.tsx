@@ -90,6 +90,7 @@ export function ImageDemo() {
             badge={image.badge}
             imageSrc={image.imageSrc}
             imageAlt={`${image.title} visual output`}
+            infoLayout={image.title === "Mask Preview" ? "overlay" : undefined}
             actions={<Button tone="iconOnly" aria-label={`Open ${image.title}`} icon={<Maximize2 aria-hidden="true" />} />}
           />
         ))}
