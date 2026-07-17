@@ -44,6 +44,18 @@ Installable React assets are generated under `skills/orange-matters/assets/react
 | Present installable layout assets | 1 | `DashboardFrame` maps to its generated asset under `skills/orange-matters/assets/react/layouts/` |
 | Existing sample screens | 4 + shell | Records, Images, Vision, Controls, plus the shared application shell |
 
+## Green Ink Phase 6 Calibration
+
+| Component | Green Ink decision | Canonical presentation source |
+| --- | --- | --- |
+| `Button` | Override | `source/themes/green-ink/component-overrides/Button/Button.module.scss` |
+| `Field` | Override | `source/themes/green-ink/component-overrides/Field/Field.module.scss` |
+| `Card` | Tokens only | `source/themes/green-ink/tokens.scss` |
+| `Header` | Override | `source/themes/green-ink/component-overrides/Header/Header.module.scss` |
+| `Dialog` | Override | `source/themes/green-ink/component-overrides/Dialog/Dialog.module.scss` |
+
+The remaining Green Ink catalog decisions are recorded in `source/themes/green-ink/references/theme-guardrails.md` and will be applied during generated-skill rollout. Green Ink has no initial L3 component; do not infer one from Orange Matters coverage.
+
 ## Update Rules
 
 - Add a row before introducing a new public component or layout.

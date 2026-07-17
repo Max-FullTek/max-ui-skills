@@ -1,0 +1,97 @@
+.root {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 0 14px;
+  color: var(--text);
+  background: var(--bg-elevated);
+  box-shadow: none;
+  transition: border-color var(--ease), background var(--ease), color var(--ease), box-shadow var(--ease), transform var(--ease);
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover {
+    border-color: var(--text);
+    background: var(--bg-strong);
+  }
+
+  &:active {
+    transform: translate(1px, 1px);
+    box-shadow: none;
+  }
+
+  &:focus-visible {
+    outline: 0;
+    border-color: var(--accent);
+    box-shadow: var(--focus-ring);
+  }
+}
+
+.primary {
+  color: #fffdf5;
+  border-color: var(--accent-strong);
+  background: var(--accent);
+  box-shadow: var(--button-shadow);
+
+  &:hover {
+    border-color: var(--accent-strong);
+    background: var(--accent-strong);
+  }
+
+  &:active {
+    box-shadow: none;
+  }
+}
+
+.primaryOutline {
+  color: var(--accent-strong);
+  border-color: var(--accent);
+  background: var(--bg-elevated);
+
+  &:hover {
+    color: #fffdf5;
+    border-color: var(--accent-strong);
+    background: var(--accent);
+  }
+}
+
+.secondary {
+  color: #fffdf5;
+  border-color: var(--secondary-strong);
+  background: var(--secondary);
+}
+
+.secondaryOutline {
+  color: var(--secondary);
+  border-color: var(--secondary);
+  background: var(--bg-elevated);
+
+  &:hover {
+    color: #fffdf5;
+    border-color: var(--secondary-strong);
+    background: var(--secondary);
+  }
+}
+
+.ghost {
+  color: var(--text);
+  background: transparent;
+}
+
+.danger {
+  color: #fffdf5;
+  border-color: color-mix(in srgb, var(--danger) 78%, #000);
+  background: var(--danger);
+}
+
+.iconOnly {
+  width: 38px;
+  padding: 0;
+}

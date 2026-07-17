@@ -14,8 +14,8 @@ Each phase is intended to end at a reviewable, independently committable boundar
 | 3 | Orange Matters migration | Complete | Existing public APIs and recipes remain available; Orange is produced from canonical sources, is self-contained, and the current sample builds. |
 | 4 | Deterministic Skill builder | Complete | Two consecutive builds produce identical controlled output and no diff; links resolve; each Skill directory passes isolation checks; no symlinks are used. |
 | 5 | Copyable React assets | Complete | Every public component/layout recipe points to a complete asset; every asset has a recipe or is marked internal; one installed Skill contains all of its assets. |
-| 6 | Green Ink visual system | In progress | The theme specification defines light/dark color roles, paper/ink surfaces, geometry, hierarchy, depth, focus, motion, typography, decoration limits, and exclusive vocabulary; representative components establish a distinct identity. |
-| 7 | Green Ink Skill | Planned | The Skill has a distinct trigger description, complete references/assets, and no Orange Matters or repository-root dependency. |
+| 6 | Green Ink visual system | Complete | The theme specification defines light/dark color roles, paper/ink surfaces, geometry, hierarchy, depth, focus, motion, typography, decoration limits, and exclusive vocabulary; representative components establish a distinct identity. |
+| 7 | Green Ink Skill | In progress | The Skill has a distinct trigger description, complete references/assets, and no Orange Matters or repository-root dependency. |
 | 8 | Parallel sample applications | Planned | Orange and Green samples use comparable data, scenarios, and component contracts; both basic builds pass; exclusive components remain separate. |
 | 9 | Installation documentation | Planned | English and Traditional Chinese READMEs cover Orange-only, Green-only, both-Skill, installer, and supported manual flows while explaining self-contained output and repository-only samples. |
 | 10 | Release gates | Planned | Both Skills validate in isolation, both samples build, generated output is reproducible, relative links resolve, and no cross-Skill/repository dependency remains. |
@@ -72,6 +72,7 @@ Each phase is intended to end at a reviewable, independently committable boundar
 - Define Green Ink as dark-green ink, paper-white surfaces, ink-black text, restrained vermilion secondary emphasis, low or cut geometry, short hard depth, visible non-glowing focus, mixed CJK/Latin typography, and sparse decoration.
 - Explicitly reject Orange Matters vocabulary: pill controls by default, glass/blur panels, orange glow, radial accent washes, floating soft shadows, and lift-on-hover motion.
 - Treat Green-exclusive vocabulary as optional in the first release. Do not invent a counterpart to Orange Matters `RunningBorder` merely to make the catalogs symmetrical.
+- Complete: the canonical Green Ink source now defines distinct light/dark paper-and-ink tokens, written visual rules, an initial no-exclusive decision, and calibrated presentation for `Button`, `Field`, `Card`, `Header`, and `Dialog` while preserving every shared TSX contract.
 
 ### Phase 7 — Green Ink Skill
 
