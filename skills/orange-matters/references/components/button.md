@@ -8,7 +8,7 @@ Use for commands, toolbar actions, compact calls to action, and icon controls.
 - `tone?: "primary" | "primaryOutline" | "secondary" | "secondaryOutline" | "ghost" | "danger" | "iconOnly"` defaults to `ghost`.
 - `icon?: ReactNode` renders before the optional label in `children`.
 - `className` is merged with the component styles; native `type`, `disabled`, event, and ARIA props remain available.
-- Use `primary` for the main action, `secondary` for the teal action family, `danger` for destructive commands, and outline or ghost tones for lower emphasis.
+- Use `primary` for the main action, `secondary` for secondary commands, `danger` for destructive commands, and outline or ghost tones for lower emphasis.
 
 ## Minimal usage
 

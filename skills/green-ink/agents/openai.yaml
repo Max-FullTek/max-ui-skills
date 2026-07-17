@@ -1,0 +1,4 @@
+interface:
+  display_name: "Green Ink"
+  short_description: "Paper-and-ink product UI theme"
+  default_prompt: "Use $green-ink to style this product interface with the Green Ink visual system."

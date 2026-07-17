@@ -1,0 +1,140 @@
+.viewport {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 80;
+  width: min(420px, calc(100vw - 36px));
+  display: grid;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast {
+  min-height: 42px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 9px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  background: color-mix(in srgb, var(--bg-panel) 94%, transparent);
+  box-shadow: var(--shadow-soft);
+  font-size: 13px;
+  font-weight: 850;
+  pointer-events: auto;
+  backdrop-filter: blur(18px);
+  animation: toastIn 180ms var(--ease);
+
+  .message {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.toast:hover,
+.toast:focus-within {
+  width: min(560px, calc(100vw - 36px));
+}
+
+.toast:hover .message,
+.toast:focus-within .message {
+  max-height: 220px;
+  overflow: auto;
+  text-overflow: clip;
+  white-space: normal;
+}
+
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  button {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    color: currentColor;
+    background: transparent;
+    opacity: 0.72;
+    transition:
+      background var(--ease),
+      opacity var(--ease),
+      transform var(--ease);
+  }
+
+  button:hover {
+    background: color-mix(in srgb, currentColor 10%, transparent);
+    opacity: 1;
+    transform: translateY(-1px);
+  }
+}
+
+.info {
+  color: color-mix(in srgb, var(--secondary-strong) 72%, var(--text));
+  border-color: color-mix(in srgb, var(--secondary) 32%, var(--border));
+}
+
+.success {
+  color: var(--secondary-strong);
+  border-color: color-mix(in srgb, var(--secondary) 48%, var(--border));
+}
+
+.warning {
+  color: var(--accent-strong);
+  border-color: color-mix(in srgb, var(--accent) 54%, var(--border));
+}
+
+.danger {
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 54%, var(--border));
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Green Ink presentation overrides */
+.toast {
+  background: var(--bg-panel);
+  backdrop-filter: none;
+  animation: greenInkToastIn var(--ease);
+}
+
+.actions button {
+  border-radius: var(--radius-sm);
+}
+
+.actions button:hover {
+  transform: none;
+}
+
+.actions button:focus-visible {
+  outline: 0;
+  border-color: var(--accent);
+  box-shadow: var(--focus-ring);
+}
+
+@keyframes greenInkToastIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

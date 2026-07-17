@@ -19,7 +19,7 @@
     },
     {
       "path": "assets/react/components/Button/Button.module.scss",
-      "sha256": "cc8b4518de2434c41baf9315b0a3be100ecb922a72a5b06bf85d15251f11093b"
+      "sha256": "118fa2b505c4e7afffa76ca0c23d313e7f547e4371c3ce7e37d27973499778ec"
     },
     {
       "path": "assets/react/components/Button/Button.tsx",
@@ -199,7 +199,7 @@
     },
     {
       "path": "references/components/button.md",
-      "sha256": "00614663d59cb9a8f1222d065438e6c287f0d92dfe7fafc54a517e30b0e425d4"
+      "sha256": "95185f6d594d6326afb0be0142a5f36798beb8ce58afd718a6f2ac3dc8f53f83"
     },
     {
       "path": "references/components/card.md",

@@ -1,0 +1,47 @@
+# Toast Provider
+
+Use `ToastProvider` for brief, non-blocking feedback triggered from anywhere inside an application tree.
+
+## Contract
+
+- Wrap the relevant application scope with `ToastProvider`; `useToast()` throws when used outside that provider.
+- `useToast()` returns `pushToast(message, tone?)`. `ToastTone` is `"danger" | "info" | "success" | "warning"`, defaulting to `info`.
+- New toasts enter at the start of the queue; retain at most four and dismiss each after the component lifetime.
+- Clear timers on dismissal and provider unmount. Hover pauses the current timer; leaving follows the component's dismissal behavior.
+- Each toast exposes compact copy and close actions. The provider owns queue lifecycle and tone icons, not application error recovery.
+
+## Minimal usage
+
+```tsx
+function SaveButton() {
+  const { pushToast } = useToast();
+
+  return (
+    <button type="button" onClick={() => pushToast("Settings saved", "success")}>
+      Save
+    </button>
+  );
+}
+
+<ToastProvider>
+  <App />
+</ToastProvider>
+```
+
+## Accessibility
+
+- Keep the viewport a polite live region so status feedback is announced without interrupting the current task.
+- Write short, self-contained messages; do not encode meaning by tone or icon alone.
+- Give icon-only copy and close controls explicit accessible labels and visible focus.
+- Use a dialog or inline error for blocking decisions, destructive confirmation, or feedback that must remain until resolved.
+
+## Green Ink guardrails
+
+- Use compact opaque tone surfaces, low radii, a clear ink border, and a short hard shadow.
+- Map success, info, warning, and danger to semantic solid fills; use vermilion sparingly for warning or danger.
+- Keep entry motion short and disable non-essential motion for reduced-motion preferences.
+- Use crisp green focus for copy and close actions; do not use glass, blur, gradient, glow, or verbose stacked notices.
+
+## Asset
+
+Use the [canonical ToastProvider component](../../assets/react/components/ToastProvider/). The Skill builder publishes its complete TSX, CSS Module, and barrel export under `assets/react/components/ToastProvider/`.

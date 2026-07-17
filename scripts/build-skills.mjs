@@ -1,35 +1,40 @@
 import { createHash } from "node:crypto";
-import {
-  access,
-  cp,
-  lstat,
-  mkdtemp,
-  mkdir,
-  readFile,
-  readdir,
-  rename,
-  rm,
-  stat,
-  writeFile,
-} from "node:fs/promises";
+import { access, copyFile, cp, lstat, mkdtemp, mkdir, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { getThemeConfig, listThemeConfigs, skillCatalog } from "./skill-catalog.mjs";
+import { validateSkillDirectory, validateSkillInIsolation } from "./skill-validation.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourceRoot = path.join(repoRoot, "source");
 const skillsRoot = path.join(repoRoot, "skills");
-const outputRoot = path.join(skillsRoot, "orange-matters");
-const checkOnly = process.argv.slice(2).includes("--check");
-const unexpectedArgs = process.argv.slice(2).filter((argument) => argument !== "--check");
-
-if (unexpectedArgs.length > 0) {
-  throw new Error(`Unknown argument(s): ${unexpectedArgs.join(", ")}`);
-}
-
 const toPosix = (value) => value.split(path.sep).join("/");
 const normalizeText = (value) => value.replace(/\r\n?/g, "\n");
 const sha256 = (value) => createHash("sha256").update(value).digest("hex");
+
+function parseArguments(arguments_) {
+  let checkOnly = false;
+  let themeName;
+  for (let index = 0; index < arguments_.length; index += 1) {
+    const argument = arguments_[index];
+    if (argument === "--check") {
+      checkOnly = true;
+    } else if (argument === "--theme") {
+      if (!arguments_[index + 1]) throw new Error("--theme requires a theme name");
+      themeName = arguments_[index + 1];
+      index += 1;
+    } else if (argument.startsWith("--theme=")) {
+      themeName = argument.slice("--theme=".length);
+      if (!themeName) throw new Error("--theme requires a theme name");
+    } else {
+      throw new Error(`Unknown argument: ${argument}`);
+    }
+  }
+  return { checkOnly, themes: themeName ? [getThemeConfig(themeName)] : listThemeConfigs() };
+}
+
+const { checkOnly, themes } = parseArguments(process.argv.slice(2));
 
 async function pathExists(target) {
   try {
@@ -47,26 +52,41 @@ async function sortedEntries(directory) {
 }
 
 async function assertNoSymlinks(target, label = target) {
-  const targetStat = await lstat(target);
-  if (targetStat.isSymbolicLink()) {
-    throw new Error(`Symbolic links are not allowed: ${label}`);
-  }
-  if (!targetStat.isDirectory()) return;
-
+  const info = await lstat(target);
+  if (info.isSymbolicLink()) throw new Error(`Symbolic links are not allowed: ${label}`);
+  if (!info.isDirectory()) return;
   for (const entry of await sortedEntries(target)) {
-    const child = path.join(target, entry.name);
-    await assertNoSymlinks(child, path.join(label, entry.name));
+    await assertNoSymlinks(path.join(target, entry.name), path.join(label, entry.name));
   }
 }
 
 async function copyTextFile(source, destination, rewrite = (value) => value) {
-  const sourceStat = await lstat(source);
-  if (sourceStat.isSymbolicLink() || !sourceStat.isFile()) {
-    throw new Error(`Expected a regular file: ${source}`);
-  }
+  const info = await lstat(source);
+  if (info.isSymbolicLink() || !info.isFile()) throw new Error(`Expected a regular file: ${source}`);
   const text = rewrite(normalizeText(await readFile(source, "utf8")));
   await mkdir(path.dirname(destination), { recursive: true });
   await writeFile(destination, text, "utf8");
+}
+
+async function copyOpaqueFile(source, destination) {
+  const info = await lstat(source);
+  if (info.isSymbolicLink() || !info.isFile()) throw new Error(`Expected a regular opaque asset: ${source}`);
+  await mkdir(path.dirname(destination), { recursive: true });
+  await copyFile(source, destination);
+}
+
+function assertSafeRelativePath(relative, label) {
+  if (
+    typeof relative !== "string" ||
+    relative.length === 0 ||
+    relative.includes("\\") ||
+    /^[A-Za-z]:/.test(relative) ||
+    relative !== toPosix(relative) ||
+    path.posix.isAbsolute(relative) ||
+    relative.split("/").some((segment) => segment === "" || segment === "." || segment === "..")
+  ) {
+    throw new Error(`Invalid ${label}: ${relative}`);
+  }
 }
 
 async function copyTextTree(source, destination, rewrite = (value) => value) {
@@ -74,13 +94,9 @@ async function copyTextTree(source, destination, rewrite = (value) => value) {
   for (const entry of await sortedEntries(source)) {
     const from = path.join(source, entry.name);
     const to = path.join(destination, entry.name);
-    if (entry.isDirectory()) {
-      await copyTextTree(from, to, rewrite);
-    } else if (entry.isFile()) {
-      await copyTextFile(from, to, rewrite);
-    } else {
-      throw new Error(`Unsupported filesystem entry: ${from}`);
-    }
+    if (entry.isDirectory()) await copyTextTree(from, to, rewrite);
+    else if (entry.isFile()) await copyTextFile(from, to, rewrite);
+    else throw new Error(`Unsupported filesystem entry: ${from}`);
   }
 }
 
@@ -89,57 +105,95 @@ async function listFiles(directory, prefix = "") {
   for (const entry of await sortedEntries(directory)) {
     const absolute = path.join(directory, entry.name);
     const relative = prefix ? path.join(prefix, entry.name) : entry.name;
-    const entryStat = await lstat(absolute);
-    if (entryStat.isSymbolicLink()) {
-      throw new Error(`Symbolic links are not allowed: ${absolute}`);
-    }
-    if (entryStat.isDirectory()) {
-      files.push(...(await listFiles(absolute, relative)));
-    } else if (entryStat.isFile()) {
-      files.push(toPosix(relative));
-    } else {
-      throw new Error(`Unsupported filesystem entry: ${absolute}`);
-    }
+    const info = await lstat(absolute);
+    if (info.isSymbolicLink()) throw new Error(`Symbolic links are not allowed: ${absolute}`);
+    if (info.isDirectory()) files.push(...(await listFiles(absolute, relative)));
+    else if (info.isFile()) files.push(toPosix(relative));
+    else throw new Error(`Unsupported filesystem entry: ${absolute}`);
   }
   return files.sort((left, right) => left.localeCompare(right, "en"));
 }
 
 async function writeManifest(root) {
-  const files = (await listFiles(root)).filter((file) => file !== "manifest.json");
   const entries = [];
-  for (const file of files) {
+  for (const file of (await listFiles(root)).filter((file) => file !== "manifest.json")) {
     entries.push({ path: file, sha256: sha256(await readFile(path.join(root, file))) });
   }
-  const manifest = `${JSON.stringify({ algorithm: "sha256", files: entries }, null, 2)}\n`;
-  await writeFile(path.join(root, "manifest.json"), manifest, "utf8");
+  await writeFile(path.join(root, "manifest.json"), `${JSON.stringify({ algorithm: "sha256", files: entries }, null, 2)}\n`, "utf8");
 }
 
-async function assembleOrange(destination) {
-  const theme = path.join(sourceRoot, "themes", "orange-matters");
+async function composeRecipe(contractFile, guardrailFile, destination, rewrite) {
+  const contract = normalizeText(await readFile(contractFile, "utf8"));
+  const guardrails = normalizeText(await readFile(guardrailFile, "utf8")).trim();
+  const marker = "\n## Asset\n";
+  const markerIndex = contract.indexOf(marker);
+  if (markerIndex < 0) throw new Error(`Recipe contract is missing the Asset section: ${contractFile}`);
+  const composed = `${contract.slice(0, markerIndex).trimEnd()}\n\n${guardrails}\n\n${contract.slice(markerIndex).trim()}\n`;
+  await mkdir(path.dirname(destination), { recursive: true });
+  await writeFile(destination, rewrite(composed), "utf8");
+}
+
+async function appendThemeFragment(target, fragment, themeName) {
+  const [baseline, presentation] = await Promise.all([readFile(target, "utf8"), readFile(fragment, "utf8")]);
+  const combined = `${normalizeText(baseline).trimEnd()}\n\n/* ${themeName} presentation overrides */\n${normalizeText(presentation).trim()}\n`;
+  await writeFile(target, combined, "utf8");
+}
+
+async function assembleTheme(theme, destination) {
+  const themeRoot = path.join(sourceRoot, "themes", theme.name);
+  const foundationContracts = path.join(sourceRoot, "foundation", "component-contracts");
   await mkdir(destination, { recursive: true });
 
-  await copyTextFile(path.join(theme, "SKILL.md"), path.join(destination, "SKILL.md"), (text) =>
+  await copyTextFile(path.join(themeRoot, "SKILL.md"), path.join(destination, "SKILL.md"), (text) =>
     text.replaceAll("../../foundation/react-spec.md", "references/react-spec.md"),
   );
-  await copyTextTree(path.join(theme, "agents"), path.join(destination, "agents"));
-  await copyTextTree(
-    path.join(theme, "references", "components"),
-    path.join(destination, "references", "components"),
-    (text) =>
-      text
-        .replaceAll("../../../../react/components/", "../../assets/react/components/")
-        .replaceAll("../../theme-components/RunningBorder/", "../../assets/react/components/RunningBorder/"),
-  );
-  await copyTextTree(
-    path.join(theme, "references", "layouts"),
-    path.join(destination, "references", "layouts"),
-    (text) => text.replaceAll("../../../../react/layouts/", "../../assets/react/layouts/"),
-  );
+  await copyTextTree(path.join(themeRoot, "agents"), path.join(destination, "agents"));
   await copyTextFile(
-    path.join(theme, "references", "theme-spec.md"),
+    path.join(themeRoot, "references", "theme-spec.md"),
     path.join(destination, "references", "theme-spec.md"),
     (text) => text.replaceAll("../../../foundation/react-spec.md", "react-spec.md"),
   );
+  for (const relative of theme.extraReferences) {
+    await copyTextFile(path.join(themeRoot, relative), path.join(destination, relative));
+  }
+  if (theme.opaqueMedia.reference) {
+    assertSafeRelativePath(theme.opaqueMedia.reference, `${theme.name} opaque media reference path`);
+    if (!theme.opaqueMedia.reference.endsWith(".md")) {
+      throw new Error(`${theme.name} opaque media reference must be Markdown: ${theme.opaqueMedia.reference}`);
+    }
+    await copyTextFile(
+      path.join(themeRoot, theme.opaqueMedia.reference),
+      path.join(destination, theme.opaqueMedia.reference),
+    );
+  }
+
+  for (const [asset, recipe] of skillCatalog.shared.componentRecipes) {
+    await composeRecipe(
+      path.join(foundationContracts, "components", `${recipe}.md`),
+      path.join(themeRoot, "recipe-guardrails", "components", `${recipe}.md`),
+      path.join(destination, "references", "components", `${recipe}.md`),
+      (text) => text.replaceAll("../../../../react/components/", "../../assets/react/components/"),
+    );
+  }
+  for (const [asset, recipe] of skillCatalog.shared.layoutRecipes) {
+    await composeRecipe(
+      path.join(foundationContracts, "layouts", `${recipe}.md`),
+      path.join(themeRoot, "recipe-guardrails", "layouts", `${recipe}.md`),
+      path.join(destination, "references", "layouts", `${recipe}.md`),
+      (text) => text.replaceAll("../../../../react/layouts/", "../../assets/react/layouts/"),
+    );
+  }
+  for (const exclusive of theme.exclusiveComponents) {
+    await copyTextFile(
+      path.join(themeRoot, exclusive.recipeSource),
+      path.join(destination, "references", "components", `${exclusive.recipe}.md`),
+      (text) => text.replaceAll(
+        `../../theme-components/${exclusive.asset}/`,
+        `../../assets/react/components/${exclusive.asset}/`,
+      ),
+    );
+  }
+
   await copyTextFile(
     path.join(sourceRoot, "foundation", "react-spec.md"),
     path.join(destination, "references", "react-spec.md"),
@@ -151,210 +205,152 @@ async function assembleOrange(destination) {
           "Theme token values and exclusive assets live inside the installed Skill alongside the shared React assets.",
         ),
   );
-
-  await copyTextTree(
-    path.join(sourceRoot, "react", "components"),
-    path.join(destination, "assets", "react", "components"),
-  );
-  await copyTextTree(
-    path.join(theme, "theme-components", "RunningBorder"),
-    path.join(destination, "assets", "react", "components", "RunningBorder"),
-  );
+  await copyTextTree(path.join(sourceRoot, "react", "components"), path.join(destination, "assets", "react", "components"));
   await copyTextTree(
     path.join(sourceRoot, "react", "layouts", "DashboardFrame"),
     path.join(destination, "assets", "react", "layouts", "DashboardFrame"),
   );
-  await copyTextFile(
-    path.join(sourceRoot, "react", "styles", "globals.scss"),
-    path.join(destination, "assets", "react", "styles", "globals.scss"),
-  );
-  await copyTextFile(
-    path.join(theme, "tokens.scss"),
-    path.join(destination, "assets", "react", "styles", "tokens.scss"),
-  );
-
+  for (const exclusive of theme.exclusiveComponents) {
+    await copyTextTree(
+      path.join(themeRoot, exclusive.source),
+      path.join(destination, "assets", "react", "components", exclusive.asset),
+    );
+  }
+  for (const override of theme.componentOverrides) {
+    await appendThemeFragment(
+      path.join(destination, "assets", "react", "components", override.asset, `${override.asset}.module.scss`),
+      path.join(themeRoot, override.source),
+      theme.displayName,
+    );
+  }
+  for (const override of theme.layoutOverrides) {
+    await appendThemeFragment(
+      path.join(destination, "assets", "react", "layouts", override.asset, `${override.asset}.module.scss`),
+      path.join(themeRoot, override.source),
+      theme.displayName,
+    );
+  }
+  await copyTextFile(path.join(sourceRoot, "react", "styles", "globals.scss"), path.join(destination, "assets", "react", "styles", "globals.scss"));
+  await copyTextFile(path.join(themeRoot, "tokens.scss"), path.join(destination, "assets", "react", "styles", "tokens.scss"));
+  if (theme.opaqueMedia.files.length > 0 && !theme.opaqueMedia.reference) {
+    throw new Error(`${theme.name} opaque media requires a textual reference`);
+  }
+  for (const relative of theme.opaqueMedia.files) {
+    assertSafeRelativePath(relative, `${theme.name} opaque media path`);
+    await copyOpaqueFile(
+      path.join(themeRoot, "media", ...relative.split("/")),
+      path.join(destination, "assets", "react", "styles", "media", theme.name, ...relative.split("/")),
+    );
+  }
   await writeManifest(destination);
   await assertNoSymlinks(destination);
 }
 
+async function assembleThemes(root, selectedThemes) {
+  for (const theme of selectedThemes) await assembleTheme(theme, path.join(root, theme.name));
+}
+
 async function compareTrees(leftRoot, rightRoot, label) {
-  if (!(await pathExists(rightRoot))) {
-    throw new Error(`${label} is missing: ${rightRoot}`);
-  }
+  if (!(await pathExists(rightRoot))) throw new Error(`${label} is missing: ${rightRoot}`);
   const [leftFiles, rightFiles] = await Promise.all([listFiles(leftRoot), listFiles(rightRoot)]);
   if (JSON.stringify(leftFiles) !== JSON.stringify(rightFiles)) {
     const onlyLeft = leftFiles.filter((file) => !rightFiles.includes(file));
     const onlyRight = rightFiles.filter((file) => !leftFiles.includes(file));
-    throw new Error(
-      `${label} file list differs. Generated only: ${onlyLeft.join(", ") || "none"}; existing only: ${onlyRight.join(", ") || "none"}`,
-    );
+    throw new Error(`${label} file list differs. Generated only: ${onlyLeft.join(", ") || "none"}; existing only: ${onlyRight.join(", ") || "none"}`);
   }
   for (const file of leftFiles) {
-    const [left, right] = await Promise.all([
-      readFile(path.join(leftRoot, file)),
-      readFile(path.join(rightRoot, file)),
-    ]);
-    if (!left.equals(right)) {
-      throw new Error(`${label} differs at ${file}`);
-    }
+    const [left, right] = await Promise.all([readFile(path.join(leftRoot, file)), readFile(path.join(rightRoot, file))]);
+    if (!left.equals(right)) throw new Error(`${label} differs at ${file}`);
   }
 }
 
-function withoutQueryOrFragment(value) {
-  return value.split("#", 1)[0].split("?", 1)[0];
-}
-
-async function assertResolvableFile(root, fromFile, reference, kind) {
-  const cleaned = withoutQueryOrFragment(reference.trim().replace(/^<|>$/g, ""));
-  if (!cleaned || cleaned.startsWith("#") || /^[a-z][a-z\d+.-]*:/i.test(cleaned) || cleaned.startsWith("//")) {
-    return;
-  }
-  let decoded;
-  try {
-    decoded = decodeURIComponent(cleaned);
-  } catch {
-    throw new Error(`Invalid encoded ${kind} in ${fromFile}: ${reference}`);
-  }
-  const resolved = path.resolve(path.dirname(fromFile), decoded);
-  if (!resolved.startsWith(`${root}${path.sep}`) && resolved !== root) {
-    throw new Error(`${kind} escapes the Skill: ${fromFile} -> ${reference}`);
-  }
-  if (!(await pathExists(resolved))) {
-    throw new Error(`Broken ${kind}: ${fromFile} -> ${reference}`);
+async function validateThemes(root, selectedThemes) {
+  for (const theme of selectedThemes) {
+    const skillRoot = path.join(root, theme.name);
+    await validateSkillDirectory(skillRoot, theme);
+    await validateSkillInIsolation(skillRoot, theme);
   }
 }
 
-async function validateMarkdownLinks(root) {
-  for (const relative of await listFiles(root)) {
-    if (!relative.endsWith(".md")) continue;
-    const absolute = path.join(root, relative);
-    const text = await readFile(absolute, "utf8");
-    const linkPattern = /!?\[[^\]]*\]\(([^)\s]+)(?:\s+["'][^)]*["'])?\)/g;
-    for (const match of text.matchAll(linkPattern)) {
-      await assertResolvableFile(root, absolute, match[1], "Markdown link");
-    }
-  }
-}
-
-async function resolvesImport(fromFile, reference) {
-  const base = path.resolve(path.dirname(fromFile), reference);
-  const candidates = [
-    base,
-    `${base}.ts`,
-    `${base}.tsx`,
-    `${base}.js`,
-    `${base}.mjs`,
-    `${base}.scss`,
-    path.join(base, "index.ts"),
-    path.join(base, "index.tsx"),
-  ];
-  if (path.extname(base) === "") {
-    candidates.push(path.join(path.dirname(base), `_${path.basename(base)}.scss`));
-  }
-  for (const candidate of candidates) {
-    if (await pathExists(candidate)) return true;
-  }
-  return false;
-}
-
-async function validateRelativeImports(root) {
-  for (const relative of await listFiles(root)) {
-    if (!/\.(?:ts|tsx|scss)$/.test(relative)) continue;
-    const absolute = path.join(root, relative);
-    const text = await readFile(absolute, "utf8");
-    const patterns = [
-      /(?:import|export)\s+(?:[^"'`;]*?\s+from\s+)?["']([^"']+)["']/g,
-      /import\(\s*["']([^"']+)["']\s*\)/g,
-      /@(?:use|forward|import)\s+["']([^"']+)["']/g,
-    ];
-    for (const pattern of patterns) {
-      for (const match of text.matchAll(pattern)) {
-        if (!match[1].startsWith(".")) continue;
-        if (!(await resolvesImport(absolute, match[1]))) {
-          throw new Error(`Broken relative import: ${relative} -> ${match[1]}`);
-        }
-      }
-    }
-  }
-}
-
-async function validateForbiddenReferences(root) {
-  const siblingSkills = (await sortedEntries(skillsRoot))
-    .filter((entry) => entry.isDirectory() && entry.name !== "orange-matters")
-    .map((entry) => entry.name);
-  for (const relative of await listFiles(root)) {
-    const absolute = path.join(root, relative);
-    const text = await readFile(absolute, "utf8");
-    if (/\bsource[\\/]/i.test(text)) {
-      throw new Error(`Forbidden source reference in ${relative}`);
-    }
-    if (/sample-orange-matters/i.test(text)) {
-      throw new Error(`Forbidden sample app reference in ${relative}`);
-    }
-    for (const sibling of siblingSkills) {
-      const escaped = sibling.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const siblingPattern = new RegExp(`(?:skills[\\/]|\\.\\.[\\/])${escaped}(?:[\\/]|\\b)`, "i");
-      if (siblingPattern.test(text)) {
-        throw new Error(`Forbidden sibling Skill reference in ${relative}: ${sibling}`);
-      }
-    }
-  }
-}
-
-async function validateOutput(root) {
-  await assertNoSymlinks(root);
-  await validateMarkdownLinks(root);
-  await validateRelativeImports(root);
-  await validateForbiddenReferences(root);
-}
-
-async function replaceOutput(stagedRoot) {
+async function replaceOutputs(stagedRoot, selectedThemes) {
   await mkdir(skillsRoot, { recursive: true });
   const nonce = `${process.pid}-${Date.now()}`;
-  const candidate = path.join(skillsRoot, `.orange-matters-candidate-${nonce}`);
-  const backup = path.join(skillsRoot, `.orange-matters-backup-${nonce}`);
-  let backedUp = false;
+  const records = selectedThemes.map((theme) => ({
+    theme,
+    output: path.join(skillsRoot, theme.name),
+    candidate: path.join(skillsRoot, `.${theme.name}-candidate-${nonce}`),
+    backup: path.join(skillsRoot, `.${theme.name}-backup-${nonce}`),
+    backedUp: false,
+    installed: false,
+  }));
   try {
-    await cp(stagedRoot, candidate, { recursive: true, force: false, errorOnExist: true });
-    if (await pathExists(outputRoot)) {
-      await rename(outputRoot, backup);
-      backedUp = true;
+    for (const record of records) {
+      await cp(path.join(stagedRoot, record.theme.name), record.candidate, { recursive: true, force: false, errorOnExist: true });
     }
-    await rename(candidate, outputRoot);
-    if (backedUp) await rm(backup, { recursive: true, force: true });
+    for (const record of records) {
+      if (await pathExists(record.output)) {
+        await rename(record.output, record.backup);
+        record.backedUp = true;
+      }
+    }
+    for (const record of records) {
+      await rename(record.candidate, record.output);
+      record.installed = true;
+    }
   } catch (error) {
-    await rm(candidate, { recursive: true, force: true });
-    if (backedUp && !(await pathExists(outputRoot))) {
-      await rename(backup, outputRoot);
+    const rollbackErrors = [];
+    for (const record of [...records].reverse()) {
+      try {
+        await rm(record.candidate, { recursive: true, force: true });
+        if (record.installed) await rm(record.output, { recursive: true, force: true });
+        if (record.backedUp && (await pathExists(record.backup))) await rename(record.backup, record.output);
+      } catch (rollbackError) {
+        rollbackErrors.push(rollbackError);
+      }
     }
+    if (rollbackErrors.length > 0) throw new AggregateError([error, ...rollbackErrors], "Skill output replacement and rollback failed");
     throw error;
+  }
+  const cleanupErrors = [];
+  for (const record of records) {
+    if (!record.backedUp) continue;
+    try {
+      await rm(record.backup, { recursive: true, force: true });
+    } catch (error) {
+      cleanupErrors.push(error);
+    }
+  }
+  if (cleanupErrors.length > 0) {
+    throw new AggregateError(cleanupErrors, "Skills were installed, but one or more backup directories could not be removed");
   }
 }
 
-async function withTemporaryBuild(callback) {
+async function withTemporaryAssembly(selectedThemes, callback) {
   const temporary = await mkdtemp(path.join(tmpdir(), "max-ui-skills-"));
   try {
-    const assembled = path.join(temporary, "orange-matters");
-    await assembleOrange(assembled);
-    return await callback(assembled);
+    await assembleThemes(temporary, selectedThemes);
+    return await callback(temporary);
   } finally {
     await rm(temporary, { recursive: true, force: true });
   }
 }
 
 if (checkOnly) {
-  await withTemporaryBuild(async (first) => {
-    await withTemporaryBuild(async (second) => {
-      await compareTrees(first, second, "Repeated build");
-      await compareTrees(first, outputRoot, "Committed output");
-      await validateOutput(first);
-      await validateOutput(outputRoot);
+  await withTemporaryAssembly(themes, async (first) => {
+    await withTemporaryAssembly(themes, async (second) => {
+      await validateThemes(first, themes);
+      await validateThemes(second, themes);
+      for (const theme of themes) {
+        await compareTrees(path.join(first, theme.name), path.join(second, theme.name), `${theme.name} repeated build`);
+        await compareTrees(path.join(first, theme.name), path.join(skillsRoot, theme.name), `${theme.name} committed output`);
+      }
     });
   });
-  console.log("orange-matters Skill is deterministic, self-contained, and up to date.");
+  console.log(`${themes.map(({ name }) => name).join(", ")} Skills are deterministic, self-contained, and up to date.`);
 } else {
-  await withTemporaryBuild(async (staged) => {
-    await replaceOutput(staged);
+  await withTemporaryAssembly(themes, async (stagedRoot) => {
+    await validateThemes(stagedRoot, themes);
+    await replaceOutputs(stagedRoot, themes);
   });
-  console.log(`Built ${path.relative(repoRoot, outputRoot)}.`);
+  console.log(`Built ${themes.map(({ name }) => `skills/${name}`).join(", ")}.`);
 }
