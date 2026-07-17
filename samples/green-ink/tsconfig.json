@@ -13,7 +13,8 @@
     "moduleResolution": "Bundler",
     "baseUrl": ".",
     "paths": {
-      "@source/*": ["../source/*"],
+      "@sample-shared/*": ["../shared/*"],
+      "@source/*": ["../../source/*"],
       "react": ["node_modules/@types/react/index.d.ts"],
       "react/*": ["node_modules/@types/react/*"],
       "react-dom": ["node_modules/@types/react-dom/index.d.ts"],
@@ -24,5 +25,5 @@
     "isolatedModules": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "../source"]
+  "include": ["src", "../shared", "../../source"]
 }

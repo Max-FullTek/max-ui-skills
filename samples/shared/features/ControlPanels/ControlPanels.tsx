@@ -1,14 +1,18 @@
 import { AlertTriangle, CheckCircle2, Info, Play, RotateCcw, Save, XCircle, Zap } from "lucide-react";
+import type { ReactNode } from "react";
 import { Alert } from "@source/react/components/Alert";
 import { Button } from "@source/react/components/Button";
 import { ControlCard } from "@source/react/components/ControlCard";
 import { SelectField, TextField } from "@source/react/components/Field";
 import { Heading } from "@source/react/components/Heading";
 import { useToast } from "@source/react/components/ToastProvider";
-import { RunningBorder } from "@source/themes/orange-matters/theme-components/RunningBorder";
 import styles from "./ControlPanels.module.scss";
 
-export function ControlPanels() {
+type ControlPanelsProps = {
+  exclusiveShowcase?: ReactNode;
+};
+
+export function ControlPanels({ exclusiveShowcase }: ControlPanelsProps) {
   const { pushToast } = useToast();
 
   return (
@@ -107,22 +111,7 @@ export function ControlPanels() {
           </div>
         </ControlCard>
 
-        <ControlCard
-          title="Running borders"
-          description="Hover each surface to preview the border runner."
-        >
-          <div className={styles.runningBorderGrid}>
-            <RunningBorder className={styles.runningCard}>
-              Card hover
-            </RunningBorder>
-            <RunningBorder as="button" type="button" className={styles.runningPill} dash="18 82">
-              Button hover
-            </RunningBorder>
-            <RunningBorder className={styles.runningWide} speed=".95s" dash="30 70">
-              Wide component hover
-            </RunningBorder>
-          </div>
-        </ControlCard>
+        {exclusiveShowcase}
       </div>
     </section>
   );

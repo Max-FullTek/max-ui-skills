@@ -5,6 +5,8 @@
     "build:skills": "node scripts/build-skills.mjs",
     "check:skills": "node scripts/build-skills.mjs --check",
     "validate:skills": "node scripts/validate-skills.mjs",
-    "build:sample:orange": "npm --prefix sample-orange-matters run build"
+    "build:sample:orange": "npm --prefix samples/orange-matters run build",
+    "build:sample:green": "npm --prefix samples/green-ink run build",
+    "build:samples": "npm run build:sample:orange && npm run build:sample:green"
   }
 }

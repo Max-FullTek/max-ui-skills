@@ -6,13 +6,14 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@source": fileURLToPath(new URL("../source", import.meta.url))
+      "@sample-shared": fileURLToPath(new URL("../shared", import.meta.url)),
+      "@source": fileURLToPath(new URL("../../source", import.meta.url))
     },
     dedupe: ["react", "react-dom", "lucide-react"]
   },
   server: {
     fs: {
-      allow: [fileURLToPath(new URL("..", import.meta.url))]
+      allow: [fileURLToPath(new URL("../..", import.meta.url))]
     }
   }
 });

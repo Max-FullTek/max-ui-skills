@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Header } from "@source/react/components/Header";
 import { Menubar } from "@source/react/components/Menubar";
 import { ToastProvider } from "@source/react/components/ToastProvider";
@@ -10,7 +10,12 @@ import { VisionDebug } from "./features/VisionDebug";
 import { getNavigationItems, getPageFromHash } from "./navigation";
 import type { PageKey } from "./navigation";
 
-export default function App() {
+export type DemoAppProps = {
+  brandInitials: string;
+  exclusiveControlShowcase?: ReactNode;
+};
+
+export function DemoApp({ brandInitials, exclusiveControlShowcase }: DemoAppProps) {
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarFloating, setSidebarFloating] = useState(false);
@@ -41,7 +46,7 @@ export default function App() {
     records: <Dashboard />,
     images: <ImageDemo />,
     vision: <VisionDebug />,
-    controls: <ControlPanels />
+    controls: <ControlPanels exclusiveShowcase={exclusiveControlShowcase} />
   }[activePage];
 
   const handlePageChange = (pageKey: PageKey) => {
@@ -57,7 +62,7 @@ export default function App() {
         sidebarFloating={sidebarFloating}
         onBackdropClick={() => setSidebarOpen(false)}
         header={<Header
-          brandInitials="OM"
+          brandInitials={brandInitials}
           brandName="Archive Desk"
           contextLabel="Data browser"
           theme={theme}

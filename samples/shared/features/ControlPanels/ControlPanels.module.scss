@@ -47,52 +47,11 @@
   gap: 8px;
 }
 
-.runningBorderGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: start;
-  gap: 12px;
-}
-
-.runningCard,
-.runningPill,
-.runningWide {
-  display: grid;
-  place-items: center;
-  color: var(--text);
-  background: var(--bg-strong);
-  font-weight: 850;
-}
-
-.runningCard {
-  width: min(280px, 100%);
-  height: 150px;
-  border-radius: 14px;
-}
-
-.runningPill {
-  width: min(220px, 100%);
-  height: 52px;
-  border-radius: var(--radius-pill);
-}
-
-.runningWide {
-  grid-column: 1 / -1;
-  width: min(420px, 100%);
-  height: 88px;
-  border-radius: 10px;
-}
-
 @media (max-width: 860px) {
   .grid,
   .inlineForm,
-  .toastActions,
-  .runningBorderGrid {
+  .toastActions {
     grid-template-columns: 1fr;
-  }
-
-  .runningWide {
-    grid-column: auto;
   }
 }
 
