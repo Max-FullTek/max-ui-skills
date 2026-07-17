@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Download, Filter, Plus, RefreshCw } from "lucide-react";
-import { Alert } from "../../components/Alert";
-import { Button } from "../../components/Button";
-import { Card } from "../../components/Card";
-import { DataTable } from "../../components/DataTable";
-import { Dialog } from "../../components/Dialog";
-import { SelectField, TextField } from "../../components/Field";
-import { Heading } from "../../components/Heading";
+import { Alert } from "@source/react/components/Alert";
+import { Button } from "@source/react/components/Button";
+import { Card } from "@source/react/components/Card";
+import { DataTable } from "@source/react/components/DataTable";
+import { Dialog } from "@source/react/components/Dialog";
+import { SelectField, TextField } from "@source/react/components/Field";
+import { Heading } from "@source/react/components/Heading";
 import { metrics, records } from "./data";
 import styles from "./Dashboard.module.scss";
 

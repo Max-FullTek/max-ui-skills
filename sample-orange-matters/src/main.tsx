@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import "./styles/tokens.scss";
-import "./styles/globals.scss";
+import "@source/themes/orange-matters/tokens.scss";
+import "@source/react/styles/globals.scss";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

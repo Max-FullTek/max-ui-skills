@@ -20,6 +20,8 @@ This index prevents duplicate or conflicting project documentation and directs m
 | `docs/ARCHITECTURE.md` | Maintainers/agents | Long-term repository architecture, canonical-source boundaries, publication principles, self-contained output requirements, and the token contract | active | Update only when a durable architectural rule or token category/semantic changes. |
 | `docs/DEVELOPMENT_PLAN.md` | Maintainers/agents | Phase 0-10 migration status, commit-sized sequencing, and acceptance gates | active | Update status and gates as phases begin or finish; link to architecture instead of repeating it. |
 | `docs/COMPONENT_MATRIX.md` | Maintainers/agents | Current component/layout classification, sharing boundaries, recipe coverage, asset status, and sample coverage | active | Update whenever a component, layout, recipe, asset, or theme-ownership classification changes. |
+| `source/foundation/*.md` | Maintainers/agents | Theme-neutral React conventions and full-viewport/local-overflow/portal layout rules | active | Keep framework conventions and layout behavior theme-neutral; token category semantics remain in `docs/ARCHITECTURE.md`. |
+| `source/themes/orange-matters/{SKILL.md,agents/,references/}` | Builder/maintainers | Canonical Orange Matters Skill instructions, metadata, theme specification, and component/layout recipes | active | Update these canonical inputs before generated publication output once the builder owns `skills/orange-matters/`. |
 | `docs/history/orange-matters-update-log.md` | Maintainers | Historical Orange Matters synchronization notes through 2026-07-01 | active | Append only historical facts that must be retained; do not place current work queues or Skill runtime instructions here. |
 | `skills/orange-matters/SKILL.md` | Codex/Skill users | Concise operational instructions and loading guidance for applying Orange Matters | active | Keep self-contained and task-oriented; do not add repository architecture, migration status, or maintenance history. |
 
@@ -31,6 +33,7 @@ This index prevents duplicate or conflicting project documentation and directs m
 | `docs/DEVELOPMENT_PLAN.md` | `docs/ARCHITECTURE.md` | The plan may name architecture deliverables but must link to, not restate, durable architecture and publication rules. |
 | `docs/COMPONENT_MATRIX.md` | `docs/ARCHITECTURE.md` | The matrix classifies usage of the token contract; token categories and semantics are defined only in architecture. |
 | `skills/orange-matters/SKILL.md` | `docs/ARCHITECTURE.md` | The Skill owns execution guidance. Repository build boundaries and publication invariants stay in architecture. |
+| `skills/orange-matters/` | `source/themes/orange-matters/` plus shared canonical sources | The installable Skill remains available during migration; Phase 4 will make it deterministic generated output rather than a second maintenance source. |
 | `docs/history/orange-matters-update-log.md` | Current source documents above | Historical record only; current rules belong in the relevant active source of truth. |
 
 ## Creation Rules

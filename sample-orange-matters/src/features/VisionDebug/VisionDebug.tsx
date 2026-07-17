@@ -1,8 +1,8 @@
 import { Pause, ScanLine, SlidersHorizontal } from "lucide-react";
-import { Button } from "../../components/Button";
-import { SelectField } from "../../components/Field";
-import { Heading } from "../../components/Heading";
-import { VisionStage } from "../../components/VisionStage";
+import { Button } from "@source/react/components/Button";
+import { SelectField } from "@source/react/components/Field";
+import { Heading } from "@source/react/components/Heading";
+import { VisionStage } from "@source/react/components/VisionStage";
 import styles from "./VisionDebug.module.scss";
 
 function DemoFrame() {

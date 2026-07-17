@@ -10,8 +10,8 @@ Each phase is intended to end at a reviewable, independently committable boundar
 | --- | --- | --- | --- |
 | 0 | Documentation governance | Complete | The index assigns one source of truth per durable topic; repository history is outside installable Skills; README files remain user-facing. |
 | 1 | Component classification and token contract | Complete | All 14 current sample components plus `DashboardFrame` are classified; recipe/sample/asset coverage is explicit; token categories and override criteria are defined in architecture. |
-| 2 | Canonical source tree | Planned | Theme-neutral contracts, shared React sources, and per-theme sources exist at the documented boundaries with no duplicated shared implementation. |
-| 3 | Orange Matters migration | Planned | Existing public APIs and recipes remain available; Orange is produced from canonical sources, is self-contained, and the current sample builds. |
+| 2 | Canonical source tree | Complete | Theme-neutral contracts, shared React sources, and per-theme sources exist at the documented boundaries with no duplicated shared implementation. |
+| 3 | Orange Matters migration | In progress | Existing public APIs and recipes remain available; Orange is produced from canonical sources, is self-contained, and the current sample builds. |
 | 4 | Deterministic Skill builder | Planned | Two consecutive builds produce identical controlled output and no diff; links resolve; each Skill directory passes isolation checks; no symlinks are used. |
 | 5 | Copyable React assets | Planned | Every public component/layout recipe points to a complete asset; every asset has a recipe or is marked internal; one installed Skill contains all of its assets. |
 | 6 | Green Ink visual system | Planned | The theme specification defines light/dark color roles, paper/ink surfaces, geometry, hierarchy, depth, focus, motion, typography, decoration limits, and exclusive vocabulary; representative components establish a distinct identity. |
@@ -39,12 +39,14 @@ Each phase is intended to end at a reviewable, independently committable boundar
 - Establish theme-neutral foundation and React sources before adding a second theme.
 - Separate theme tokens, structural overrides, and exclusive components from shared behavior.
 - Use the component matrix as the extraction checklist.
+- Complete: shared components, `DashboardFrame`, minimal globals, foundation contracts, and Orange theme inputs now have canonical owners under `source/`.
 
 ### Phase 3 — Orange Matters first
 
 - Move the current sample component behavior and Orange presentation into their target owners.
 - Preserve current component props and recipe coverage unless review approves a breaking change.
 - Make the Orange sample consume the canonical or generated source selected by the builder design.
+- In progress: the current sample consumes canonical source directly; self-contained generated Skill output remains for the packaging and asset phases.
 
 ### Phase 4 — Packaging
 

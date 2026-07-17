@@ -1,11 +1,11 @@
 import { AlertTriangle, CheckCircle2, Info, Play, RotateCcw, Save, XCircle, Zap } from "lucide-react";
-import { Alert } from "../../components/Alert";
-import { Button } from "../../components/Button";
-import { ControlCard } from "../../components/ControlCard";
-import { SelectField, TextField } from "../../components/Field";
-import { Heading } from "../../components/Heading";
-import { RunningBorder } from "../../components/RunningBorder";
-import { useToast } from "../../components/ToastProvider";
+import { Alert } from "@source/react/components/Alert";
+import { Button } from "@source/react/components/Button";
+import { ControlCard } from "@source/react/components/ControlCard";
+import { SelectField, TextField } from "@source/react/components/Field";
+import { Heading } from "@source/react/components/Heading";
+import { useToast } from "@source/react/components/ToastProvider";
+import { RunningBorder } from "@source/themes/orange-matters/theme-components/RunningBorder";
 import styles from "./ControlPanels.module.scss";
 
 export function ControlPanels() {

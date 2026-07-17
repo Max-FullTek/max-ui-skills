@@ -18,10 +18,7 @@
   transition: grid-template-columns var(--ease);
 }
 
-.root[data-sidebar-open="false"] {
-  --sidebar-width: 0px;
-}
-
+.root[data-sidebar-open="false"],
 .root[data-sidebar-floating="true"] {
   --sidebar-width: 0px;
 }

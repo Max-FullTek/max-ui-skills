@@ -1,0 +1,99 @@
+# Table
+
+Dense data display with local scroll. Rows can be buttons when selectable.
+
+```tsx
+import type { ReactNode } from "react";
+import styles from "./DataTable.module.scss";
+
+type Column<T> = { key: string; header: string; render: (row: T) => ReactNode };
+
+export function DataTable<T>({ columns, rows, getKey }: { columns: Column<T>[]; rows: T[]; getKey: (row: T) => string }) {
+  return (
+    <section className={styles.root}>
+      <div className={styles.viewport}>
+        <div className={styles.table}>
+          <div className={styles.head}>
+            {columns.map((column) => <span key={column.key}>{column.header}</span>)}
+          </div>
+          <div className={styles.body}>
+            {rows.map((row) => (
+              <button className={styles.row} key={getKey(row)}>
+                {columns.map((column) => <span key={column.key}>{column.render(row)}</span>)}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+```
+
+```scss
+.root {
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--card-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.viewport {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.table {
+  width: 100%;
+  min-width: 620px;
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: 44px minmax(0, 1fr);
+}
+
+.head,
+.row {
+  display: grid;
+  grid-template-columns: 92px minmax(160px, 1fr) 110px 110px 72px;
+  align-items: center;
+  gap: 12px;
+}
+
+.head {
+  padding: 0 14px;
+  color: var(--text-soft);
+  font-size: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.body { min-height: 0; overflow-x: hidden; overflow-y: auto; padding: 8px; }
+
+.row {
+  width: 100%;
+  min-height: 46px;
+  margin: 0 0 6px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 0 8px;
+  color: var(--text);
+  text-align: left;
+  background: transparent;
+  transition: background var(--ease), border-color var(--ease);
+
+  &:hover { background: var(--bg-elevated); border-color: var(--border); }
+  &:focus-visible { outline: 0; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+}
+```
+
+## Rules
+
+- Put horizontal overflow on `.viewport` so the header and rows move together on narrow screens.
+- Keep vertical record scrolling on `.body`.
+- Do not let a fixed-width row grid overflow and get clipped by `.root`.

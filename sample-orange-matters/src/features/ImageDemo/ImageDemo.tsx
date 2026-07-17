@@ -1,7 +1,7 @@
 import { Download, Maximize2 } from "lucide-react";
-import { Button } from "../../components/Button";
-import { ImageCard } from "../../components/ImageCard";
-import { Heading } from "../../components/Heading";
+import { Button } from "@source/react/components/Button";
+import { ImageCard } from "@source/react/components/ImageCard";
+import { Heading } from "@source/react/components/Heading";
 import styles from "./ImageDemo.module.scss";
 
 const svgDataUri = (svg: string) => `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;

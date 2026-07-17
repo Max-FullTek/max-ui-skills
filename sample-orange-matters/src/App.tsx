@@ -1,27 +1,19 @@
 import { useEffect, useState } from "react";
-import { Header } from "./components/Header";
-import { getPageFromHash, Menu } from "./components/Menu";
-import type { PageKey } from "./components/Menu";
-import { ToastProvider } from "./components/ToastProvider";
+import { Header } from "@source/react/components/Header";
+import { getPageFromHash, Menu } from "@source/react/components/Menu";
+import type { PageKey } from "@source/react/components/Menu";
+import { ToastProvider } from "@source/react/components/ToastProvider";
+import { DashboardFrame } from "@source/react/layouts/DashboardFrame";
 import { ControlPanels } from "./features/ControlPanels";
 import { Dashboard } from "./features/Dashboard";
 import { ImageDemo } from "./features/ImageDemo";
 import { VisionDebug } from "./features/VisionDebug";
-import styles from "./App.module.scss";
 
 export default function App() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarFloating, setSidebarFloating] = useState(false);
   const [activePage, setActivePage] = useState<PageKey>(() => getPageFromHash(window.location.hash));
-
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-
-    return () => {
-      delete document.documentElement.dataset.theme;
-    };
-  }, [theme]);
 
   useEffect(() => {
     const media = window.matchMedia("(max-width: 980px)");
@@ -53,32 +45,27 @@ export default function App() {
 
   return (
     <ToastProvider>
-      <div
-        className={styles.root}
-        data-theme={theme}
-        data-sidebar-open={sidebarOpen}
-        data-sidebar-floating={sidebarFloating}
-      >
-        <Header
+      <DashboardFrame
+        theme={theme}
+        sidebarOpen={sidebarOpen}
+        sidebarFloating={sidebarFloating}
+        onBackdropClick={() => setSidebarOpen(false)}
+        header={<Header
           theme={theme}
           sidebarOpen={sidebarOpen}
           onSidebarToggle={() => setSidebarOpen((current) => !current)}
           onThemeChange={setTheme}
-        />
-        {sidebarFloating && sidebarOpen && (
-          <button className={styles.backdrop} aria-label="Close sidebar" onClick={() => setSidebarOpen(false)} />
-        )}
-        <Menu
+        />}
+        sidebar={<Menu
           open={sidebarOpen}
           floating={sidebarFloating}
           activePage={activePage}
           onPageChange={setActivePage}
           onClose={() => setSidebarOpen(false)}
-        />
-        <main className={styles.main} aria-label="Workspace">
-          {page}
-        </main>
-      </div>
+        />}
+      >
+        {page}
+      </DashboardFrame>
     </ToastProvider>
   );
 }
