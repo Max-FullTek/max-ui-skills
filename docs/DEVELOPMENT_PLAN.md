@@ -40,6 +40,7 @@ Each phase is intended to end at a reviewable, independently committable boundar
 - Separate theme tokens, structural overrides, and exclusive components from shared behavior.
 - Use the component matrix as the extraction checklist.
 - Complete: shared components, `DashboardFrame`, minimal globals, foundation contracts, and Orange theme inputs now have canonical owners under `source/`.
+- Review resolution: Header and Menubar are product-neutral, DashboardFrame remains slot/external-state driven, and theme-specific frame composition lives in tokens.
 
 ### Phase 3 — Orange Matters first
 

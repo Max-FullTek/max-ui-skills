@@ -21,6 +21,10 @@
   --button-shadow: 0 10px 24px rgba(255, 79, 15, 0.2);
   --focus-ring: 0 0 0 4px var(--accent-soft);
   --surface-treatment: var(--card-surface);
+  --app-background:
+    radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 32%),
+    radial-gradient(circle at 86% 2%, color-mix(in srgb, var(--secondary) 14%, transparent), transparent 30%),
+    var(--bg);
 }
 
 [data-theme="dark"] {
@@ -45,6 +49,10 @@
   --button-shadow: 0 12px 28px rgba(255, 103, 54, 0.2);
   --focus-ring: 0 0 0 4px var(--accent-soft);
   --surface-treatment: var(--card-surface);
+  --app-background:
+    radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 32%),
+    radial-gradient(circle at 86% 2%, color-mix(in srgb, var(--secondary) 14%, transparent), transparent 30%),
+    var(--bg);
 }
 
 :root {

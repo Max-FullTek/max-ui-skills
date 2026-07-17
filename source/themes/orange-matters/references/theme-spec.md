@@ -79,7 +79,7 @@ Portable UI spec for warm, compact product screens: content tools, admin panels,
 ## Layout
 
 - Default dashboard frame: `100dvw` by `100dvh`, no document scrolling.
-- Required structure for app screens: top `Header`, left `Menu`, lower/right `Main`.
+- Required structure for app screens: top `Header`, left `Menubar`, lower/right `Main`.
 - Use [layouts/dashboard-frame.md](layouts/dashboard-frame.md) for React dashboard frame implementation code.
 - Use CSS grid or flex so header height and menu width are stable.
 - Add a sidebar toggle icon button in the header, adjacent to the brand/title cluster. It controls the left menu on both desktop and compact layouts.
@@ -147,13 +147,13 @@ Exact implementation recipes live under `components/`. Load only the component r
 - Page/section titles should feel designed through weight, spacing, alignment, and restrained dividers, not redundant subtitle text.
 - Avoid AI-looking title decoration: large accent bars, gradient rails, oversized underlines, glow strips, or decorative blocks beside simple text.
 
-### Menu
+### Menubar
 
 - Left-side navigation by default.
 - Is controlled by the header sidebar toggle. On roomy screens it can collapse by reducing the sidebar grid column to `0`; on constrained screens it becomes an absolute left drawer that slides over main content.
 - Use compact labels, icons where useful, active orange indicator, and local overflow if needed.
 - Do not create a long page just to expose navigation.
-- Menu hover is simple background/text change only. Do not lift or press menu items.
+- Menubar hover is simple background/text change only. Do not lift or press menu items.
 - Use [components/menubar.md](components/menubar.md) for React/CSS Modules implementation code.
 
 ### Main

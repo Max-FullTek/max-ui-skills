@@ -11,10 +11,7 @@
     "menu main" minmax(0, 1fr) / var(--sidebar-width) minmax(0, 1fr);
   overflow: hidden;
   color: var(--text);
-  background:
-    radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 32%),
-    radial-gradient(circle at 86% 2%, color-mix(in srgb, var(--secondary) 14%, transparent), transparent 30%),
-    var(--bg);
+  background: var(--app-background, var(--bg));
   transition: grid-template-columns var(--ease);
 }
 

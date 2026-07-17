@@ -48,7 +48,7 @@ export function Header({
       />
       <label className={styles.search}>
         <Search aria-hidden="true" />
-        <input aria-label="Search" placeholder="Search" />
+        <input aria-label="Search records" placeholder="Search records" />
       </label>
       <div className={styles.actions}>
         <Button tone="primaryOutline" icon={<Bell aria-hidden="true" />}>Alerts</Button>
@@ -70,7 +70,7 @@ export function Header({
 .root {
   grid-area: header;
   min-width: 0;
-  z-index: 9;
+  z-index: 3;
   display: grid;
   grid-template-columns: auto auto auto minmax(180px, 1fr) auto;
   align-items: center;

@@ -3,21 +3,32 @@ import { Button } from "../Button";
 import styles from "./Header.module.scss";
 
 type HeaderProps = {
+  brandInitials: string;
+  brandName: string;
+  contextLabel?: string;
   theme: "light" | "dark";
   sidebarOpen: boolean;
   onSidebarToggle: () => void;
   onThemeChange: (theme: "light" | "dark") => void;
 };
 
-export function Header({ theme, sidebarOpen, onSidebarToggle, onThemeChange }: HeaderProps) {
+export function Header({
+  brandInitials,
+  brandName,
+  contextLabel,
+  theme,
+  sidebarOpen,
+  onSidebarToggle,
+  onThemeChange
+}: HeaderProps) {
   const nextTheme = theme === "light" ? "dark" : "light";
 
   return (
     <header className={styles.root}>
-      <div className={styles.brandMark}>OM</div>
+      <div className={styles.brandMark}>{brandInitials}</div>
       <div className={styles.brandText}>
-        <strong>Archive Desk</strong>
-        <span>Data browser</span>
+        <strong>{brandName}</strong>
+        {contextLabel && <span>{contextLabel}</span>}
       </div>
       <Button
         tone="iconOnly"

@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { Header } from "@source/react/components/Header";
-import { getPageFromHash, Menu } from "@source/react/components/Menu";
-import type { PageKey } from "@source/react/components/Menu";
+import { Menubar } from "@source/react/components/Menubar";
 import { ToastProvider } from "@source/react/components/ToastProvider";
 import { DashboardFrame } from "@source/react/layouts/DashboardFrame";
 import { ControlPanels } from "./features/ControlPanels";
 import { Dashboard } from "./features/Dashboard";
 import { ImageDemo } from "./features/ImageDemo";
 import { VisionDebug } from "./features/VisionDebug";
+import { getNavigationItems, getPageFromHash } from "./navigation";
+import type { PageKey } from "./navigation";
 
 export default function App() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -43,6 +44,11 @@ export default function App() {
     controls: <ControlPanels />
   }[activePage];
 
+  const handlePageChange = (pageKey: PageKey) => {
+    setActivePage(pageKey);
+    window.history.replaceState(null, "", `#${pageKey}`);
+  };
+
   return (
     <ToastProvider>
       <DashboardFrame
@@ -51,16 +57,19 @@ export default function App() {
         sidebarFloating={sidebarFloating}
         onBackdropClick={() => setSidebarOpen(false)}
         header={<Header
+          brandInitials="OM"
+          brandName="Archive Desk"
+          contextLabel="Data browser"
           theme={theme}
           sidebarOpen={sidebarOpen}
           onSidebarToggle={() => setSidebarOpen((current) => !current)}
           onThemeChange={setTheme}
         />}
-        sidebar={<Menu
+        sidebar={<Menubar
+          items={getNavigationItems(activePage)}
           open={sidebarOpen}
           floating={sidebarFloating}
-          activePage={activePage}
-          onPageChange={setActivePage}
+          onItemSelect={handlePageChange}
           onClose={() => setSidebarOpen(false)}
         />}
       >

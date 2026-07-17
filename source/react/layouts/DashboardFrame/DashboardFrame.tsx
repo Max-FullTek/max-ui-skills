@@ -31,12 +31,13 @@ export function DashboardFrame({
   className = ""
 }: DashboardFrameProps) {
   useEffect(() => {
-    document.documentElement.dataset.theme = theme;
+    const documentElement = document.documentElement;
+    const previousTheme = documentElement.getAttribute("data-theme");
+    documentElement.dataset.theme = theme;
 
     return () => {
-      if (document.documentElement.dataset.theme === theme) {
-        delete document.documentElement.dataset.theme;
-      }
+      if (previousTheme === null) documentElement.removeAttribute("data-theme");
+      else documentElement.setAttribute("data-theme", previousTheme);
     };
   }, [theme]);
 
