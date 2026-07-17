@@ -1,6 +1,6 @@
 ---
 name: orange-matters
-description: 'Apply or extend the "Orange Matters" UI theme ("大橘為重"): warm off-white light mode, charcoal dark mode, orange primary actions, teal secondary actions, glass panels, compact dashboard frames, strict local overflow, and restrained motion. Use for frontend UI, admin panels, internal tools, data browsers, dashboards, component styling, layout polish, theme tokens, and dark-mode alignment.'
+description: 'Apply or extend the "Orange Matters" UI theme ("大橘為重"): warm off-white light mode, charcoal dark mode, orange primary actions, teal secondary actions, rounded glass panels, soft depth, compact dashboard frames, strict local overflow, and restrained motion. Use when a product UI, admin tool, data browser, or dashboard explicitly calls for this warm orange-and-teal glass language. Do not use for paper-and-ink, landscape, dry-brush, low-radius, or hard-edged visual direction.'
 ---
 
 # Orange Matters

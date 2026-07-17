@@ -1,6 +1,6 @@
 ---
 name: green-ink
-description: "Apply or extend the Green Ink UI theme: clean paper-white and ink-black content surfaces, controlled landscape and dry-brush artwork, a dark ink-flow atmosphere, deep-green primary actions, restrained vermilion accents, low-radius geometry, hard-edged depth, and fallback-first CJK/Latin typography. Use for product interfaces, admin tools, dashboards, data workspaces, component styling, layout polish, and coordinated light/dark modes that should feel editorial and precise without ornamental Chinese motifs."
+description: "Apply or extend the Green Ink UI theme: clean paper-white and ink-black content surfaces, controlled landscape and dry-brush artwork, a dark ink-flow atmosphere, deep-green primary actions, restrained vermilion accents, low-radius geometry, hard-edged depth, and fallback-first CJK/Latin typography. Use when a product UI, admin tool, dashboard, or data workspace explicitly calls for a restrained editorial paper-and-ink language without ornamental Chinese motifs. Do not use for warm glass panels, pill geometry, orange-and-teal actions, soft floating depth, or glow-led visual direction."
 ---
 
 # Green Ink

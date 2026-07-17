@@ -32,4 +32,4 @@ Use `VisionStage` for camera, image, or video inspection surfaces that layer ana
 
 ## Asset
 
-Use the [canonical VisionStage component](../../../../react/components/VisionStage/). The Skill builder publishes its complete TSX, CSS Module, and barrel export under `assets/react/components/VisionStage/`.
+Use the [canonical VisionStage component](../../../react/components/VisionStage/). The Skill builder publishes its complete TSX, CSS Module, and barrel export under `assets/react/components/VisionStage/`.

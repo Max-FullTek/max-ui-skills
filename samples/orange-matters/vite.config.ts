@@ -7,7 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@sample-shared": fileURLToPath(new URL("../shared", import.meta.url)),
-      "@source": fileURLToPath(new URL("../../source", import.meta.url))
+      "@source": fileURLToPath(new URL("../../skills/orange-matters/assets", import.meta.url))
     },
     dedupe: ["react", "react-dom", "lucide-react"]
   },

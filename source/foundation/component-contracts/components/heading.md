@@ -27,4 +27,4 @@ Use for compact page and panel titles with optional actions on the same row.
 
 ## Asset
 
-[Canonical Heading source](../../../../react/components/Heading/)
+[Canonical Heading source](../../../react/components/Heading/)

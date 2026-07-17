@@ -50,6 +50,12 @@
 }
 
 :root {
+  --status-success: var(--accent);
+  --status-success-strong: var(--accent-strong);
+  --status-success-soft: var(--accent-soft);
+  --status-warning: var(--secondary);
+  --status-warning-strong: var(--secondary-strong);
+  --status-warning-soft: var(--secondary-soft);
   --border-width: 1px;
   --radius-xl: 8px;
   --radius-lg: 6px;

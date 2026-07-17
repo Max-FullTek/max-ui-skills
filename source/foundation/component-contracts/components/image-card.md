@@ -35,4 +35,4 @@ Use `ImageCard` for generated-image previews, uploads, before/after results, and
 
 ## Asset
 
-Use the [canonical ImageCard component](../../../../react/components/ImageCard/). The Skill builder publishes its complete TSX, CSS Module, and barrel export under `assets/react/components/ImageCard/`.
+Use the [canonical ImageCard component](../../../react/components/ImageCard/). The Skill builder publishes its complete TSX, CSS Module, and barrel export under `assets/react/components/ImageCard/`.

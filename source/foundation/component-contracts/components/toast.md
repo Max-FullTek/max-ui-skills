@@ -37,4 +37,4 @@ function SaveButton() {
 
 ## Asset
 
-Use the [canonical ToastProvider component](../../../../react/components/ToastProvider/). The Skill builder publishes its complete TSX, CSS Module, and barrel export under `assets/react/components/ToastProvider/`.
+Use the [canonical ToastProvider component](../../../react/components/ToastProvider/). The Skill builder publishes its complete TSX, CSS Module, and barrel export under `assets/react/components/ToastProvider/`.

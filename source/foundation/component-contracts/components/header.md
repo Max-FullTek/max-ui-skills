@@ -35,4 +35,4 @@ Use for the compact top row of a dashboard frame: brand context, sidebar control
 
 ## Asset
 
-[Canonical Header source](../../../../react/components/Header/)
+[Canonical Header source](../../../react/components/Header/)

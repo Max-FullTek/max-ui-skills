@@ -23,20 +23,22 @@ skills/green-ink/
 ### Skill Installer Prompts
 
 ```md
-Use $skill-installer to install the `orange-matters` skill from this GitHub repo.
-Use $skill-installer to install the `green-ink` skill from this GitHub repo.
+Use $skill-installer to install the Skill at `skills/orange-matters` from https://github.com/Max-FullTek/max-ui-skills.
+Use $skill-installer to install the Skill at `skills/green-ink` from https://github.com/Max-FullTek/max-ui-skills.
 ```
 
 ### Manual Install
 
-Copy the selected folder under your Codex skills directory:
+Skills are available in the ChatGPT desktop app, Codex CLI, and the IDE extension. Copy the selected folder to the scope you want:
 
 ```text
-~/.codex/skills/orange-matters
-~/.codex/skills/green-ink
+User-wide:  $HOME/.agents/skills/orange-matters
+User-wide:  $HOME/.agents/skills/green-ink
+Repository: $REPO_ROOT/.agents/skills/orange-matters
+Repository: $REPO_ROOT/.agents/skills/green-ink
 ```
 
-Common Windows paths are `C:\Users\<you>\.codex\skills\orange-matters` and `C:\Users\<you>\.codex\skills\green-ink`.
+On Windows, the user-wide equivalents are `%USERPROFILE%\.agents\skills\orange-matters` and `%USERPROFILE%\.agents\skills\green-ink`. Restart Codex if a newly copied Skill does not appear. See the official [Build skills](https://learn.chatgpt.com/docs/build-skills) guide for current discovery locations.
 
 Both Skills can be installed together. Choose one theme for a given UI task; do not apply both visual systems to the same screen unless you are deliberately designing a theme switcher.
 
@@ -66,13 +68,29 @@ Do not install `samples/` or make an installed Skill depend on it.
 
 ## Local Checks
 
+On a fresh clone, install each sample's locked dependencies once:
+
+```bash
+npm ci --prefix samples/orange-matters
+npm ci --prefix samples/green-ink
+```
+
+Then run the complete basic release gate:
+
+```bash
+npm run release:check
+```
+
+The equivalent individual commands are:
+
 ```bash
 npm run check:skills
 npm run validate:skills
 npm run build:samples
+git diff --check
 ```
 
-Run one sample in development mode with `npm --prefix samples/orange-matters run dev` or `npm --prefix samples/green-ink run dev`.
+Both sample builds consume the generated assets under `skills/<theme>/`, so the basic gate compiles the same React/SCSS files that users install. Run one sample in development mode with `npm --prefix samples/orange-matters run dev` or `npm --prefix samples/green-ink run dev`.
 
 ## Adding Or Updating Themes
 

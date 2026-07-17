@@ -27,4 +27,4 @@ Use for repeated surfaces, grouped content, and compact summaries.
 
 ## Asset
 
-[Canonical Card source](../../../../react/components/Card/)
+[Canonical Card source](../../../react/components/Card/)

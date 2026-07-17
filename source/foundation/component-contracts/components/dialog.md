@@ -28,4 +28,4 @@ Use for focused detail, confirmation, or edit flows that temporarily sit above t
 
 ## Asset
 
-[Canonical Dialog source](../../../../react/components/Dialog/)
+[Canonical Dialog source](../../../react/components/Dialog/)

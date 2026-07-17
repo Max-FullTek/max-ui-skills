@@ -14,7 +14,7 @@
     "baseUrl": ".",
     "paths": {
       "@sample-shared/*": ["../shared/*"],
-      "@source/*": ["../../source/*"],
+      "@source/*": ["../../skills/green-ink/assets/*"],
       "react": ["node_modules/@types/react/index.d.ts"],
       "react/*": ["node_modules/@types/react/*"],
       "react-dom": ["node_modules/@types/react-dom/index.d.ts"],
@@ -25,5 +25,5 @@
     "isolatedModules": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "../shared", "../../source"]
+  "include": ["src", "../shared", "../../skills/green-ink/assets/react"]
 }

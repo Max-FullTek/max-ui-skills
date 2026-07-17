@@ -44,4 +44,4 @@ Use `DashboardFrame` as the full-viewport application shell that composes a head
 
 ## Asset
 
-Use the [canonical DashboardFrame layout](../../../../react/layouts/DashboardFrame/). The Skill builder publishes its complete TSX, CSS Module, and barrel export under `assets/react/layouts/DashboardFrame/`.
+Use the [canonical DashboardFrame layout](../../../react/layouts/DashboardFrame/). The Skill builder publishes its complete TSX, CSS Module, and barrel export under `assets/react/layouts/DashboardFrame/`.

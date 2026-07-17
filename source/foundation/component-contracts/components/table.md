@@ -32,4 +32,4 @@ Use `DataTable<T>` for dense record collections whose columns and row rendering 
 
 ## Asset
 
-Use the [canonical DataTable component](../../../../react/components/DataTable/). The Skill builder publishes its complete TSX, CSS Module, and barrel export under `assets/react/components/DataTable/`.
+Use the [canonical DataTable component](../../../react/components/DataTable/). The Skill builder publishes its complete TSX, CSS Module, and barrel export under `assets/react/components/DataTable/`.

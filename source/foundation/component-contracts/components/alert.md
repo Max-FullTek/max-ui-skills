@@ -22,4 +22,4 @@ Use for one-line status feedback that should be announced without interrupting t
 
 ## Asset
 
-[Canonical Alert source](../../../../react/components/Alert/)
+[Canonical Alert source](../../../react/components/Alert/)

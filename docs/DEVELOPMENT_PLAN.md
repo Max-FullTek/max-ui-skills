@@ -16,9 +16,9 @@ Each phase is intended to end at a reviewable, independently committable boundar
 | 5 | Copyable React assets | Complete | Every public component/layout recipe points to a complete asset; every asset has a recipe or is marked internal; one installed Skill contains all of its assets. |
 | 6 | Green Ink visual system | Complete | The theme specification defines light/dark color roles, paper/ink surfaces, geometry, hierarchy, depth, focus, motion, typography, decoration limits, and exclusive vocabulary; representative components establish a distinct identity. |
 | 7 | Green Ink Skill | Complete | The Skill has a distinct trigger description, complete references/assets, and no Orange Matters or repository-root dependency. |
-| 8 | Parallel sample applications | Complete | Orange and Green samples use comparable data, scenarios, and component contracts; both basic builds pass; exclusive components remain separate. |
-| 9 | Installation documentation | Complete | English and Traditional Chinese READMEs cover Orange-only, Green-only, both-Skill, installer, and supported manual flows while explaining self-contained output and repository-only samples. |
-| 10 | Release gates | Complete | Both Skills validate in isolation, both samples build, generated output is reproducible, relative links resolve, and no cross-Skill/repository dependency remains. |
+| 8 | Parallel sample applications | Complete | Orange and Green samples use comparable data, scenarios, and component contracts; both compile the generated installable assets; exclusive components remain separate. |
+| 9 | Installation documentation | Complete | English and Traditional Chinese READMEs provide explicit repository/path installer prompts and current user/repository manual locations while explaining self-contained output and repository-only samples. |
+| 10 | Release gates | Complete | Both Skills validate in isolation, generated installable assets compile in both samples, output is reproducible, relative links resolve, and no cross-Skill/repository dependency remains. |
 
 ## Phase Notes
 
@@ -47,7 +47,7 @@ Each phase is intended to end at a reviewable, independently committable boundar
 - Move the current sample component behavior and Orange presentation into their target owners.
 - Preserve current component props and recipe coverage unless review approves a breaking change.
 - Make the Orange sample consume the canonical or generated source selected by the builder design.
-- Complete: the current sample consumes canonical source directly, while the committed Orange Skill is generated as self-contained installable output and retains the existing public APIs and recipes.
+- Complete: the committed Orange Skill is generated as self-contained installable output and retains the existing public APIs and recipes. The sample consumes that generated output so its basic build exercises the published React/SCSS assets.
 
 ### Phase 4 — Packaging
 
@@ -98,7 +98,7 @@ Each phase is intended to end at a reviewable, independently committable boundar
 - Move product scenarios, data, navigation, and feature behavior into repository-only shared sample sources where practical; keep each theme entry point, token import, presentation overrides, and exclusive showcase local to its sample.
 - Make both samples exercise the same shared component props and screens. Orange may demonstrate `RunningBorder`; Green must not render a fake equivalent.
 - Build both sample applications with the existing basic build path. Browser inspection, Playwright, and screenshot comparison remain outside this phase unless requested explicitly.
-- Complete: both samples share repository-only scenarios/screens and component props under `samples/shared`; Orange alone demonstrates `RunningBorder`, and both basic builds pass.
+- Complete: both samples share repository-only scenarios/screens and component props under `samples/shared`; Orange alone demonstrates `RunningBorder`, and both basic builds compile their respective generated Skill assets.
 
 ## Second-stage Work Packages
 
@@ -110,7 +110,7 @@ The second stage covers Phases 6–8 and is split into three independently commi
 
 Work package 2A must pass its written visual gate before 2B expands the full catalog. Work package 2B must prove both installable outputs before 2C uses them as integration surfaces.
 
-The A+B/C recalibration reopens 2A without discarding the uncommitted 2B foundation-contract, recipe-guardrail, and pipeline work. Those changes remain staged only as working-tree inputs until the revised visual gate passes.
+The A+B/C recalibration reopened 2A without discarding the 2B foundation-contract, recipe-guardrail, and pipeline work. The revised visual gate later passed, and the resulting 2A–2C work is committed.
 
 ### Phase 9 — Installation docs
 
@@ -124,7 +124,8 @@ The A+B/C recalibration reopens 2A without discarding the uncommitted 2B foundat
 - Validate both Skills, both sample builds, reproducibility, links, and isolated installation.
 - Keep routine validation to existing basic build/typecheck/lint and repository scripts.
 - Schedule visible browser inspection, responsive QA, or screenshot comparison only as an explicit separate task.
-- Complete: deterministic/freshness checks, both structural/isolation validators, both Skill Creator quick validations, both sample builds, and `git diff --check` pass.
+- Keep `npm run release:check` as the self-contained aggregate gate. On a fresh clone, install the locked dependencies in each sample before running it.
+- Complete after release hardening: the samples consume generated Skill assets, canonical and published links are validated, Green status/hover semantics are corrected, and the aggregate release gate passes.
 
 ## Phase Transition Rule
 

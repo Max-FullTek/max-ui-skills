@@ -49,7 +49,7 @@ Green Ink must not look like Orange Matters with a new accent color. Its identit
 | Strong vermilion | `#81382c` | Active secondary state |
 | Vermilion wash | `#422b26` | Quiet secondary state |
 
-Keep normal text at accessible contrast. Vermilion is not a competing brand color; use it for a secondary action family, warning/destructive semantics, or one small identifying mark.
+Keep normal text at accessible contrast. Success follows the deep-green family. Vermilion is not a competing brand color; use it for a secondary action family, warning/destructive semantics, or one small identifying mark.
 
 ## Surface And Border Hierarchy
 

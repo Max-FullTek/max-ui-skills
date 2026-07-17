@@ -14,13 +14,13 @@
 }
 
 .success {
-  border-color: color-mix(in srgb, var(--secondary) 42%, transparent);
-  background: var(--secondary-soft);
+  border-color: color-mix(in srgb, var(--status-success, var(--secondary)) 42%, transparent);
+  background: var(--status-success-soft, var(--secondary-soft));
 }
 
 .warning {
-  border-color: color-mix(in srgb, var(--accent) 42%, transparent);
-  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--status-warning, var(--accent)) 42%, transparent);
+  background: var(--status-warning-soft, var(--accent-soft));
 }
 
 .danger {

@@ -218,7 +218,9 @@ function withoutQueryOrFragment(value) {
 
 async function assertResolvableFile(root, fromFile, reference, kind) {
   const cleaned = withoutQueryOrFragment(reference.trim().replace(/^<|>$/g, ""));
-  if (!cleaned || cleaned.startsWith("#") || /^[a-z][a-z\d+.-]*:/i.test(cleaned) || cleaned.startsWith("//")) return;
+  if (!cleaned || cleaned.startsWith("#") || cleaned.startsWith("//")) return;
+  assert(!/^[A-Za-z]:[\\/]/.test(cleaned), `Absolute ${kind} is not allowed: ${fromFile} -> ${reference}`);
+  if (/^[a-z][a-z\d+.-]*:/i.test(cleaned)) return;
   let decoded;
   try {
     decoded = decodeURIComponent(cleaned);
@@ -230,13 +232,24 @@ async function assertResolvableFile(root, fromFile, reference, kind) {
   assert(await pathInfo(resolved), `Broken ${kind}: ${fromFile} -> ${reference}`);
 }
 
-async function validateMarkdownLinks(skillRoot) {
-  for (const relative of await listFiles(skillRoot)) {
+export async function validateMarkdownLinks(scanRoot, boundaryRoot = scanRoot) {
+  for (const relative of await listFiles(scanRoot)) {
     if (!relative.endsWith(".md")) continue;
-    const absolute = path.join(skillRoot, relative);
+    const absolute = path.join(scanRoot, relative);
     const text = await readFile(absolute, "utf8");
     for (const match of text.matchAll(/!?\[[^\]]*\]\(([^)\s]+)(?:\s+["'][^)]*["'])?\)/g)) {
-      await assertResolvableFile(skillRoot, absolute, match[1], "Markdown link");
+      await assertResolvableFile(boundaryRoot, absolute, match[1], "Markdown link");
+    }
+  }
+}
+
+async function validateCssUrls(skillRoot) {
+  for (const relative of await listFiles(skillRoot)) {
+    if (!/\.(?:css|scss)$/.test(relative)) continue;
+    const absolute = path.join(skillRoot, relative);
+    const text = await readFile(absolute, "utf8");
+    for (const match of text.matchAll(/url\(\s*(["']?)([^"')]+)\1\s*\)/g)) {
+      await assertResolvableFile(skillRoot, absolute, match[2], "CSS URL");
     }
   }
 }
@@ -285,6 +298,7 @@ async function validateForbiddenReferences(skillRoot, theme) {
   for (const relative of await listFiles(skillRoot)) {
     if (!textExtensions.has(path.extname(relative).toLowerCase())) continue;
     const text = await readFile(path.join(skillRoot, relative), "utf8");
+    assert(!/\b[A-Za-z]:[\\/]/.test(text), `Forbidden absolute drive path in ${relative}`);
     assert(!/\bsource[\\/]/i.test(text), `Forbidden source reference in ${relative}`);
     assert(!/(?:sample-orange-matters|\bsamples[\\/])/i.test(text), `Forbidden sample reference in ${relative}`);
     for (const sibling of siblingNames) {
@@ -302,6 +316,7 @@ export async function validateSkillDirectory(skillRoot, theme) {
   await validateOpaqueMedia(skillRoot, theme);
   await validateManifest(skillRoot);
   await validateMarkdownLinks(skillRoot);
+  await validateCssUrls(skillRoot);
   await validateRelativeImports(skillRoot);
   await validateForbiddenReferences(skillRoot, theme);
 }

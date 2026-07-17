@@ -36,4 +36,4 @@ const items = [
 
 ## Asset
 
-Use the [canonical Menubar component](../../../../react/components/Menubar/). The Skill builder publishes its complete TSX, CSS Module, and barrel export under `assets/react/components/Menubar/`.
+Use the [canonical Menubar component](../../../react/components/Menubar/). The Skill builder publishes its complete TSX, CSS Module, and barrel export under `assets/react/components/Menubar/`.

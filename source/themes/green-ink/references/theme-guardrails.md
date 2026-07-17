@@ -13,7 +13,7 @@ Use these theme-specific clauses with the shared component and layout contracts 
 
 ## Components
 
-- **Alert:** use a solid semantic wash, a neutral border, and one stronger leading or top rule; do not use translucent tint or glow.
+- **Alert:** map success to a deep-green wash and warning to a vermilion wash; use a neutral border and one stronger leading or top rule without translucent tint or glow.
 - **Button:** use the Green override. Keep fallback fills solid, corners at `2px`, use the shared dry brush only on `primary`, and make active feedback a small press rather than lift.
 - **Card:** use tokens only. Do not add a presentation override unless the public structure changes for a real product need.
 - **ControlCard:** use solid paper/ink surfaces and border hierarchy; keep its dense shared layout.
@@ -24,7 +24,7 @@ Use these theme-specific clauses with the shared component and layout contracts 
 - **Heading:** preserve the shared compact contract; short headings may use the optional display font and the shared dry-brush underline.
 - **ImageCard:** keep the shared media behavior and solid metadata surfaces; never add an ink texture over inspection media.
 - **Menubar:** keep behavior shared; use solid panels and low-radius items, with the shared dry brush plus a narrow green inset on the active row. Remove blur in the Green presentation layer.
-- **ToastProvider:** use solid tone surfaces, a hard short shadow, and the shared live-region behavior.
+- **ToastProvider:** map success emphasis to deep green and warning emphasis to vermilion; use solid tone surfaces, a hard short shadow, and the shared live-region behavior.
 - **VisionStage:** preserve media fidelity. Use ink borders and solid HUD labels without tinting, blurring, or decorating the media.
 
 ## Layout

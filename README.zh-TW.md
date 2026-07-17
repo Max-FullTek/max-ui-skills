@@ -23,20 +23,22 @@ skills/green-ink/
 ### Skill Installer Prompts
 
 ```md
-Use $skill-installer to install the `orange-matters` skill from this GitHub repo.
-Use $skill-installer to install the `green-ink` skill from this GitHub repo.
+Use $skill-installer to install the Skill at `skills/orange-matters` from https://github.com/Max-FullTek/max-ui-skills.
+Use $skill-installer to install the Skill at `skills/green-ink` from https://github.com/Max-FullTek/max-ui-skills.
 ```
 
 ### 手動安裝
 
-把需要的資料夾複製到 Codex skills 目錄：
+Skills 可用於 ChatGPT desktop app、Codex CLI 與 IDE extension。把需要的資料夾複製到對應 scope：
 
 ```text
-~/.codex/skills/orange-matters
-~/.codex/skills/green-ink
+使用者全域：$HOME/.agents/skills/orange-matters
+使用者全域：$HOME/.agents/skills/green-ink
+單一 repository：$REPO_ROOT/.agents/skills/orange-matters
+單一 repository：$REPO_ROOT/.agents/skills/green-ink
 ```
 
-Windows 常見路徑是 `C:\Users\<you>\.codex\skills\orange-matters` 與 `C:\Users\<you>\.codex\skills\green-ink`。
+Windows 的使用者全域等價路徑是 `%USERPROFILE%\.agents\skills\orange-matters` 與 `%USERPROFILE%\.agents\skills\green-ink`。若新複製的 Skill 沒有出現，請重新啟動 Codex。最新的探索位置可參考官方 [Build skills](https://learn.chatgpt.com/docs/build-skills) 指南。
 
 兩個 Skills 可以同時安裝；單一 UI 任務請選擇其中一套 theme。除非正在刻意設計 theme switcher，否則不要在同一畫面混用兩套視覺語言。
 
@@ -66,13 +68,29 @@ samples/
 
 ## 本機檢查
 
+Fresh clone 第一次先安裝兩個 sample 的 locked dependencies：
+
+```bash
+npm ci --prefix samples/orange-matters
+npm ci --prefix samples/green-ink
+```
+
+再執行完整的基本 release gate：
+
+```bash
+npm run release:check
+```
+
+等價的個別命令如下：
+
 ```bash
 npm run check:skills
 npm run validate:skills
 npm run build:samples
+git diff --check
 ```
 
-可用 `npm --prefix samples/orange-matters run dev` 或 `npm --prefix samples/green-ink run dev` 啟動單一 sample。
+兩個 sample build 都直接使用 `skills/<theme>/` 下的 generated assets，因此基本 gate 會編譯使用者實際安裝的 React/SCSS 檔案。可用 `npm --prefix samples/orange-matters run dev` 或 `npm --prefix samples/green-ink run dev` 啟動單一 sample。
 
 ## 新增或更新 Theme
 

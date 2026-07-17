@@ -1,5 +1,5 @@
 import { ControlCard } from "@source/react/components/ControlCard";
-import { RunningBorder } from "@source/themes/orange-matters/theme-components/RunningBorder";
+import { RunningBorder } from "@source/react/components/RunningBorder";
 import styles from "./OrangeControlShowcase.module.scss";
 
 export function OrangeControlShowcase() {

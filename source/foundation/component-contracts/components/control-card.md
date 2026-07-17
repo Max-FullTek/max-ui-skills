@@ -32,4 +32,4 @@ Use for one compact settings, filter, or tool-control group with optional suppor
 
 ## Asset
 
-[Canonical ControlCard source](../../../../react/components/ControlCard/)
+[Canonical ControlCard source](../../../react/components/ControlCard/)

@@ -39,4 +39,4 @@ Use `TextField` for native text-entry behavior and `SelectField` when the option
 
 ## Asset
 
-[Canonical Field source](../../../../react/components/Field/)
+[Canonical Field source](../../../react/components/Field/)

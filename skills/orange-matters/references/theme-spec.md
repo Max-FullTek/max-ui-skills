@@ -80,7 +80,7 @@ Portable UI spec for warm, compact product screens: content tools, admin panels,
 
 - Default dashboard frame: `100dvw` by `100dvh`, no document scrolling.
 - Required structure for app screens: top `Header`, left `Menubar`, lower/right `Main`.
-- Use [layouts/dashboard-frame.md](layouts/dashboard-frame.md) for the layout contract and guardrails; copy the complete implementation from its linked asset.
+- Use [the DashboardFrame contract](layouts/dashboard-frame.md) for the layout contract and guardrails; copy the complete implementation from its linked asset.
 - Use CSS grid or flex so header height and menu width are stable.
 - Add a sidebar toggle icon button in the header, adjacent to the brand/title cluster. It controls the left menu on both desktop and compact layouts.
 - When there is not enough width to show the menu and main content together, auto-collapse the menu. Reopen it as an absolute/floating left drawer with a backdrop, similar to a dialog but anchored to the left edge below the header.
@@ -98,7 +98,7 @@ Portable UI spec for warm, compact product screens: content tools, admin panels,
 - Do not stack short fields into separate full-width rows unless the viewport is narrow or the field truly needs long text entry.
 - Prefer `grid-template-columns: minmax(0, 1fr) auto`, `auto-fit`, fixed-width compact controls, and inline action rows.
 
-Keep the layout recipe in [layouts/dashboard-frame.md](layouts/dashboard-frame.md) as the source of truth. This file owns the shorter design rules only.
+Keep the [DashboardFrame contract](layouts/dashboard-frame.md) as the source of truth. This file owns the shorter design rules only.
 
 ## Surfaces
 
@@ -113,22 +113,22 @@ Keep the layout recipe in [layouts/dashboard-frame.md](layouts/dashboard-frame.m
 
 ## Components
 
-Component contracts, minimal usage, accessibility notes, and guardrails live under `components/`. Each recipe links to its complete copyable implementation under `assets/react/`; load only the recipe needed for the task:
+Shared component contracts, minimal usage, and accessibility notes live under the foundation contracts; Orange guardrails are composed into them during publication. The Orange-only RunningBorder recipe remains theme-local. Each published recipe links to its complete copyable implementation under `assets/react/`; load only the recipe needed for the task:
 
-- [components/alert.md](components/alert.md)
-- [components/button.md](components/button.md)
-- [components/card.md](components/card.md)
-- [components/control-card.md](components/control-card.md)
-- [components/dialog.md](components/dialog.md)
-- [components/field.md](components/field.md)
-- [components/header.md](components/header.md)
-- [components/heading.md](components/heading.md)
-- [components/image-card.md](components/image-card.md)
-- [components/menubar.md](components/menubar.md)
+- [Alert](components/alert.md)
+- [Button](components/button.md)
+- [Card](components/card.md)
+- [ControlCard](components/control-card.md)
+- [Dialog](components/dialog.md)
+- [Field](components/field.md)
+- [Header](components/header.md)
+- [Heading](components/heading.md)
+- [ImageCard](components/image-card.md)
+- [Menubar](components/menubar.md)
 - [components/running-border.md](components/running-border.md)
-- [components/table.md](components/table.md)
-- [components/toast.md](components/toast.md)
-- [components/vision-stage.md](components/vision-stage.md)
+- [DataTable](components/table.md)
+- [ToastProvider](components/toast.md)
+- [VisionStage](components/vision-stage.md)
 
 ### React Structure
 
@@ -142,7 +142,7 @@ Component contracts, minimal usage, accessibility notes, and guardrails live und
 - Contains brand/context, primary search or page title, and tools/actions.
 - Includes the sidebar toggle button beside the logo/title cluster when the screen has a left menu.
 - Sticky or fixed inside the dashboard frame, with blur, border, and soft shadow.
-- Use [components/header.md](components/header.md) for the component contract and linked complete asset.
+- Use the [Header contract](components/header.md) and linked complete asset.
 - Avoid large hero copy in app screens.
 - Page/section titles should feel designed through weight, spacing, alignment, and restrained dividers, not redundant subtitle text.
 - Avoid AI-looking title decoration: large accent bars, gradient rails, oversized underlines, glow strips, or decorative blocks beside simple text.
@@ -154,7 +154,7 @@ Component contracts, minimal usage, accessibility notes, and guardrails live und
 - Use compact labels, icons where useful, active orange indicator, and local overflow if needed.
 - Do not create a long page just to expose navigation.
 - Menubar hover is simple background/text change only. Do not lift or press menu items.
-- Use [components/menubar.md](components/menubar.md) for the component contract and linked complete asset.
+- Use the [Menubar contract](components/menubar.md) and linked complete asset.
 
 ### Main
 
@@ -174,7 +174,7 @@ Component contracts, minimal usage, accessibility notes, and guardrails live und
 - Keep buttons compact; avoid oversized marketing CTAs in app screens.
 - Hover lifts slightly; active must press downward with a small inset shadow.
 
-Use [components/button.md](components/button.md) for the component contract and linked complete asset.
+Use the [Button contract](components/button.md) and linked complete asset.
 
 ### Icons
 
@@ -190,7 +190,7 @@ Use [components/button.md](components/button.md) for the component contract and 
 - Placeholder text should be short and task-specific.
 - Short selects/status fields should use content-sized or fixed compact widths, not full-width rows.
 - Custom select option panels must render as portal/floating layers so they are not cut off inside dialogs, drawers, cards, or scroll panels.
-- Use [components/field.md](components/field.md) for the text input/select contract and linked complete asset.
+- Use the [Field contract](components/field.md) and linked complete asset.
 
 ### Cards And Lists
 
@@ -204,7 +204,7 @@ Use [components/button.md](components/button.md) for the component contract and 
 - If a metric card has only one label and one number, target a height around `48px` to `64px`.
 - Image-processing result cards should preserve the full output with `object-fit: contain`; do not crop inspection images.
 - Control cards pair a compact title/description with inline controls and optional dense content.
-- Use [components/card.md](components/card.md), [components/control-card.md](components/control-card.md), [components/heading.md](components/heading.md), [components/image-card.md](components/image-card.md), and [components/table.md](components/table.md) for their contracts and linked complete assets.
+- Use the [Card](components/card.md), [ControlCard](components/control-card.md), [Heading](components/heading.md), [ImageCard](components/image-card.md), and [DataTable](components/table.md) contracts and linked complete assets.
 
 ### Running Border
 
@@ -214,7 +214,7 @@ Use [components/button.md](components/button.md) for the component contract and 
 
 ### Vision And Media Debug
 
-- Use [components/vision-stage.md](components/vision-stage.md) for video/canvas/SVG overlay surfaces.
+- Use the [VisionStage contract](components/vision-stage.md) for video/canvas/SVG overlay surfaces.
 - Keep media and ROI overlays in one stable aspect-ratio stage so debug geometry is readable.
 - Use SVG overlays for editable ROI and vector annotations; use canvas overlays for masks, heatmaps, or high-frequency drawing.
 - Keep HUD labels short and non-obstructive: FPS, resolution, latency, frame id, or model status.
@@ -237,7 +237,7 @@ Use [components/button.md](components/button.md) for the component contract and 
 - Dialog actions/footer must have clear spacing from fields/content without adding a divider line. If actions live inside the body grid, use a dedicated action row with `row-gap` or top padding so buttons do not visually touch the last field row.
 - Tooltip is small, dark, rounded, and enters with a short rise.
 - Toast appears lower-right, scale/fade in, with subtle info/success/warning/danger styling.
-- Use [components/dialog.md](components/dialog.md), [components/alert.md](components/alert.md), and [components/toast.md](components/toast.md) for their contracts and linked complete assets.
+- Use the [Dialog](components/dialog.md), [Alert](components/alert.md), and [ToastProvider](components/toast.md) contracts and linked complete assets.
 
 ## Motion
 

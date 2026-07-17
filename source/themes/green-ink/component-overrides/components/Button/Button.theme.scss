@@ -4,7 +4,6 @@
   &:hover {
     transform: none;
     border-color: var(--text);
-    background: var(--bg-strong);
     box-shadow: none;
   }
 
@@ -56,6 +55,11 @@
 .secondary {
   border-color: var(--secondary-strong);
   background: var(--secondary);
+
+  &:hover {
+    border-color: var(--secondary-strong);
+    background: var(--secondary-strong);
+  }
 }
 
 .secondaryOutline {
@@ -75,4 +79,9 @@
 
 .danger {
   border-color: color-mix(in srgb, var(--danger) 78%, #000);
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--danger) 78%, #000);
+    background: var(--danger);
+  }
 }

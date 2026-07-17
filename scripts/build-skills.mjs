@@ -151,7 +151,11 @@ async function assembleTheme(theme, destination) {
   await copyTextFile(
     path.join(themeRoot, "references", "theme-spec.md"),
     path.join(destination, "references", "theme-spec.md"),
-    (text) => text.replaceAll("../../../foundation/react-spec.md", "react-spec.md"),
+    (text) =>
+      text
+        .replaceAll("../../../foundation/react-spec.md", "react-spec.md")
+        .replaceAll("../../../foundation/component-contracts/components/", "components/")
+        .replaceAll("../../../foundation/component-contracts/layouts/", "layouts/"),
   );
   for (const relative of theme.extraReferences) {
     await copyTextFile(path.join(themeRoot, relative), path.join(destination, relative));
@@ -172,7 +176,7 @@ async function assembleTheme(theme, destination) {
       path.join(foundationContracts, "components", `${recipe}.md`),
       path.join(themeRoot, "recipe-guardrails", "components", `${recipe}.md`),
       path.join(destination, "references", "components", `${recipe}.md`),
-      (text) => text.replaceAll("../../../../react/components/", "../../assets/react/components/"),
+      (text) => text.replaceAll("../../../react/components/", "../../assets/react/components/"),
     );
   }
   for (const [asset, recipe] of skillCatalog.shared.layoutRecipes) {
@@ -180,7 +184,7 @@ async function assembleTheme(theme, destination) {
       path.join(foundationContracts, "layouts", `${recipe}.md`),
       path.join(themeRoot, "recipe-guardrails", "layouts", `${recipe}.md`),
       path.join(destination, "references", "layouts", `${recipe}.md`),
-      (text) => text.replaceAll("../../../../react/layouts/", "../../assets/react/layouts/"),
+      (text) => text.replaceAll("../../../react/layouts/", "../../assets/react/layouts/"),
     );
   }
   for (const exclusive of theme.exclusiveComponents) {

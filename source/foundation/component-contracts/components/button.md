@@ -27,4 +27,4 @@ Use for commands, toolbar actions, compact calls to action, and icon controls.
 
 ## Asset
 
-[Canonical Button source](../../../../react/components/Button/)
+[Canonical Button source](../../../react/components/Button/)
