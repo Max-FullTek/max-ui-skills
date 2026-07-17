@@ -2,161 +2,78 @@
 
 [English](./README.md) | [繁體中文](./README.zh-TW.md)
 
-![Codex Skill](https://img.shields.io/badge/Codex-Skill-ff7a00) ![Theme](https://img.shields.io/badge/theme-orange--matters-ff4f0f) ![React Recipes](https://img.shields.io/badge/recipes-React%20%2B%20SCSS-0f9f8f) ![Install](https://img.shields.io/badge/install-copy%20skill%20folder-lightgrey)
+![Codex Skill](https://img.shields.io/badge/Codex-Skills-ff7a00) ![Themes](https://img.shields.io/badge/themes-2-174a34) ![React Recipes](https://img.shields.io/badge/recipes-React%20%2B%20SCSS-0f9f8f)
 
-給 Codex agents 使用的可攜式 UI design-system skills。
+提供給 Codex agents 的可攜式、自包含 UI design-system skills：
 
-目前提供的 skill 是 `orange-matters`（`大橘為重`）：一套暖色、緊湊、偏 product UI 的 theme，包含暖米白 light mode、深炭灰 dark mode、橘色主操作、低飽和青綠輔助操作、glass panels、局部滾動，以及可重複使用的 React component recipes。
+- `orange-matters`（`大橘為重`）— 暖米白與炭黑 product UI、橘色主操作、青綠輔助操作、glass panels 與緊湊 dashboard layout。
+- `green-ink` — 乾淨的紙墨工作面、受控山水與乾筆素材、深綠主操作、低圓角，以及 dark mode 墨流氛圍。
+
+每個 Skill 都包含自己的指令、元件 recipes、React/SCSS assets、theme tokens 與 manifest。Sample applications 只存在 repository，不是 runtime dependency。
 
 ## 快速安裝
 
-只需要安裝這個資料夾：
+可單獨安裝任一 Skill，也可以兩個都安裝：
 
 ```text
 skills/orange-matters/
+skills/green-ink/
 ```
 
-不要安裝 sample app。`sample-orange-matters/` 只是 demo 和 regression check。
-
-### 使用 Skill Installer Agent
+### Skill Installer Prompts
 
 ```md
 Use $skill-installer to install the `orange-matters` skill from this GitHub repo.
+Use $skill-installer to install the `green-ink` skill from this GitHub repo.
 ```
 
 ### 手動安裝
 
-複製：
-
-```text
-skills/orange-matters
-```
-
-到：
+把需要的資料夾複製到 Codex skills 目錄：
 
 ```text
 ~/.codex/skills/orange-matters
+~/.codex/skills/green-ink
 ```
 
-Windows 常見路徑：
+Windows 常見路徑是 `C:\Users\<you>\.codex\skills\orange-matters` 與 `C:\Users\<you>\.codex\skills\green-ink`。
 
-```text
-C:\Users\<you>\.codex\skills\orange-matters
-```
-
-安裝後請確認資料夾裡有：
-
-- `SKILL.md`
-- `agents/openai.yaml`
-- `references/theme-spec.md`
-- `references/react-spec.md`
-- `references/components/`
-- `references/layouts/`
+兩個 Skills 可以同時安裝；單一 UI 任務請選擇其中一套 theme。除非正在刻意設計 theme switcher，否則不要在同一畫面混用兩套視覺語言。
 
 ## 使用方式
 
-在 prompt 中明確指定：
-
 ```md
-Use $orange-matters to restyle this dashboard.
+Use $orange-matters to restyle this compact operations dashboard.
+Use $green-ink to build a paper-and-ink content workspace with coordinated light and dark modes.
 ```
 
-範例：
+先讀所選 Skill 的 `SKILL.md`，再按需要載入 theme spec、React guide、layout recipe、component recipes 或 artwork index。`assets/` 下的二進位水墨素材應直接複製或依路徑引用，不需要當成文字載入模型。
 
-```md
-Use $orange-matters to build a compact React dashboard frame with a collapsible sidebar.
-Use $orange-matters to create image-processing result cards and a video ROI debug view.
-Use $orange-matters to align this admin panel with the Orange Matters component language.
-```
-
-## 內容結構
+## Repository 結構
 
 ```text
 skills/
-  orange-matters/
-    SKILL.md
-    agents/openai.yaml
-    references/
-      theme-spec.md
-      react-spec.md
-      layouts/
-        dashboard-frame.md
-      components/
-        alert.md
-        button.md
-        card.md
-        control-card.md
-        dialog.md
-        field.md
-        header.md
-        heading.md
-        image-card.md
-        menubar.md
-        running-border.md
-        table.md
-        toast.md
-        vision-stage.md
-
-sample-orange-matters/
-  用來做視覺驗證的 React/Vite demo。
+  orange-matters/       自包含的 generated Skill
+  green-ink/            自包含的 generated Skill
+source/                 Canonical shared React 與各 theme source
+samples/
+  orange-matters/       Orange React/Vite sample
+  green-ink/            Green React/Vite sample
+  shared/               僅供 repository 使用的情境與畫面
 ```
 
-## 給 Agents 的注意事項
+不要安裝 `samples/`，也不要讓 installed Skill 依賴它。
 
-如果你是負責安裝或使用這個 repo 的 agent：
-
-- 只有 `skills/orange-matters/` 是 installable skill directory。
-- 先讀 `skills/orange-matters/SKILL.md`。
-- 使用 progressive disclosure：
-  - 視覺規則與元件索引讀 `references/theme-spec.md`
-  - React 專案才讀 `references/react-spec.md`
-  - 要建立完整 dashboard frame 才讀 `references/layouts/dashboard-frame.md`
-  - 只讀當前需要實作的 component recipes
-- 不要把 `sample-orange-matters/` 複製到使用者的 Codex skills 目錄。
-- 不要讓 skill runtime 依賴 sample files；可重複使用的模式都應該放在 `skills/orange-matters/references/`。
-
-## Sample App
-
-`sample-orange-matters/` 是用來驗證 recipes 是否能落地成真實 React/Vite UI 的 demo。
-
-它展示：
-
-- full-viewport dashboard frame
-- header sidebar toggle
-- 可收合 / floating 的左側 menu
-- side-menu 換頁
-- records table 與 dashboard composition
-- image result cards
-- video/SVG ROI debug stage
-- control cards
-- running border hover states
-- toast feedback
-- light / dark theme tokens
-
-本機執行：
+## 本機檢查
 
 ```bash
-cd sample-orange-matters
-npm install
-npm run dev
+npm run check:skills
+npm run validate:skills
+npm run build:samples
 ```
 
-Build check：
+可用 `npm --prefix samples/orange-matters run dev` 或 `npm --prefix samples/green-ink run dev` 啟動單一 sample。
 
-```bash
-npm run build
-```
+## 新增或更新 Theme
 
-`node_modules/`、`dist/`、`.vite/`、coverage、logs、TypeScript build info 等產物已被忽略。
-
-## 新增更多 Skills
-
-新增 theme 時請沿用：
-
-- 每個 theme 一個資料夾：`skills/<skill-name>/`
-- 必要：`SKILL.md`
-- 建議：`agents/openai.yaml`
-- 穩定規則與 recipes 放在 `references/`
-- demo app 可放在 repo root，命名為 `sample-<skill-name>/`
-
-保持 `SKILL.md` 短小。較長的實作細節放進針對性的 reference files，讓 agents 只讀需要的內容。
+修改 `source/` 下的 canonical inputs，再執行 `npm run build:skills`。不要直接修改 generated `skills/<theme>/`。保持 `SKILL.md` 精簡，把詳細實作指引放進針對性的 references，讓 agents 使用 progressive disclosure。

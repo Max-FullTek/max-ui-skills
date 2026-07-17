@@ -15,10 +15,10 @@ Each phase is intended to end at a reviewable, independently committable boundar
 | 4 | Deterministic Skill builder | Complete | Two consecutive builds produce identical controlled output and no diff; links resolve; each Skill directory passes isolation checks; no symlinks are used. |
 | 5 | Copyable React assets | Complete | Every public component/layout recipe points to a complete asset; every asset has a recipe or is marked internal; one installed Skill contains all of its assets. |
 | 6 | Green Ink visual system | Complete | The theme specification defines light/dark color roles, paper/ink surfaces, geometry, hierarchy, depth, focus, motion, typography, decoration limits, and exclusive vocabulary; representative components establish a distinct identity. |
-| 7 | Green Ink Skill | In progress | The Skill has a distinct trigger description, complete references/assets, and no Orange Matters or repository-root dependency. |
-| 8 | Parallel sample applications | Planned | Orange and Green samples use comparable data, scenarios, and component contracts; both basic builds pass; exclusive components remain separate. |
-| 9 | Installation documentation | Planned | English and Traditional Chinese READMEs cover Orange-only, Green-only, both-Skill, installer, and supported manual flows while explaining self-contained output and repository-only samples. |
-| 10 | Release gates | Planned | Both Skills validate in isolation, both samples build, generated output is reproducible, relative links resolve, and no cross-Skill/repository dependency remains. |
+| 7 | Green Ink Skill | Complete | The Skill has a distinct trigger description, complete references/assets, and no Orange Matters or repository-root dependency. |
+| 8 | Parallel sample applications | Complete | Orange and Green samples use comparable data, scenarios, and component contracts; both basic builds pass; exclusive components remain separate. |
+| 9 | Installation documentation | Complete | English and Traditional Chinese READMEs cover Orange-only, Green-only, both-Skill, installer, and supported manual flows while explaining self-contained output and repository-only samples. |
+| 10 | Release gates | Complete | Both Skills validate in isolation, both samples build, generated output is reproducible, relative links resolve, and no cross-Skill/repository dependency remains. |
 
 ## Phase Notes
 
@@ -72,7 +72,12 @@ Each phase is intended to end at a reviewable, independently committable boundar
 - Define Green Ink as dark-green ink, paper-white surfaces, ink-black text, restrained vermilion secondary emphasis, low or cut geometry, short hard depth, visible non-glowing focus, mixed CJK/Latin typography, and sparse decoration.
 - Explicitly reject Orange Matters vocabulary: pill controls by default, glass/blur panels, orange glow, radial accent washes, floating soft shadows, and lift-on-hover motion.
 - Treat Green-exclusive vocabulary as optional in the first release. Do not invent a counterpart to Orange Matters `RunningBorder` merely to make the catalogs symmetrical.
-- Complete: the canonical Green Ink source now defines distinct light/dark paper-and-ink tokens, written visual rules, an initial no-exclusive decision, and calibrated presentation for `Button`, `Field`, `Card`, `Header`, and `Dialog` while preserving every shared TSX contract.
+- Pre-recalibration baseline: the canonical Green Ink source defined distinct light/dark paper-and-ink tokens, an initial no-exclusive decision, and flat presentation for `Button`, `Field`, `Card`, `Header`, and `Dialog` while preserving every shared TSX contract. This baseline alone does not satisfy the reopened A+B/C visual gate.
+- Recalibration: selected concept direction is the clean content structure of concept A plus the restrained brush accents of concept B; concept C defines the dark-mode atmosphere. The shell owns landscape/ink-flow artwork, selected navigation and headings may use a shared dry-brush mark, and content-heavy controls remain clean UI.
+- Cap the canonical artwork vocabulary at four reusable opaque assets (paper grain, ink horizon, dry brush, and dark ink flow), define their binary-safe publication path, and document typography as a system-fallback baseline with optional consumer-installed `LXGW WenKai TC` display typography.
+- Treat artwork paths as assets, not tokens. Add only cross-theme-value semantics that multiple consumers need; keep component size, placement, and opacity in Green presentation fragments unless a value is genuinely shared.
+- Written/presentation gate: `references/art-assets.md`, the Green spec/guardrails, and the owning presentation fragments agree that DashboardFrame owns paper/dark flow, Header owns the light horizon, and active Menubar/Heading/primary Button share the dry brush while content and media remain clean.
+- Complete: the four generated WebP assets passed visual review, presentation fragments preserve clean content/media surfaces, and the fallback-first typography/artwork contract is published without asset URLs in tokens.
 
 ### Phase 7 — Green Ink Skill
 
@@ -83,6 +88,7 @@ Each phase is intended to end at a reviewable, independently committable boundar
 - Assemble shared TSX and baseline modules first, then replace only the CSS Modules declared by the selected theme. Theme configuration also owns exclusive components and the expected recipe/asset inventory.
 - Keep shared component contracts in `source/foundation/` and compose them with per-theme guardrails during generation so Orange and Green recipes do not become two hand-maintained copies of the same API documentation.
 - Validate both generated Skills for deterministic output, isolation, relative links/imports, manifests, and forbidden sibling/repository references.
+- Complete: the theme-configured builder publishes both outputs, copies media byte-for-byte, hashes it in each manifest, and limits textual scans to known text formats.
 
 ### Phase 8 — Sample applications
 
@@ -92,6 +98,7 @@ Each phase is intended to end at a reviewable, independently committable boundar
 - Move product scenarios, data, navigation, and feature behavior into repository-only shared sample sources where practical; keep each theme entry point, token import, presentation overrides, and exclusive showcase local to its sample.
 - Make both samples exercise the same shared component props and screens. Orange may demonstrate `RunningBorder`; Green must not render a fake equivalent.
 - Build both sample applications with the existing basic build path. Browser inspection, Playwright, and screenshot comparison remain outside this phase unless requested explicitly.
+- Complete: both samples share repository-only scenarios/screens and component props under `samples/shared`; Orange alone demonstrates `RunningBorder`, and both basic builds pass.
 
 ## Second-stage Work Packages
 
@@ -103,17 +110,21 @@ The second stage covers Phases 6–8 and is split into three independently commi
 
 Work package 2A must pass its written visual gate before 2B expands the full catalog. Work package 2B must prove both installable outputs before 2C uses them as integration surfaces.
 
+The A+B/C recalibration reopens 2A without discarding the uncommitted 2B foundation-contract, recipe-guardrail, and pipeline work. Those changes remain staged only as working-tree inputs until the revised visual gate passes.
+
 ### Phase 9 — Installation docs
 
 - Update both README languages after paths and packaging behavior stabilize.
 - Prefer the Skill installer, with manual paths described by supported Codex surface.
 - Keep full architecture and migration detail out of README files.
+- Complete: both user-facing languages document installing either Skill or both, the preferred installer prompt, manual paths, progressive disclosure, and repository-only samples.
 
 ### Phase 10 — Basic release validation
 
 - Validate both Skills, both sample builds, reproducibility, links, and isolated installation.
 - Keep routine validation to existing basic build/typecheck/lint and repository scripts.
 - Schedule visible browser inspection, responsive QA, or screenshot comparison only as an explicit separate task.
+- Complete: deterministic/freshness checks, both structural/isolation validators, both Skill Creator quick validations, both sample builds, and `git diff --check` pass.
 
 ## Phase Transition Rule
 
