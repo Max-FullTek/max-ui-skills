@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:skills": "node scripts/build-skills.mjs",
+    "check:skills": "node scripts/build-skills.mjs --check",
+    "validate:skills": "node scripts/validate-skills.mjs",
+    "build:sample:orange": "npm --prefix sample-orange-matters run build"
+  }
+}

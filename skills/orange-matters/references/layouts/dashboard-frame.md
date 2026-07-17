@@ -2,66 +2,74 @@
 
 Use for product screens with a top header, collapsible left sidebar, and main work area. Keep this layout recipe small; page-specific content belongs in page modules.
 
-## React State
+## React Slots And External State
 
 ```tsx
-import type { ElementType, ReactNode } from "react";
-import { useEffect, useState } from "react";
-import { Header } from "../../components/Header";
-import { Menubar } from "../../components/Menubar";
+import { useEffect, type ReactNode } from "react";
 import styles from "./DashboardFrame.module.scss";
 
-const SIDEBAR_FLOATING_QUERY = "(max-width: 980px)";
+export type DashboardTheme = "light" | "dark";
 
-type DashboardFrameProps = {
+export type DashboardFrameProps = {
+  theme: DashboardTheme;
+  header: ReactNode;
+  sidebar: ReactNode;
+  sidebarOpen: boolean;
+  sidebarFloating: boolean;
   children: ReactNode;
-  items: Array<{ label: string; icon: ElementType; active?: boolean }>;
+  showBackdrop?: boolean;
+  backdropLabel?: string;
+  onBackdropClick?: () => void;
+  workspaceLabel?: string;
+  className?: string;
 };
 
-export function DashboardFrame({ children, items }: DashboardFrameProps) {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [sidebarFloating, setSidebarFloating] = useState(false);
-
+export function DashboardFrame({
+  theme,
+  header,
+  sidebar,
+  sidebarOpen,
+  sidebarFloating,
+  children,
+  showBackdrop = sidebarFloating && sidebarOpen,
+  backdropLabel = "Close sidebar",
+  onBackdropClick,
+  workspaceLabel = "Workspace",
+  className = ""
+}: DashboardFrameProps) {
   useEffect(() => {
-    document.documentElement.dataset.theme = theme;
+    const documentElement = document.documentElement;
+    const previousTheme = documentElement.getAttribute("data-theme");
+    documentElement.dataset.theme = theme;
 
     return () => {
-      delete document.documentElement.dataset.theme;
+      if (previousTheme === null) documentElement.removeAttribute("data-theme");
+      else documentElement.setAttribute("data-theme", previousTheme);
     };
   }, [theme]);
 
-  useEffect(() => {
-    const media = window.matchMedia(SIDEBAR_FLOATING_QUERY);
-    const syncSidebarMode = () => {
-      setSidebarFloating(media.matches);
-      setSidebarOpen(!media.matches);
-    };
-
-    syncSidebarMode();
-    media.addEventListener("change", syncSidebarMode);
-
-    return () => media.removeEventListener("change", syncSidebarMode);
-  }, []);
+  const rootClassName = className ? `${styles.root} ${className}` : styles.root;
 
   return (
     <div
-      className={styles.root}
+      className={rootClassName}
       data-theme={theme}
       data-sidebar-open={sidebarOpen}
       data-sidebar-floating={sidebarFloating}
     >
-      <Header
-        theme={theme}
-        sidebarOpen={sidebarOpen}
-        onSidebarToggle={() => setSidebarOpen((current) => !current)}
-        onThemeChange={setTheme}
-      />
-      {sidebarFloating && sidebarOpen && (
-        <button className={styles.backdrop} aria-label="Close sidebar" onClick={() => setSidebarOpen(false)} />
+      {header}
+      {showBackdrop && (
+        <button
+          className={styles.backdrop}
+          type="button"
+          aria-label={backdropLabel}
+          onClick={onBackdropClick}
+        />
       )}
-      <Menubar open={sidebarOpen} floating={sidebarFloating} onClose={() => setSidebarOpen(false)} items={items} />
-      <main className={styles.main} aria-label="Workspace">{children}</main>
+      {sidebar}
+      <main className={styles.main} aria-label={workspaceLabel}>
+        {children}
+      </main>
     </div>
   );
 }
@@ -77,16 +85,13 @@ export function DashboardFrame({ children, items }: DashboardFrameProps) {
   position: relative;
   width: 100dvw;
   height: 100dvh;
-  overflow: hidden;
   display: grid;
   grid-template:
     "header header" var(--header-height)
     "menu main" minmax(0, 1fr) / var(--sidebar-width) minmax(0, 1fr);
   color: var(--text);
-  background:
-    radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 32%),
-    radial-gradient(circle at 86% 2%, color-mix(in srgb, var(--secondary) 14%, transparent), transparent 30%),
-    var(--bg);
+  overflow: hidden;
+  background: var(--app-background, var(--bg));
   transition: grid-template-columns var(--ease);
 }
 
@@ -127,7 +132,9 @@ export function DashboardFrame({ children, items }: DashboardFrameProps) {
 
 ## Rules
 
-- The frame owns theme synchronization, sidebar open state, and the floating breakpoint.
+- The frame owns document-level theme synchronization while preserving and restoring the host's previous `data-theme` value.
+- The consuming application owns theme state, sidebar state, the floating breakpoint, and the concrete Header/Menubar composition passed through slots.
+- Keep shared frame CSS independent of any theme's accent/secondary background composition; themes may provide `--app-background`.
 - When floating, the sidebar overlays main content; do not reserve a grid column for it.
 - The backdrop starts after the drawer width so clicking the visible main area closes the drawer.
 - Keep page content inside `main` with local scrolling. Never restore document-level scroll for app screens.

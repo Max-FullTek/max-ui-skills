@@ -64,6 +64,7 @@ skills/<theme>/
       styles/
         tokens.scss
         globals.scss
+  manifest.json
 ```
 
 A published Skill must:

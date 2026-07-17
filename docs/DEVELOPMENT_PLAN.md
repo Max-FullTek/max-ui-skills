@@ -11,9 +11,9 @@ Each phase is intended to end at a reviewable, independently committable boundar
 | 0 | Documentation governance | Complete | The index assigns one source of truth per durable topic; repository history is outside installable Skills; README files remain user-facing. |
 | 1 | Component classification and token contract | Complete | All 14 current sample components plus `DashboardFrame` are classified; recipe/sample/asset coverage is explicit; token categories and override criteria are defined in architecture. |
 | 2 | Canonical source tree | Complete | Theme-neutral contracts, shared React sources, and per-theme sources exist at the documented boundaries with no duplicated shared implementation. |
-| 3 | Orange Matters migration | In progress | Existing public APIs and recipes remain available; Orange is produced from canonical sources, is self-contained, and the current sample builds. |
-| 4 | Deterministic Skill builder | Planned | Two consecutive builds produce identical controlled output and no diff; links resolve; each Skill directory passes isolation checks; no symlinks are used. |
-| 5 | Copyable React assets | Planned | Every public component/layout recipe points to a complete asset; every asset has a recipe or is marked internal; one installed Skill contains all of its assets. |
+| 3 | Orange Matters migration | Complete | Existing public APIs and recipes remain available; Orange is produced from canonical sources, is self-contained, and the current sample builds. |
+| 4 | Deterministic Skill builder | Complete | Two consecutive builds produce identical controlled output and no diff; links resolve; each Skill directory passes isolation checks; no symlinks are used. |
+| 5 | Copyable React assets | In progress | Every public component/layout recipe points to a complete asset; every asset has a recipe or is marked internal; one installed Skill contains all of its assets. |
 | 6 | Green Ink visual system | Planned | The theme specification defines light/dark color roles, paper/ink surfaces, geometry, hierarchy, depth, focus, motion, typography, decoration limits, and exclusive vocabulary; representative components establish a distinct identity. |
 | 7 | Green Ink Skill | Planned | The Skill has a distinct trigger description, complete references/assets, and no Orange Matters or repository-root dependency. |
 | 8 | Parallel sample applications | Planned | Orange and Green samples use comparable data, scenarios, and component contracts; both basic builds pass; exclusive components remain separate. |
@@ -47,19 +47,21 @@ Each phase is intended to end at a reviewable, independently committable boundar
 - Move the current sample component behavior and Orange presentation into their target owners.
 - Preserve current component props and recipe coverage unless review approves a breaking change.
 - Make the Orange sample consume the canonical or generated source selected by the builder design.
-- In progress: the current sample consumes canonical source directly; self-contained generated Skill output remains for the packaging and asset phases.
+- Complete: the current sample consumes canonical source directly, while the committed Orange Skill is generated as self-contained installable output and retains the existing public APIs and recipes.
 
 ### Phase 4 — Packaging
 
 - Add a deterministic builder and an explicit list of controlled generated paths.
 - Generate committed installable output, validate links, and produce a manifest or checksums.
 - Add isolation validation that copies one Skill without the repository root.
+- Complete: `scripts/build-skills.mjs` produces deterministic, self-contained Orange output with a checksum manifest; repository checks cover freshness, links, imports, isolation boundaries, and symlink rejection.
 
 ### Phase 5 — Skill assets
 
 - Extract reusable TSX, CSS Modules, layouts, tokens, and minimal globals into installable assets.
 - Reduce Markdown recipes to contracts, minimal examples, accessibility, theme constraints, and asset pointers.
 - Do not ship the Vite application or demo-only feature data as Skill assets.
+- In progress: all 14 public component assets, the `DashboardFrame` layout asset, theme tokens, and minimal globals are present in the generated Orange Skill; validated recipe-to-asset coverage is complete, while recipe reduction remains Phase 5 work.
 
 ### Phase 6 — Green Ink specification
 

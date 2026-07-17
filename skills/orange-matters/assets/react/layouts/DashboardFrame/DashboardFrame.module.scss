@@ -1,0 +1,53 @@
+.root {
+  --header-height: 72px;
+  --sidebar-width: 264px;
+
+  position: relative;
+  width: 100dvw;
+  height: 100dvh;
+  display: grid;
+  grid-template:
+    "header header" var(--header-height)
+    "menu main" minmax(0, 1fr) / var(--sidebar-width) minmax(0, 1fr);
+  overflow: hidden;
+  color: var(--text);
+  background: var(--app-background, var(--bg));
+  transition: grid-template-columns var(--ease);
+}
+
+.root[data-sidebar-open="false"],
+.root[data-sidebar-floating="true"] {
+  --sidebar-width: 0px;
+}
+
+.main {
+  grid-area: main;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  padding: 18px;
+}
+
+.backdrop {
+  position: absolute;
+  inset: var(--header-height) 0 0 min(280px, calc(100dvw - 40px));
+  z-index: 7;
+  border: 0;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(6px);
+}
+
+@media (max-width: 820px) {
+  .root {
+    --header-height: 116px;
+
+    grid-template:
+      "header" var(--header-height)
+      "main" minmax(0, 1fr) / minmax(0, 1fr);
+  }
+
+  .main {
+    padding: 12px;
+  }
+}

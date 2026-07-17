@@ -1,0 +1,269 @@
+{
+  "algorithm": "sha256",
+  "files": [
+    {
+      "path": "agents/openai.yaml",
+      "sha256": "0ccd9bbdfa81851f07a4e8f6b8280c81414eedf33ff80ac89489ccb7e12ae9c6"
+    },
+    {
+      "path": "assets/react/components/Alert/Alert.module.scss",
+      "sha256": "797aca6c7eeb816a2a19191b6357b76d6afeb11ae02189669fadfc7a6845f6df"
+    },
+    {
+      "path": "assets/react/components/Alert/Alert.tsx",
+      "sha256": "423b444ab2cbcf8b0517ac8d4ab86bc48ab5592c13b420e0ea277652291f15e8"
+    },
+    {
+      "path": "assets/react/components/Alert/index.ts",
+      "sha256": "8151ee8d4f1ff2207bdf75da37689f4e995c5b9735b983f16f701876095f6e2b"
+    },
+    {
+      "path": "assets/react/components/Button/Button.module.scss",
+      "sha256": "cc8b4518de2434c41baf9315b0a3be100ecb922a72a5b06bf85d15251f11093b"
+    },
+    {
+      "path": "assets/react/components/Button/Button.tsx",
+      "sha256": "3dbdffdf0cfcb9078e83da02295024c4e43edbce7725e41e491af238b3e4bf85"
+    },
+    {
+      "path": "assets/react/components/Button/index.ts",
+      "sha256": "dfac35d81edfe0f46e9f88be8c4f654ae1e334453f7edba8f8de361d876058bf"
+    },
+    {
+      "path": "assets/react/components/Card/Card.module.scss",
+      "sha256": "89863ea5f3acc5a93960c94905f62dc1e6f6fb171e620ccd30c3b6527d663985"
+    },
+    {
+      "path": "assets/react/components/Card/Card.tsx",
+      "sha256": "4c2cc7984c23030a31f96c707fc674de9041e737fd4532b0ee6b1b3233b8a4cc"
+    },
+    {
+      "path": "assets/react/components/Card/index.ts",
+      "sha256": "3bdda96045579587ba1e5f9a64d7835357caf3ebb1db3c181d304e7ae6fcd312"
+    },
+    {
+      "path": "assets/react/components/ControlCard/ControlCard.module.scss",
+      "sha256": "73a281ad541471b2ebfb64b4ad7553ed7d297091b43ac942bce678ac3f364915"
+    },
+    {
+      "path": "assets/react/components/ControlCard/ControlCard.tsx",
+      "sha256": "d6089a6ed5ff7b55ea560d1ea0ff97d30b97247c5908c50043c0c910f9796b4e"
+    },
+    {
+      "path": "assets/react/components/ControlCard/index.ts",
+      "sha256": "6aad010fa7f51e8da8de3eb51b93352259b5b0635b95e8148d780b2089ba63f8"
+    },
+    {
+      "path": "assets/react/components/DataTable/DataTable.module.scss",
+      "sha256": "a6bfcdbb427a235eae78eff3a439b34c190dc677270dbff7dbbe209cd920d7bc"
+    },
+    {
+      "path": "assets/react/components/DataTable/DataTable.tsx",
+      "sha256": "483e5b2040969d1cc2d0068ce6680375e76267be529ebf7a332601e7d99c10cb"
+    },
+    {
+      "path": "assets/react/components/DataTable/index.ts",
+      "sha256": "230431d4820b2461d34da357f626850d4a667f9e7687a8c64ae9cc70c2c3afec"
+    },
+    {
+      "path": "assets/react/components/Dialog/Dialog.module.scss",
+      "sha256": "093dd096475cbc866c5e49203f37c76f4d925902f734a5ae1e8edc2cc1e1b19d"
+    },
+    {
+      "path": "assets/react/components/Dialog/Dialog.tsx",
+      "sha256": "5fb1e4f79fd711e5ac15ee4b870b5a37d523ef68cc8cdc9fdfbb13755a98c2ab"
+    },
+    {
+      "path": "assets/react/components/Dialog/index.ts",
+      "sha256": "f5d92ed602d871594623964587ef1d07e9d1211938a45c835c271c60bbea3e15"
+    },
+    {
+      "path": "assets/react/components/Field/Field.module.scss",
+      "sha256": "4e4668a69e8d9987d0104ace72e74ddd41faa72b826e609a61e5a2774b5a9967"
+    },
+    {
+      "path": "assets/react/components/Field/Field.tsx",
+      "sha256": "9449f06ff522445243f2e584444a7720f5b178743011cbf7e0bd95189717b4c2"
+    },
+    {
+      "path": "assets/react/components/Field/index.ts",
+      "sha256": "ecabdf03acd9e0ce9d9cc1d2c22e954e27540225a4383c9a1ea64763c8f8ab0e"
+    },
+    {
+      "path": "assets/react/components/Header/Header.module.scss",
+      "sha256": "276c55f97acab5c3f0e3a146ba698feb5e8297c74ff9f131a512a80da4236bf7"
+    },
+    {
+      "path": "assets/react/components/Header/Header.tsx",
+      "sha256": "fc37989eb1aea14a42c9d854a59dc1ccaf4f3fd0efcf6dfffdc989183cf8048c"
+    },
+    {
+      "path": "assets/react/components/Header/index.ts",
+      "sha256": "447a2ee87c08a8fd062718d199adb748e0dcca24e41d136721fdb641323a1878"
+    },
+    {
+      "path": "assets/react/components/Heading/Heading.module.scss",
+      "sha256": "e05894181c03c316f29909ff900115309496be23b774c9fbede05bf3e821dca2"
+    },
+    {
+      "path": "assets/react/components/Heading/Heading.tsx",
+      "sha256": "2434ebc011ea20ee342793f11a31e5bde4c6202e0904babeb0bfe13a184abcf3"
+    },
+    {
+      "path": "assets/react/components/Heading/index.ts",
+      "sha256": "918fe83a6b7f6295b5e9b3c486319258055bd1a99746460e81e483836cc49aef"
+    },
+    {
+      "path": "assets/react/components/ImageCard/ImageCard.module.scss",
+      "sha256": "cc083cfbac374edd4deca259afd7aa4595ca63eb2c2cb02c711c00218de0e034"
+    },
+    {
+      "path": "assets/react/components/ImageCard/ImageCard.tsx",
+      "sha256": "3b475e0b28999f09a873f2459869af09703dcae78f08375e6b7302ffb4e448e7"
+    },
+    {
+      "path": "assets/react/components/ImageCard/index.ts",
+      "sha256": "8e9200d614f3135f03d0395d5a6daa7dced69754c3e3484f8dc53c2b0b610fe0"
+    },
+    {
+      "path": "assets/react/components/Menubar/index.ts",
+      "sha256": "ff175d3aae831504262f355135267b54e1088db72782eaa99a673f6bb4e8019c"
+    },
+    {
+      "path": "assets/react/components/Menubar/Menubar.module.scss",
+      "sha256": "1b3fa322901262dba122a3bfeb00cf8dc6c018976da2c51bfc0507dfda736863"
+    },
+    {
+      "path": "assets/react/components/Menubar/Menubar.tsx",
+      "sha256": "0b09e8a8cce7a6c6e65aeadf063fc8ef2efb05340fa2b81799062f2b7dbc5bd8"
+    },
+    {
+      "path": "assets/react/components/RunningBorder/index.ts",
+      "sha256": "0a4d24a76b78f8299ae7a35725d4fd3fe5a7c1f6ed06aa2846f0dbf7d6df6a8c"
+    },
+    {
+      "path": "assets/react/components/RunningBorder/RunningBorder.module.scss",
+      "sha256": "41bbe360e3a804c0f47280d30cad0327a5a53a32fd5a537752cfa53b21c2b4cc"
+    },
+    {
+      "path": "assets/react/components/RunningBorder/RunningBorder.tsx",
+      "sha256": "ef2bb14f88ea9d63b1ff23e50c8c433e9f03997bf81e33cacf01abee93e73b0e"
+    },
+    {
+      "path": "assets/react/components/ToastProvider/index.ts",
+      "sha256": "7481a4f319b253703b0e59c2cdf02e5bc5dfc02f1cffdb79f3a18a285568bd26"
+    },
+    {
+      "path": "assets/react/components/ToastProvider/ToastProvider.module.scss",
+      "sha256": "0a1293026cee8561f864362084924bc560b78238fba1a873b91ac3a53beb8586"
+    },
+    {
+      "path": "assets/react/components/ToastProvider/ToastProvider.tsx",
+      "sha256": "ce4a72096c6355ae499a36f218b2097da90512cfd757c43e8858c818fd097481"
+    },
+    {
+      "path": "assets/react/components/VisionStage/index.ts",
+      "sha256": "fb29a0c982f89f7d4d16fd64389c982a0fb953174956ee580432e9388a0cab40"
+    },
+    {
+      "path": "assets/react/components/VisionStage/VisionStage.module.scss",
+      "sha256": "375f5fc658c68c85f386d3eb6fc1705c48fae316fadf26155220875f0e04e6cc"
+    },
+    {
+      "path": "assets/react/components/VisionStage/VisionStage.tsx",
+      "sha256": "95985ad91c64a9338b13236414965b663b28155e03211ab6b59a978ef3336cfa"
+    },
+    {
+      "path": "assets/react/layouts/DashboardFrame/DashboardFrame.module.scss",
+      "sha256": "5a42fc169195681c8158c5cc6505bed66630659591b97caa31c75dbb37ff2308"
+    },
+    {
+      "path": "assets/react/layouts/DashboardFrame/DashboardFrame.tsx",
+      "sha256": "4fa5aa52051b97e09bd6d557f0442f3ff0fbb92d7cbe95e8c3b7318a0d36f7d8"
+    },
+    {
+      "path": "assets/react/layouts/DashboardFrame/index.ts",
+      "sha256": "0fe4bc73e5a2a6a7e2e28c39770521e45c606ae3d77a149c984a38a35b77e2d3"
+    },
+    {
+      "path": "assets/react/styles/globals.scss",
+      "sha256": "9a9c98daf57bdc8cc2f6be65a480737088142fe12d62dc1490acb712cc93a877"
+    },
+    {
+      "path": "assets/react/styles/tokens.scss",
+      "sha256": "2d72971247b12c3256e874ee326ed1278bfbd857deec688e9e30cf8ad02467f6"
+    },
+    {
+      "path": "references/components/alert.md",
+      "sha256": "b01b412b644f403a3c90af0eb7c5cc2e7fc18091e15b5941fa78e3d51d7709fa"
+    },
+    {
+      "path": "references/components/button.md",
+      "sha256": "cdfe35d58d27a76a3bc958c37715f0e69c48ec93b9447df41d76cbcd8dce4ab9"
+    },
+    {
+      "path": "references/components/card.md",
+      "sha256": "9f81701f94b61a082b1ec73abdd53991370ef2ddb971449452a7804fbbdc8f2a"
+    },
+    {
+      "path": "references/components/control-card.md",
+      "sha256": "7974af5b0c64e2fe18731e712c0f681674b48210adaef96f1b579882d0c702c1"
+    },
+    {
+      "path": "references/components/dialog.md",
+      "sha256": "03621a698a024d55123fc0c34476c86d9ef1894fa590b5ee797f71bfeaf44405"
+    },
+    {
+      "path": "references/components/field.md",
+      "sha256": "f9ee85ee65a1fcf25481476f01ff47c5d891c861508bd934391323dd18756e73"
+    },
+    {
+      "path": "references/components/header.md",
+      "sha256": "6f0d329314e2da4a5f61cc35df11159492ef6a749ebce161e12150cfa575ce6e"
+    },
+    {
+      "path": "references/components/heading.md",
+      "sha256": "31622cff4c422ccc895fca057b4ef7252244372c3c16a98c40f9c01622ecc749"
+    },
+    {
+      "path": "references/components/image-card.md",
+      "sha256": "95ac520095bf4c330cd217feca0dbf330589704442dd8432d18094b8cd19087b"
+    },
+    {
+      "path": "references/components/menubar.md",
+      "sha256": "a6c20024e0592fe0fd80fe2321785c0d20ec9d826bdc40ad9322a4a2783ba471"
+    },
+    {
+      "path": "references/components/running-border.md",
+      "sha256": "735b64c6614877d1d26703ff603fe5ba38b9b0bc4218ff9e861ea7554d541a41"
+    },
+    {
+      "path": "references/components/table.md",
+      "sha256": "bf3071eecf39616dee67e805e943dfc6da9708501c1c0e8fb40f11faeb88fb18"
+    },
+    {
+      "path": "references/components/toast.md",
+      "sha256": "1f927b97b09e73d587164337c36e673c0d21bbda5b2301cb61da0a3d52d6eedf"
+    },
+    {
+      "path": "references/components/vision-stage.md",
+      "sha256": "9c02bd654ac7b36331eb3cb51acdcf8922db034b325c51948f499d15943098ad"
+    },
+    {
+      "path": "references/layouts/dashboard-frame.md",
+      "sha256": "22a8057cc933f4e9d33c8004a9c478d1222bc4cbb04f6f8d148e16c988b13a27"
+    },
+    {
+      "path": "references/react-spec.md",
+      "sha256": "96370d7a9b63a6d60afa9bf2a79902b303262a61e8b1922c9706f21d8023d4a0"
+    },
+    {
+      "path": "references/theme-spec.md",
+      "sha256": "1f3706854b0535e75915e168df6db97f84ddc131caf86755e5084eb92974fe6a"
+    },
+    {
+      "path": "SKILL.md",
+      "sha256": "35d15337674e917ee54bd0b0a6eca25d33b0cd241362ddd31698201a870a8130"
+    }
+  ]
+}

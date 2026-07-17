@@ -1,42 +1,31 @@
-# React Spec
+# React Source Conventions
 
-Use this with Orange Matters when the target project uses React.
+Use these conventions for shared React sources and for theme packages assembled from them.
 
 ## Rules
 
-- Use component or feature folders.
-- Every reusable component uses colocated CSS Modules:
-  - `ComponentName.tsx`
-  - `ComponentName.module.scss`
-  - `index.ts`
-- Every page or route-level screen also uses CSS Modules:
-  - `UserListPage.tsx`
-  - `UserListPage.module.scss`
-- Do not put component-specific styles in `src/styles/globals.scss`, `reset.scss`, `tokens.scss`, `App.scss`, or any other global stylesheet.
-- Global styles are only for reset, base elements, CSS variables, theme tokens, `@font-face`, and third-party global overrides.
-- Do not create generic global class names such as `.title`, `.card`, `.button`, `.wrapper`, `.content`.
-- Prefer local CSS Module class names: `.root`, `.header`, `.body`, `.footer`, `.action`, `.primary`, `.secondary`, `.panel`, `.list`, `.row`.
-- Shared design values must be CSS variables or SCSS partials/mixins, not copied component styles.
-- Do not modify global styles unless the change truly affects the entire application.
-- Use an established icon library such as `lucide-react`; do not hand-code reusable UI icons as inline SVG.
-- Theme state must reach portal content. If components render menus, dialogs, tooltips, toasts, or select panels under `document.body`, put `data-theme` on `document.documentElement`, `body`, or the portal host instead of scoping it only to a layout component.
+- Use component, layout, feature, or page folders with explicit ownership.
+- Every reusable component and layout keeps its TSX, CSS Module, and public `index.ts` together.
+- Route/page screens use the same colocated CSS Module pattern, but stay outside reusable component sources.
+- Global styles are limited to reset, base elements, fonts, tokens, and true third-party global overrides.
+- Do not put component selectors or generic classes such as `.title`, `.card`, `.button`, `.wrapper`, or `.content` in global styles.
+- Prefer local CSS Module names such as `.root`, `.header`, `.body`, `.footer`, `.action`, `.panel`, `.list`, and `.row`.
+- Shared design values use semantic CSS variables or shared SCSS partials/mixins; do not copy component styles.
+- Use an established icon library rather than hand-coding reusable icons.
+- Preserve native element attributes and accessibility behavior when wrapping controls.
+- Theme state must reach portal content. Mirror the active `data-theme` to `document.documentElement`, `body`, or the portal host when menus, dialogs, tooltips, toasts, or select panels render outside the layout root.
 
-## Structure
+## Canonical Structure
 
-```txt
-src/
+```text
+source/react/
   styles/
     globals.scss
-    tokens.scss
   layouts/
     DashboardFrame/
       DashboardFrame.tsx
       DashboardFrame.module.scss
       index.ts
-  services/
-    useBackendSocketService.ts
-    useDeviceConnectionService.ts
-    useSettingsService.ts
   components/
     Button/
       Button.tsx
@@ -46,69 +35,38 @@ src/
       Header.tsx
       Header.module.scss
       index.ts
-    RunningBorder/
-      RunningBorder.tsx
-      RunningBorder.module.scss
-      index.ts
-    ToastProvider/
-      ToastProvider.tsx
-      ToastProvider.module.scss
-      index.ts
-  pages/
-    UserListPage/
-      UserListPage.tsx
-      UserListPage.module.scss
-      index.ts
 ```
+
+Theme token values, structural theme overrides, and exclusive components live under `source/themes/<theme>/`, not beside the shared React contracts.
 
 ## Component Pattern
 
 ```tsx
 import styles from "./Button.module.scss";
 
-type ButtonTone = "primary" | "primaryOutline" | "secondary" | "secondaryOutline" | "ghost" | "danger" | "iconOnly";
+type ButtonTone =
+  | "primary"
+  | "primaryOutline"
+  | "secondary"
+  | "secondaryOutline"
+  | "ghost"
+  | "danger"
+  | "iconOnly";
 
-export function Button({ tone = "ghost", className = "", ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { tone?: ButtonTone }) {
+export function Button({
+  tone = "ghost",
+  className = "",
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & { tone?: ButtonTone }) {
   return <button className={`${styles.root} ${styles[tone]} ${className}`} {...props} />;
 }
 ```
 
-```scss
-.root {
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  min-height: 36px;
-  padding: 0 14px;
-  transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease), background var(--ease);
-
-  &:hover {
-    transform: translateY(-1px);
-  }
-
-  &:focus-visible {
-    outline: 0;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 4px var(--accent-soft);
-  }
-}
-
-.primary {
-  color: #fff;
-  border-color: transparent;
-  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-}
-
-.secondary {
-  color: #fff;
-  border-color: transparent;
-  background: linear-gradient(135deg, var(--secondary), var(--secondary-strong));
-}
-```
+The public entry point re-exports values and public types deliberately. Keep internal helpers private unless they are part of the supported contract.
 
 ## Globals Boundary
 
 ```scss
-/* globals.scss */
 html,
 body,
 #root {
@@ -123,7 +81,7 @@ body,
 }
 ```
 
-Do not add `.button`, `.card`, `.title`, `.layout`, or page/component selectors here.
+Do not add component, layout, or page selectors here.
 
 ## Theme Scope
 
@@ -137,4 +95,4 @@ useEffect(() => {
 }, [theme]);
 ```
 
-Keep the app root `data-theme` if it helps local styling, but mirror the active theme to a document-level node whenever themed UI is rendered through portals.
+Keeping `data-theme` on the app root is useful for local styling, but it does not replace document-level synchronization when portals render under `document.body`.

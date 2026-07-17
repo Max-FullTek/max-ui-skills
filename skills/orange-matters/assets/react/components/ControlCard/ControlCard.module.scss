@@ -1,0 +1,68 @@
+.root {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--card-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.header {
+  min-height: 58px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+}
+
+.copy {
+  min-width: 0;
+
+  h2 {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.15;
+    letter-spacing: 0;
+  }
+
+  p {
+    max-width: 68ch;
+    margin: 4px 0 0;
+    color: var(--text-soft);
+    font-size: 13px;
+    line-height: 1.35;
+  }
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.body {
+  min-width: 0;
+  padding: 0 14px 14px;
+}
+
+.footer {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 10px 14px 12px;
+}
+
+@media (max-width: 640px) {
+  .header {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .controls {
+    justify-content: flex-start;
+  }
+}

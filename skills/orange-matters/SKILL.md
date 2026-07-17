@@ -5,7 +5,7 @@ description: 'Apply or extend the "Orange Matters" UI theme ("大橘為重"): wa
 
 # Orange Matters
 
-Use this as a concise implementation guide for the Orange Matters product UI system. Read [references/theme-spec.md](references/theme-spec.md) before visual work. For React projects, also read [references/react-spec.md](references/react-spec.md).
+Use this as a concise implementation guide for the Orange Matters product UI system. Read [references/theme-spec.md](references/theme-spec.md) before visual work. For React projects, also read [react-spec.md](references/react-spec.md).
 
 ## Workflow
 
