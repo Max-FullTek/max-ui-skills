@@ -1,0 +1,42 @@
+.backdrop {
+  background: rgba(8, 14, 10, 0.62);
+  backdrop-filter: none;
+}
+
+.panel {
+  border-width: 2px;
+  border-color: var(--border-strong);
+  border-top-color: var(--accent);
+}
+
+.header {
+  padding-inline: 14px;
+
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+}
+
+.body {
+  padding-inline: 14px;
+}
+
+.close {
+  &:hover {
+    border-color: var(--border-strong);
+    transform: none;
+    box-shadow: none;
+  }
+
+  &:active {
+    transform: translate(1px, 1px);
+    box-shadow: none;
+  }
+
+  &:focus-visible {
+    outline: 0;
+    border-color: var(--accent);
+    box-shadow: var(--focus-ring);
+  }
+}

@@ -64,6 +64,8 @@ skills/<theme>/
       styles/
         tokens.scss
         globals.scss
+        media/
+          <theme>/              Optional opaque theme artwork copied as files
   manifest.json
 ```
 
@@ -79,6 +81,19 @@ A published Skill must:
 Generated Skill directories are committed so a GitHub-based installer can install one directory without first running repository build tooling. Builds must be deterministic: consecutive builds from the same inputs produce byte-identical controlled output and a clean `git diff`. Do not use symlinks in published output because installers, ZIP archives, Windows filesystems, and copy operations do not preserve them consistently.
 
 Full sample applications remain repository-only. They may consume canonical sources or generated assets, but `package.json`, Vite configuration, demo data, and complete dashboard compositions are not copied into each Skill.
+
+### Opaque Visual Asset Boundary
+
+Theme artwork may be published as opaque files when CSS alone cannot reproduce the intended material honestly. Keep the set small, reusable, and optional to component behavior:
+
+- maintain canonical artwork under `source/themes/<theme>/media/` and copy it byte-for-byte into `assets/react/styles/media/<theme>/`;
+- list purpose, placement, fallback, and relative path in a short textual reference; recipes tell an agent to copy or reference an asset by path rather than inline, base64-encode, or inspect its binary contents;
+- keep every component functional when artwork is missing or disabled; artwork must not carry labels, state, hit targets, or accessibility meaning;
+- use CSS for layout, responsive behavior, color, focus, motion, and contrast; use opaque artwork only for non-semantic material such as paper grain, an ink horizon, or a reusable brush mask;
+- validate and hash opaque assets as raw bytes. Text-only rewriting and forbidden-reference scans must run only on known textual extensions;
+- do not turn artwork paths into design tokens or create one image per component. A theme defines a small asset vocabulary that multiple components share.
+
+Binary assets stored in a Skill are publication resources, not instructions. `SKILL.md` and references describe when to copy them; agents should not read image or font binaries into context merely to use their paths.
 
 ## Component Sharing Rules
 
@@ -113,6 +128,8 @@ Geometry distinguishes purpose instead of relying only on a generic radius scale
 ### Typography
 
 Typography tokens cover UI font families, mono/data font families when needed, weights, line heights, and a restrained type scale. Shared code must support mixed Latin and CJK text without hard-coding a theme-specific font. Component recipes should use semantic heading/body/label roles rather than cloning full font declarations.
+
+Every published theme must remain usable with its declared system fallback stack. A theme may name an optional display face and document manual, hosted, or consumer-self-hosted installation, but components must not require a remote font request. Large CJK font binaries are not bundled by default; exact brand typography belongs to the consuming application unless a separately reviewed asset package is intentionally published.
 
 ### Shadow
 

@@ -1,0 +1,26 @@
+.root {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.title {
+  position: relative;
+  padding-bottom: 6px;
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.title::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -2px;
+  left: 0;
+  height: 7px;
+  pointer-events: none;
+  background-image: url("../../styles/media/green-ink/dry-brush.webp");
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 100% 100%;
+  opacity: 0.72;
+}

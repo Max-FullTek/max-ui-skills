@@ -1,0 +1,20 @@
+.root {
+  background-color: var(--bg);
+  background-image: url("../../styles/media/green-ink/paper-grain.webp");
+  background-repeat: repeat;
+  background-position: center;
+  background-size: 512px 512px;
+}
+
+.root[data-theme="dark"] {
+  background-color: var(--bg);
+  background-image: url("../../styles/media/green-ink/dark-ink-flow.webp");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+}
+
+.backdrop {
+  background: rgba(8, 14, 10, 0.62);
+  backdrop-filter: none;
+}

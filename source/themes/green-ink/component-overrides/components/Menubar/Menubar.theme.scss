@@ -1,0 +1,25 @@
+.root {
+  border-right-color: var(--border-strong);
+  background: var(--bg-panel);
+  backdrop-filter: none;
+}
+
+.floating {
+  background: var(--bg-panel);
+}
+
+.item:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+.active,
+.active:hover {
+  color: #fffdf5;
+  border-color: var(--border);
+  background-color: var(--accent);
+  background-image: url("../../styles/media/green-ink/dry-brush.webp");
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 106% 120%;
+  box-shadow: inset 3px 0 0 var(--accent);
+}

@@ -1,0 +1,29 @@
+.toast {
+  background: var(--bg-panel);
+  backdrop-filter: none;
+  animation: greenInkToastIn var(--ease);
+}
+
+.actions button {
+  border-radius: var(--radius-sm);
+}
+
+.actions button:hover {
+  transform: none;
+}
+
+.actions button:focus-visible {
+  outline: 0;
+  border-color: var(--accent);
+  box-shadow: var(--focus-ring);
+}
+
+@keyframes greenInkToastIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

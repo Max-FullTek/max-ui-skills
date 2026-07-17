@@ -1,25 +1,11 @@
 .root {
-  min-height: 36px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm);
-  padding: 0 14px;
-  color: var(--text);
-  background: var(--bg-elevated);
-  box-shadow: none;
-  transition: border-color var(--ease), background var(--ease), color var(--ease), box-shadow var(--ease), transform var(--ease);
-
-  svg {
-    width: 16px;
-    height: 16px;
-  }
+  border-color: var(--border-strong);
 
   &:hover {
+    transform: none;
     border-color: var(--text);
     background: var(--bg-strong);
+    box-shadow: none;
   }
 
   &:active {
@@ -28,21 +14,27 @@
   }
 
   &:focus-visible {
-    outline: 0;
     border-color: var(--accent);
     box-shadow: var(--focus-ring);
   }
 }
 
 .primary {
-  color: #fffdf5;
   border-color: var(--accent-strong);
-  background: var(--accent);
+  background-color: var(--accent);
+  background-image: url("../../styles/media/green-ink/dry-brush.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 112% 150%;
   box-shadow: var(--button-shadow);
 
   &:hover {
     border-color: var(--accent-strong);
-    background: var(--accent-strong);
+    background-color: var(--accent-strong);
+    background-image: url("../../styles/media/green-ink/dry-brush.webp");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 118% 156%;
   }
 
   &:active {
@@ -56,14 +48,12 @@
   background: var(--bg-elevated);
 
   &:hover {
-    color: #fffdf5;
     border-color: var(--accent-strong);
     background: var(--accent);
   }
 }
 
 .secondary {
-  color: #fffdf5;
   border-color: var(--secondary-strong);
   background: var(--secondary);
 }
@@ -74,24 +64,15 @@
   background: var(--bg-elevated);
 
   &:hover {
-    color: #fffdf5;
     border-color: var(--secondary-strong);
     background: var(--secondary);
   }
 }
 
 .ghost {
-  color: var(--text);
   background: transparent;
 }
 
 .danger {
-  color: #fffdf5;
   border-color: color-mix(in srgb, var(--danger) 78%, #000);
-  background: var(--danger);
-}
-
-.iconOnly {
-  width: 38px;
-  padding: 0;
 }

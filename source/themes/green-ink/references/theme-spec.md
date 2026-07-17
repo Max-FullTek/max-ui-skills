@@ -11,7 +11,7 @@ Portable visual specification for compact product screens, admin tools, data wor
 - **Depth:** flat by default; when separation is necessary, use a short hard offset shadow with no blur.
 - **Tone:** precise, quiet, contemporary, and suitable for dense product work.
 
-Green Ink must not look like Orange Matters with a new accent color. Its identity depends on solid surfaces, lower geometry, border hierarchy, restrained motion, and the absence of glass, glow, gradients, radial washes, and floating lift.
+Green Ink must not look like Orange Matters with a new accent color. Its identity depends on clean content surfaces, lower geometry, border hierarchy, restrained motion, and the absence of glass, glow, decorative CSS gradients, and floating lift. A small indexed artwork vocabulary supplies material character without turning each component into an illustration.
 
 ## Palette
 
@@ -53,9 +53,9 @@ Keep normal text at accessible contrast. Vermilion is not a competing brand colo
 
 ## Surface And Border Hierarchy
 
-Use opaque fills only. Do not use alpha glass surfaces, `backdrop-filter`, blur, gradients, radial washes, glow, or texture overlays.
+Use opaque fills for content, controls, tables, dialogs, cards, and media metadata. Do not use alpha glass surfaces, `backdrop-filter`, blur, glow, or decorative CSS gradients. Only the shell and the explicitly named accent components in [art-assets.md](art-assets.md) may use the four approved non-semantic artwork files.
 
-1. **Application:** plain background with no decorative haze.
+1. **Application:** solid fallback background; the shell may layer the indexed paper grain, light ink horizon, or dark ink flow behind content.
 2. **Panel:** solid panel fill with a `1px` neutral border.
 3. **Control:** strong solid fill with a `1px` border; focus replaces the border with green and adds a hard spread ring.
 4. **Emphasis:** `2px` green or ink rule, or a single short hard offset shadow.
@@ -85,26 +85,29 @@ Use `--border` for ordinary separation and `--border-strong` for structural edge
 
 ## Typography
 
-- Body/UI stack: `Inter`, `Noto Sans TC`, `PingFang TC`, `Microsoft JhengHei`, system UI, sans-serif.
-- Display stack: `Noto Serif TC`, `Source Han Serif TC`, `PMingLiU`, serif.
-- Use the serif role only for short headings, brand text, or a compact dialog title. Keep controls, tables, helper text, and dense content sans-serif.
+- Body/UI stack: system UI, `PingFang TC`, `Microsoft JhengHei`, `Noto Sans TC`, sans-serif. It must work without a network request.
+- Optional display stack: `LXGW WenKai TC`, `Noto Serif TC`, `Source Han Serif TC`, `PMingLiU`, serif.
+- Use the display role only for short headings, brand text, or a compact dialog title. Keep controls, tables, helper text, and dense content sans-serif.
+- `LXGW WenKai TC` is consumer-installed or consumer-hosted opt-in typography. Green Ink does not bundle a CJK font or require remote font loading; the remaining stack is the required fallback.
 - Avoid faux calligraphy fonts, vertical typesetting, excessive tracking, or ornamental punctuation.
 
-## Decoration Limit
+## Controlled Artwork
 
-Allow at most one small decorative mark on a major surface. Valid marks are a short rule, an inset line, or a stamp-sized vermilion block. Decoration must not carry interaction meaning and must not compete with content.
+The canonical artwork vocabulary is capped at four reusable WebP files: paper grain, light ink horizon, dry brush, and dark ink flow. Their canonical and published paths, consumers, fallbacks, and mode rules are defined in [art-assets.md](art-assets.md).
 
-Never use dragons, cloud curls, lattice windows, scroll edges, seals repeated as badges, brush splashes, ink landscapes, pagodas, lanterns, bamboo patterns, or other stereotyped motifs. Green Ink is a product design language, not a themed illustration set.
+Artwork is decorative only: it carries no copy, status, hit target, focus indicator, or accessibility meaning. Do not create one image per component and do not encode asset paths as tokens. Component-specific size, crop, placement, and opacity stay in Green presentation fragments.
+
+Keep content surfaces clean. Cards, tables, fields, dialogs, inspector metadata, image previews, and vision/debug media never receive paper grain, ink flow, or brush overlays. Never add dragons, cloud curls, lattice windows, scroll edges, repeated seals, pagodas, lanterns, bamboo patterns, or unindexed brush splashes.
 
 ## Calibrated Components
 
-- **Button:** solid fills, `2px` corners, crisp focus, optional hard offset, no gradient or lift.
+- **Button:** solid fallback fills, `2px` corners, crisp focus, optional hard offset, and the shared dry-brush artwork on `primary` only; no lift.
 - **Field:** rectangular controls, solid option panel, green focus, selected option indicated by fill and a narrow inset rule.
 - **Card:** token-only. Solid card surface, low radius, border, and short hard shadow are sufficient; no structural override.
-- **Header:** solid panel, strong lower rule, squared brand mark, compact mixed typography, no blur.
-- **Dialog:** solid backdrop and panel, low radius, hard offset shadow, compact serif title, no backdrop blur or floating lift.
+- **Header:** solid fallback panel with the light ink horizon artwork, strong lower rule, squared brand mark, compact mixed typography, and no blur. Dark mode removes the horizon and lets the shell own the dark flow.
+- **Dialog:** solid backdrop and panel, low radius, hard offset shadow, compact display title, no backdrop blur or floating lift.
 
-These five components are the visual calibration set. Extend the same decisions across the catalog; do not locally reinvent radii, shadows, or accent behavior.
+These five components remain the baseline calibration set. The A+B/C calibration additionally assigns the shared dry-brush asset to active `Menubar` rows and short `Heading` titles, paper/dark-flow artwork to `DashboardFrame`, and the horizon to `Header`. Extend the same decisions across the catalog; do not locally reinvent radii, shadows, accent behavior, or artwork.
 
 ## Theme-exclusive Vocabulary
 

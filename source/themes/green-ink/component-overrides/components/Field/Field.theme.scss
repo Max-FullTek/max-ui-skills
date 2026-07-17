@@ -1,0 +1,47 @@
+.control {
+  border-color: var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding-inline: 12px;
+
+  &:hover {
+    border-color: var(--text-soft);
+  }
+
+  &:focus {
+    box-shadow: var(--focus-ring);
+  }
+}
+
+.selectButton {
+  border-color: var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding-inline: 12px 10px;
+
+  svg {
+    transition: transform var(--ease);
+  }
+
+  &:hover {
+    border-color: var(--text-soft);
+  }
+
+  &:focus-visible,
+  &[aria-expanded="true"] {
+    box-shadow: var(--focus-ring);
+  }
+}
+
+.optionPanel {
+  border-color: var(--border-strong);
+  padding: 4px;
+  backdrop-filter: none;
+}
+
+.option {
+  padding-inline: 12px 10px;
+}
+
+.selected {
+  border-color: var(--border);
+  box-shadow: inset 3px 0 0 var(--accent);
+}

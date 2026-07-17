@@ -1,0 +1,14 @@
+.stage {
+  background: var(--bg-strong);
+  background-size: auto;
+}
+
+.hud > * {
+  border-radius: var(--radius-sm);
+  background: var(--bg-panel);
+  backdrop-filter: none;
+}
+
+.toolbar {
+  background: var(--bg-panel);
+}

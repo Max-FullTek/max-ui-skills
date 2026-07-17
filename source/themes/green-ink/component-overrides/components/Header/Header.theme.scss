@@ -1,0 +1,53 @@
+.root {
+  gap: 12px;
+  padding-block: 12px;
+  border-bottom: 2px solid var(--accent-strong);
+  background-color: var(--bg-panel);
+  background-image: url("../../styles/media/green-ink/ink-horizon.webp");
+  background-repeat: no-repeat;
+  background-position: center 58%;
+  background-size: cover;
+  backdrop-filter: none;
+  box-shadow: 0 2px 0 var(--border);
+}
+
+:global([data-theme="dark"]) .root {
+  background-color: var(--bg-panel);
+  background-image: none;
+}
+
+.brandMark {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--accent-strong);
+  border-radius: var(--radius-md);
+  font-family: var(--font-display);
+  font-weight: 700;
+  background: var(--accent);
+  box-shadow: inset 0 -3px 0 var(--secondary);
+}
+
+.brandText {
+  gap: 2px;
+
+  strong {
+    font-family: var(--font-display);
+    font-size: 17px;
+    letter-spacing: 0.01em;
+  }
+}
+
+.search {
+  height: 40px;
+  border-color: var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding-inline: 12px;
+
+  &:focus-within {
+    box-shadow: var(--focus-ring);
+  }
+}
+
+.actions {
+  gap: 8px;
+}
