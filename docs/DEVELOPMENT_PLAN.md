@@ -14,7 +14,7 @@ Each phase is intended to end at a reviewable, independently committable boundar
 | 3 | Orange Matters migration | Complete | Existing public APIs and recipes remain available; Orange is produced from canonical sources, is self-contained, and the current sample builds. |
 | 4 | Deterministic Skill builder | Complete | Two consecutive builds produce identical controlled output and no diff; links resolve; each Skill directory passes isolation checks; no symlinks are used. |
 | 5 | Copyable React assets | Complete | Every public component/layout recipe points to a complete asset; every asset has a recipe or is marked internal; one installed Skill contains all of its assets. |
-| 6 | Green Ink visual system | Planned | The theme specification defines light/dark color roles, paper/ink surfaces, geometry, hierarchy, depth, focus, motion, typography, decoration limits, and exclusive vocabulary; representative components establish a distinct identity. |
+| 6 | Green Ink visual system | In progress | The theme specification defines light/dark color roles, paper/ink surfaces, geometry, hierarchy, depth, focus, motion, typography, decoration limits, and exclusive vocabulary; representative components establish a distinct identity. |
 | 7 | Green Ink Skill | Planned | The Skill has a distinct trigger description, complete references/assets, and no Orange Matters or repository-root dependency. |
 | 8 | Parallel sample applications | Planned | Orange and Green samples use comparable data, scenarios, and component contracts; both basic builds pass; exclusive components remain separate. |
 | 9 | Installation documentation | Planned | English and Traditional Chinese READMEs cover Orange-only, Green-only, both-Skill, installer, and supported manual flows while explaining self-contained output and repository-only samples. |
@@ -68,18 +68,39 @@ Each phase is intended to end at a reviewable, independently committable boundar
 - Define the visual system before expanding the full catalog.
 - Calibrate `Button`, `Field`, `Card`, `Header`, and `Dialog` first.
 - Confirm that geometry, surface, depth, and interaction language differ structurally where needed, rather than recoloring Orange Matters.
+- Keep the shared TSX contracts unchanged. Use Green CSS Module replacements for `Button`, `Field`, `Header`, and `Dialog`; keep `Card` token-only unless calibration proves a structural need.
+- Define Green Ink as dark-green ink, paper-white surfaces, ink-black text, restrained vermilion secondary emphasis, low or cut geometry, short hard depth, visible non-glowing focus, mixed CJK/Latin typography, and sparse decoration.
+- Explicitly reject Orange Matters vocabulary: pill controls by default, glass/blur panels, orange glow, radial accent washes, floating soft shadows, and lift-on-hover motion.
+- Treat Green-exclusive vocabulary as optional in the first release. Do not invent a counterpart to Orange Matters `RunningBorder` merely to make the catalogs symmetrical.
 
 ### Phase 7 — Green Ink Skill
 
 - Generate the complete Skill from shared and Green-specific canonical sources.
 - Keep invocation/implicit trigger language distinct from Orange Matters.
 - Include Green-specific overrides and exclusive assets inside the installation directory.
+- Generalize the builder and validator around explicit per-theme configuration before adding the second output; do not duplicate the Orange assembly function or validation tables.
+- Assemble shared TSX and baseline modules first, then replace only the CSS Modules declared by the selected theme. Theme configuration also owns exclusive components and the expected recipe/asset inventory.
+- Keep shared component contracts in `source/foundation/` and compose them with per-theme guardrails during generation so Orange and Green recipes do not become two hand-maintained copies of the same API documentation.
+- Validate both generated Skills for deterministic output, isolation, relative links/imports, manifests, and forbidden sibling/repository references.
 
 ### Phase 8 — Sample applications
 
 - Reorganize samples under `samples/<theme>/`.
 - Reuse comparable data and product scenarios to expose genuine API compatibility.
 - Do not require pixel-identical themes or force one-to-one exclusive components.
+- Move product scenarios, data, navigation, and feature behavior into repository-only shared sample sources where practical; keep each theme entry point, token import, presentation overrides, and exclusive showcase local to its sample.
+- Make both samples exercise the same shared component props and screens. Orange may demonstrate `RunningBorder`; Green must not render a fake equivalent.
+- Build both sample applications with the existing basic build path. Browser inspection, Playwright, and screenshot comparison remain outside this phase unless requested explicitly.
+
+## Second-stage Work Packages
+
+The second stage covers Phases 6–8 and is split into three independently committable boundaries:
+
+1. **2A — Green Ink specification and calibration:** create the canonical Green theme source, write the complete visual specification and light/dark tokens, and calibrate the five representative components without changing shared React APIs.
+2. **2B — Multi-theme packaging:** make Skill assembly and validation theme-configured, compose shared contracts with theme guardrails, generate the self-contained `green-ink` Skill, and revalidate Orange output.
+3. **2C — Parallel samples:** move the existing sample to `samples/orange-matters`, add `samples/green-ink`, share comparable repository-only scenarios/data, and pass the basic build for both themes.
+
+Work package 2A must pass its written visual gate before 2B expands the full catalog. Work package 2B must prove both installable outputs before 2C uses them as integration surfaces.
 
 ### Phase 9 — Installation docs
 
