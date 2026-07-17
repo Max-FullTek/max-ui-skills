@@ -7,6 +7,8 @@ description: 'Apply or extend the "Orange Matters" UI theme ("大橘為重"): wa
 
 Use this as a concise implementation guide for the Orange Matters product UI system. Read [references/theme-spec.md](references/theme-spec.md) before visual work. For React projects, also read [react-spec.md](../../foundation/react-spec.md).
 
+Use each recipe for its contract, minimal usage, accessibility, and guardrails; copy the complete implementation from the corresponding `assets/react/` path.
+
 ## Workflow
 
 - Inspect the existing stack, token layer, shared components, theme entry points, routes, and layouts.

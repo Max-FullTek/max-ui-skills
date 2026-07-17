@@ -195,75 +195,75 @@
     },
     {
       "path": "references/components/alert.md",
-      "sha256": "b01b412b644f403a3c90af0eb7c5cc2e7fc18091e15b5941fa78e3d51d7709fa"
+      "sha256": "84671240cd53a80d1f74c23232d33369eae5d83f25da1130e24a99d7f6c765b5"
     },
     {
       "path": "references/components/button.md",
-      "sha256": "cdfe35d58d27a76a3bc958c37715f0e69c48ec93b9447df41d76cbcd8dce4ab9"
+      "sha256": "00614663d59cb9a8f1222d065438e6c287f0d92dfe7fafc54a517e30b0e425d4"
     },
     {
       "path": "references/components/card.md",
-      "sha256": "9f81701f94b61a082b1ec73abdd53991370ef2ddb971449452a7804fbbdc8f2a"
+      "sha256": "2784a3226fbae2ab86c09adb95ff9d8839028398e5f5e7ef0e1742c6d28d50e3"
     },
     {
       "path": "references/components/control-card.md",
-      "sha256": "7974af5b0c64e2fe18731e712c0f681674b48210adaef96f1b579882d0c702c1"
+      "sha256": "285996903e6a34da598012657ed8123a38d486b72301ab0fe2aa8e2da1aa5a81"
     },
     {
       "path": "references/components/dialog.md",
-      "sha256": "03621a698a024d55123fc0c34476c86d9ef1894fa590b5ee797f71bfeaf44405"
+      "sha256": "92609b2b23f6ce9cad3d6b5d1465c9570c341323512e11222ffc664d90e736de"
     },
     {
       "path": "references/components/field.md",
-      "sha256": "f9ee85ee65a1fcf25481476f01ff47c5d891c861508bd934391323dd18756e73"
+      "sha256": "69f925527e7ca4b78c03a8d60176a5cbcf3b688e03cb7e53b921268a9de38a9b"
     },
     {
       "path": "references/components/header.md",
-      "sha256": "6f0d329314e2da4a5f61cc35df11159492ef6a749ebce161e12150cfa575ce6e"
+      "sha256": "31ca7763f9da888766ee0092bd2c19b27aa08b218940f114f7fdeebe7f847351"
     },
     {
       "path": "references/components/heading.md",
-      "sha256": "31622cff4c422ccc895fca057b4ef7252244372c3c16a98c40f9c01622ecc749"
+      "sha256": "6e225e548e085a9a6fd215a689cf925104431147e95a65a06ee7c011ae346a39"
     },
     {
       "path": "references/components/image-card.md",
-      "sha256": "95ac520095bf4c330cd217feca0dbf330589704442dd8432d18094b8cd19087b"
+      "sha256": "f0761ab73307102f89efaef7287404e49326452cd5d93d43689d2ac5710dd2a2"
     },
     {
       "path": "references/components/menubar.md",
-      "sha256": "a6c20024e0592fe0fd80fe2321785c0d20ec9d826bdc40ad9322a4a2783ba471"
+      "sha256": "b7c58a3708ba7ec9d284a3126a02f4cebe2ef7b8f2569de4a37ded5c46255a15"
     },
     {
       "path": "references/components/running-border.md",
-      "sha256": "735b64c6614877d1d26703ff603fe5ba38b9b0bc4218ff9e861ea7554d541a41"
+      "sha256": "87821413683350737fc2cdac34d422a96816c042cb843f4e6ddfe7bc9b546cce"
     },
     {
       "path": "references/components/table.md",
-      "sha256": "bf3071eecf39616dee67e805e943dfc6da9708501c1c0e8fb40f11faeb88fb18"
+      "sha256": "c61cd5b042697fedbafd6113c247f4929e4a5afb69199bc5eaa57b95072a157b"
     },
     {
       "path": "references/components/toast.md",
-      "sha256": "1f927b97b09e73d587164337c36e673c0d21bbda5b2301cb61da0a3d52d6eedf"
+      "sha256": "99eb9886aa38cd100597709bded1ce85b35b2bc4b2bda34ece6f18a4013ebd5c"
     },
     {
       "path": "references/components/vision-stage.md",
-      "sha256": "9c02bd654ac7b36331eb3cb51acdcf8922db034b325c51948f499d15943098ad"
+      "sha256": "d30119c58b10398cf95343fe126a7ff844d6050e575f50a416007d841b4dbe4a"
     },
     {
       "path": "references/layouts/dashboard-frame.md",
-      "sha256": "22a8057cc933f4e9d33c8004a9c478d1222bc4cbb04f6f8d148e16c988b13a27"
+      "sha256": "293b8893444d83d2adbf678588bbee91f91db6f1ab1006b5b843e3c5d97ffaa3"
     },
     {
       "path": "references/react-spec.md",
-      "sha256": "96370d7a9b63a6d60afa9bf2a79902b303262a61e8b1922c9706f21d8023d4a0"
+      "sha256": "01b73c1a7a9f71b7fee1d67b191ac9ab9d1c4b98cfd31038713a3f850370ffd4"
     },
     {
       "path": "references/theme-spec.md",
-      "sha256": "1f3706854b0535e75915e168df6db97f84ddc131caf86755e5084eb92974fe6a"
+      "sha256": "21e0204ec32f390ae39178cffee9f37f1bb7c96a2043e4ee230726a1a9983d6e"
     },
     {
       "path": "SKILL.md",
-      "sha256": "35d15337674e917ee54bd0b0a6eca25d33b0cd241362ddd31698201a870a8130"
+      "sha256": "b6c7bde4bc6f43cadce84df961ba1449d9e44e69de5dc39e17e2cadec4256ad5"
     }
   ]
 }

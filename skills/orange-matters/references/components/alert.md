@@ -1,32 +1,31 @@
 # Alert
 
-Use for short status feedback. Keep copy to one concise sentence or less.
+Use for one-line status feedback that should be announced without interrupting the current task.
+
+## Contract
+
+- `children: ReactNode` is required and supplies the message.
+- `tone?: "info" | "success" | "warning" | "danger"` defaults to `info`.
+- The component renders a non-interactive status region; actions belong beside it, not inside the message.
+
+## Minimal usage
 
 ```tsx
-import type { ReactNode } from "react";
-import styles from "./Alert.module.scss";
-
-type AlertTone = "info" | "success" | "warning" | "danger";
-
-export function Alert({ tone = "info", children }: { tone?: AlertTone; children: ReactNode }) {
-  return <div className={`${styles.root} ${styles[tone]}`} role="status">{children}</div>;
-}
+<Alert tone="success">Settings saved.</Alert>
 ```
 
-```scss
-.root {
-  min-height: 38px;
-  display: flex;
-  align-items: center;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 8px 12px;
-  color: var(--text);
-  background: var(--bg-elevated);
-}
+## Accessibility
 
-.info { border-color: var(--border); }
-.success { border-color: color-mix(in srgb, var(--secondary) 42%, transparent); background: var(--secondary-soft); }
-.warning { border-color: color-mix(in srgb, var(--accent) 42%, transparent); background: var(--accent-soft); }
-.danger { border-color: color-mix(in srgb, var(--danger) 42%, transparent); color: var(--danger); }
-```
+- The asset uses `role="status"`, so keep the message brief and meaningful when announced.
+- Do not repeatedly remount an unchanged alert or use it for a blocking decision that requires a dialog.
+- Do not communicate success, warning, or danger by color alone; the message must name the state.
+
+## Orange Matters guardrails
+
+- Keep copy to one concise sentence or less.
+- Use teal for success, orange for warning, and the danger token for destructive or failed states.
+- Keep the surface compact and softly rounded; do not turn alerts into large promotional banners.
+
+## Asset
+
+[Canonical Alert source](../../assets/react/components/Alert/)

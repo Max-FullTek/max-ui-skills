@@ -69,15 +69,15 @@ async function copyTextFile(source, destination, rewrite = (value) => value) {
   await writeFile(destination, text, "utf8");
 }
 
-async function copyTextTree(source, destination) {
+async function copyTextTree(source, destination, rewrite = (value) => value) {
   await assertNoSymlinks(source);
   for (const entry of await sortedEntries(source)) {
     const from = path.join(source, entry.name);
     const to = path.join(destination, entry.name);
     if (entry.isDirectory()) {
-      await copyTextTree(from, to);
+      await copyTextTree(from, to, rewrite);
     } else if (entry.isFile()) {
-      await copyTextFile(from, to);
+      await copyTextFile(from, to, rewrite);
     } else {
       throw new Error(`Unsupported filesystem entry: ${from}`);
     }
@@ -122,8 +122,19 @@ async function assembleOrange(destination) {
     text.replaceAll("../../foundation/react-spec.md", "references/react-spec.md"),
   );
   await copyTextTree(path.join(theme, "agents"), path.join(destination, "agents"));
-  await copyTextTree(path.join(theme, "references", "components"), path.join(destination, "references", "components"));
-  await copyTextTree(path.join(theme, "references", "layouts"), path.join(destination, "references", "layouts"));
+  await copyTextTree(
+    path.join(theme, "references", "components"),
+    path.join(destination, "references", "components"),
+    (text) =>
+      text
+        .replaceAll("../../../../react/components/", "../../assets/react/components/")
+        .replaceAll("../../theme-components/RunningBorder/", "../../assets/react/components/RunningBorder/"),
+  );
+  await copyTextTree(
+    path.join(theme, "references", "layouts"),
+    path.join(destination, "references", "layouts"),
+    (text) => text.replaceAll("../../../../react/layouts/", "../../assets/react/layouts/"),
+  );
   await copyTextFile(
     path.join(theme, "references", "theme-spec.md"),
     path.join(destination, "references", "theme-spec.md"),
@@ -132,6 +143,13 @@ async function assembleOrange(destination) {
   await copyTextFile(
     path.join(sourceRoot, "foundation", "react-spec.md"),
     path.join(destination, "references", "react-spec.md"),
+    (text) =>
+      text
+        .replaceAll("source/react/", "assets/react/")
+        .replaceAll(
+          "Theme token values, structural theme overrides, and exclusive components live under `source/themes/<theme>/`, not beside the shared React contracts.",
+          "Theme token values and exclusive assets live inside the installed Skill alongside the shared React assets.",
+        ),
   );
 
   await copyTextTree(
@@ -267,7 +285,7 @@ async function validateForbiddenReferences(root) {
   for (const relative of await listFiles(root)) {
     const absolute = path.join(root, relative);
     const text = await readFile(absolute, "utf8");
-    if (/(?:\.\.[\\/]){2,}source(?:[\\/]|\b)/i.test(text)) {
+    if (/\bsource[\\/]/i.test(text)) {
       throw new Error(`Forbidden source reference in ${relative}`);
     }
     if (/sample-orange-matters/i.test(text)) {

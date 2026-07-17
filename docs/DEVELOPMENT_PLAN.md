@@ -13,7 +13,7 @@ Each phase is intended to end at a reviewable, independently committable boundar
 | 2 | Canonical source tree | Complete | Theme-neutral contracts, shared React sources, and per-theme sources exist at the documented boundaries with no duplicated shared implementation. |
 | 3 | Orange Matters migration | Complete | Existing public APIs and recipes remain available; Orange is produced from canonical sources, is self-contained, and the current sample builds. |
 | 4 | Deterministic Skill builder | Complete | Two consecutive builds produce identical controlled output and no diff; links resolve; each Skill directory passes isolation checks; no symlinks are used. |
-| 5 | Copyable React assets | In progress | Every public component/layout recipe points to a complete asset; every asset has a recipe or is marked internal; one installed Skill contains all of its assets. |
+| 5 | Copyable React assets | Complete | Every public component/layout recipe points to a complete asset; every asset has a recipe or is marked internal; one installed Skill contains all of its assets. |
 | 6 | Green Ink visual system | Planned | The theme specification defines light/dark color roles, paper/ink surfaces, geometry, hierarchy, depth, focus, motion, typography, decoration limits, and exclusive vocabulary; representative components establish a distinct identity. |
 | 7 | Green Ink Skill | Planned | The Skill has a distinct trigger description, complete references/assets, and no Orange Matters or repository-root dependency. |
 | 8 | Parallel sample applications | Planned | Orange and Green samples use comparable data, scenarios, and component contracts; both basic builds pass; exclusive components remain separate. |
@@ -61,7 +61,7 @@ Each phase is intended to end at a reviewable, independently committable boundar
 - Extract reusable TSX, CSS Modules, layouts, tokens, and minimal globals into installable assets.
 - Reduce Markdown recipes to contracts, minimal examples, accessibility, theme constraints, and asset pointers.
 - Do not ship the Vite application or demo-only feature data as Skill assets.
-- In progress: all 14 public component assets, the `DashboardFrame` layout asset, theme tokens, and minimal globals are present in the generated Orange Skill; validated recipe-to-asset coverage is complete, while recipe reduction remains Phase 5 work.
+- Complete: all 15 component/layout recipes now keep only contracts, minimal usage, accessibility, theme guardrails, and pointers to generated assets; the complete TSX, CSS Modules, layout, token, and global-style implementations live in the self-contained Orange Skill rather than being duplicated in recipes.
 
 ### Phase 6 — Green Ink specification
 

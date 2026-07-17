@@ -1,156 +1,46 @@
 # Header
 
-Use for dashboard frame headers with brand/context, sidebar toggle, search, and compact actions.
+Use for the compact top row of a dashboard frame: brand context, sidebar control, search, and primary workspace actions.
 
-## React
+## Contract
+
+- `brandInitials: string` and `brandName: string` render the brand mark and primary identity.
+- `contextLabel?: string` adds one short line of product context.
+- `theme: "light" | "dark"` controls the current theme indicator.
+- `sidebarOpen: boolean` controls the sidebar button's accessible expanded state.
+- `onSidebarToggle: () => void` toggles the element identified by `primary-sidebar`.
+- `onThemeChange: (theme: "light" | "dark") => void` receives the opposite theme when the theme button is pressed.
+- The canonical asset includes a record search field and compact Alerts action; adapt product copy when integrating it into another application.
+
+## Minimal usage
 
 ```tsx
-import { Bell, Menu as MenuIcon, Moon, Search, Sun } from "lucide-react";
-import { Button } from "../Button";
-import styles from "./Header.module.scss";
-
-type HeaderProps = {
-  brandInitials: string;
-  brandName: string;
-  contextLabel?: string;
-  theme: "light" | "dark";
-  sidebarOpen: boolean;
-  onSidebarToggle: () => void;
-  onThemeChange: (theme: "light" | "dark") => void;
-};
-
-export function Header({
-  brandInitials,
-  brandName,
-  contextLabel,
-  theme,
-  sidebarOpen,
-  onSidebarToggle,
-  onThemeChange
-}: HeaderProps) {
-  const nextTheme = theme === "light" ? "dark" : "light";
-
-  return (
-    <header className={styles.root}>
-      <div className={styles.brandMark}>{brandInitials}</div>
-      <div className={styles.brandText}>
-        <strong>{brandName}</strong>
-        {contextLabel && <span>{contextLabel}</span>}
-      </div>
-      <Button
-        tone="iconOnly"
-        className={styles.sidebarToggle}
-        aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
-        aria-controls="primary-sidebar"
-        aria-expanded={sidebarOpen}
-        icon={<MenuIcon aria-hidden="true" />}
-        onClick={onSidebarToggle}
-      />
-      <label className={styles.search}>
-        <Search aria-hidden="true" />
-        <input aria-label="Search records" placeholder="Search records" />
-      </label>
-      <div className={styles.actions}>
-        <Button tone="primaryOutline" icon={<Bell aria-hidden="true" />}>Alerts</Button>
-        <Button
-          tone="iconOnly"
-          aria-label={`Switch to ${nextTheme} mode`}
-          icon={theme === "light" ? <Moon aria-hidden="true" /> : <Sun aria-hidden="true" />}
-          onClick={() => onThemeChange(nextTheme)}
-        />
-      </div>
-    </header>
-  );
-}
+<Header
+  brandInitials="OM"
+  brandName="Archive Desk"
+  contextLabel="Data browser"
+  theme={theme}
+  sidebarOpen={sidebarOpen}
+  onSidebarToggle={() => setSidebarOpen((open) => !open)}
+  onThemeChange={setTheme}
+/>
 ```
 
-## SCSS Module
+## Accessibility
 
-```scss
-.root {
-  grid-area: header;
-  min-width: 0;
-  z-index: 3;
-  display: grid;
-  grid-template-columns: auto auto auto minmax(180px, 1fr) auto;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 18px;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg-elevated);
-  backdrop-filter: blur(18px);
-  box-shadow: var(--shadow-soft);
-}
+- Keep `aria-controls="primary-sidebar"` aligned with the actual sidebar id and `aria-expanded` synchronized with state.
+- Icon-only sidebar and theme buttons require accurate state-aware labels; decorative icons stay hidden from assistive technology.
+- Give search an application-specific visible or accessible label.
+- Preserve keyboard access and visible focus for every header action.
 
-.brandMark {
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  border-radius: 16px;
-  color: #fff;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-  box-shadow: 0 12px 24px var(--accent-soft);
-}
-
-.brandText {
-  min-width: 132px;
-  display: grid;
-  gap: 1px;
-
-  strong { font-size: 16px; line-height: 1; }
-  span { color: var(--text-soft); font-size: 12px; }
-}
-
-.sidebarToggle { flex: 0 0 auto; }
-
-.search {
-  min-width: 0;
-  height: 42px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  padding: 0 14px;
-  background: var(--bg-strong);
-  transition: border-color var(--ease), box-shadow var(--ease);
-
-  &:focus-within {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 4px var(--accent-soft);
-  }
-
-  svg { width: 17px; color: var(--text-soft); }
-  input { width: 100%; min-width: 0; border: 0; outline: 0; color: var(--text); background: transparent; }
-}
-
-.actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-@media (max-width: 820px) {
-  .root {
-    grid-template-columns: auto minmax(0, 1fr) auto auto;
-    grid-template-areas:
-      "mark title toggle actions"
-      "search search search search";
-  }
-
-  .brandMark { grid-area: mark; }
-  .brandText { grid-area: title; }
-  .sidebarToggle { grid-area: toggle; }
-  .search { grid-area: search; }
-  .actions { grid-area: actions; }
-}
-```
-
-## Rules
+## Orange Matters guardrails
 
 - Place the sidebar toggle immediately after the brand/title cluster.
-- Use `aria-controls="primary-sidebar"` and keep `aria-expanded` in sync with sidebar state.
-- Keep header actions compact; avoid large CTA styling in dashboard frames.
-- Search may become the second row on compact widths, but the header remains fixed-height inside the frame.
+- Use a warm glass surface, low-contrast bottom border, blur, and soft shadow in light and dark modes.
+- Keep actions compact and product-like; do not introduce hero copy or oversized CTA buttons.
+- Search may occupy a second row on compact widths, while the header remains inside the fixed dashboard frame.
+- Keep `contextLabel` short and omit it when it merely repeats the brand or current page title.
+
+## Asset
+
+[Canonical Header source](../../assets/react/components/Header/)

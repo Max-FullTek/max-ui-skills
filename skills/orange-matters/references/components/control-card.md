@@ -1,115 +1,43 @@
 # Control Card
 
-Use for compact settings, filters, tool controls, and small explanatory panels with actions.
+Use for one compact settings, filter, or tool-control group with optional supporting content and actions.
 
-## React
+## Contract
+
+- `title: string` is required and renders as the card heading.
+- `description?: string` renders short supporting copy under the title.
+- `controls?: ReactNode` renders compact controls at the end of the header.
+- `children?: ReactNode` renders the main body for dense forms, sliders, or secondary fields.
+- `footer?: ReactNode` renders a separate action row for commit, cancel, or export commands.
+- The root is a semantic `section` containing a header, body, and footer only when their content exists.
+
+## Minimal usage
 
 ```tsx
-import type { ReactNode } from "react";
-import styles from "./ControlCard.module.scss";
-
-type ControlCardProps = {
-  title: string;
-  description?: string;
-  controls?: ReactNode;
-  children?: ReactNode;
-  footer?: ReactNode;
-};
-
-export function ControlCard({ title, description, controls, children, footer }: ControlCardProps) {
-  return (
-    <section className={styles.root}>
-      <header className={styles.header}>
-        <div className={styles.copy}>
-          <h2>{title}</h2>
-          {description && <p>{description}</p>}
-        </div>
-        {controls && <div className={styles.controls}>{controls}</div>}
-      </header>
-      {children && <div className={styles.body}>{children}</div>}
-      {footer && <footer className={styles.footer}>{footer}</footer>}
-    </section>
-  );
-}
+<ControlCard
+  title="Capture"
+  controls={<Button tone="primary">Run</Button>}
+  footer={<Button tone="ghost">Reset</Button>}
+>
+  <TextField aria-label="Frame limit" inputMode="numeric" />
+</ControlCard>
 ```
 
-## SCSS Module
+## Accessibility
 
-```scss
-.root {
-  min-width: 0;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: var(--card-surface);
-  box-shadow: var(--shadow-soft);
-}
+- Keep the required title descriptive because it labels the control group visually.
+- Every field, toggle, select, and icon button supplied through a slot still needs its own accessible label.
+- Preserve logical keyboard order: header controls, body inputs, then footer actions.
+- Do not place unrelated settings under one title merely to reduce the number of surfaces.
 
-.header {
-  min-height: 58px;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-}
+## Orange Matters guardrails
 
-.copy {
-  min-width: 0;
+- Keep descriptions practical and short; never expose prompts, implementation notes, or agent explanations.
+- Place short toggles, selects, segmented controls, and icon buttons in `controls`; use `children` for denser content.
+- Use `footer` only when actions need separation from the control row.
+- Do not nest another card inside a Control Card.
+- On narrow screens, let header controls wrap below the title instead of forcing document overflow.
 
-  h2 {
-    margin: 0;
-    font-size: 18px;
-    line-height: 1.15;
-    letter-spacing: 0;
-  }
+## Asset
 
-  p {
-    max-width: 68ch;
-    margin: 4px 0 0;
-    color: var(--text-soft);
-    font-size: 13px;
-    line-height: 1.35;
-  }
-}
-
-.controls {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-.body {
-  min-width: 0;
-  padding: 0 14px 14px;
-}
-
-.footer {
-  min-height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-  padding: 10px 14px 12px;
-}
-
-@media (max-width: 640px) {
-  .header {
-    grid-template-columns: 1fr;
-    align-items: stretch;
-  }
-
-  .controls {
-    justify-content: flex-start;
-  }
-}
-```
-
-## Rules
-
-- Use this for one control group or one short settings section. Do not nest cards inside it.
-- Keep descriptions practical and short; avoid explaining implementation constraints in the UI.
-- Put short toggles, selects, segmented controls, and icon buttons in `controls`.
-- Put dense forms, sliders, and secondary fields in `body`.
-- Use `footer` only for commit/cancel/export actions that need separation from controls.
+[Canonical ControlCard source](../../assets/react/components/ControlCard/)

@@ -1,99 +1,42 @@
-# Table
+# Data Table
 
-Dense data display with local scroll. Rows can be buttons when selectable.
+Use `DataTable<T>` for dense record collections whose columns and row rendering are supplied by the consuming application.
+
+## Contract
+
+- `columns` is an array of `{ key, header, render(row) }`; `key` must be stable and unique within the column set.
+- `rows` contains application-owned records. `getKey(row)` returns a stable string key for each record.
+- The component owns the table viewport, header/body layout, and row presentation; it does not own sorting, filtering, pagination, routing, or data fetching.
+- Column renderers return `ReactNode`, allowing text, compact status, or actions while preserving the generic `T` contract.
+- Current rows are interactive buttons. If a consumer needs non-interactive rows or richer grid semantics, evolve that public contract explicitly rather than nesting controls inside a button.
+
+## Minimal usage
 
 ```tsx
-import type { ReactNode } from "react";
-import styles from "./DataTable.module.scss";
-
-type Column<T> = { key: string; header: string; render: (row: T) => ReactNode };
-
-export function DataTable<T>({ columns, rows, getKey }: { columns: Column<T>[]; rows: T[]; getKey: (row: T) => string }) {
-  return (
-    <section className={styles.root}>
-      <div className={styles.viewport}>
-        <div className={styles.table}>
-          <div className={styles.head}>
-            {columns.map((column) => <span key={column.key}>{column.header}</span>)}
-          </div>
-          <div className={styles.body}>
-            {rows.map((row) => (
-              <button className={styles.row} key={getKey(row)}>
-                {columns.map((column) => <span key={column.key}>{column.render(row)}</span>)}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+<DataTable
+  columns={[
+    { key: "name", header: "Name", render: (row) => row.name },
+    { key: "status", header: "Status", render: (row) => <Status tone={row.tone}>{row.status}</Status> }
+  ]}
+  rows={records}
+  getKey={(row) => row.id}
+/>
 ```
 
-```scss
-.root {
-  min-height: 0;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: var(--card-surface);
-  box-shadow: var(--shadow-soft);
-}
+## Accessibility
 
-.viewport {
-  width: 100%;
-  height: 100%;
-  min-width: 0;
-  min-height: 0;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
+- Give the table region a concise accessible label that matches its content.
+- Keep headers visible and text contrast sufficient in both themes.
+- Ensure interactive rows have an understandable action and visible keyboard focus; do not place nested buttons or links inside a button row.
+- Preserve an internal horizontal scroll viewport when columns cannot collapse cleanly on small screens.
 
-.table {
-  width: 100%;
-  min-width: 620px;
-  height: 100%;
-  min-height: 0;
-  display: grid;
-  grid-template-rows: 44px minmax(0, 1fr);
-}
+## Orange Matters guardrails
 
-.head,
-.row {
-  display: grid;
-  grid-template-columns: 92px minmax(160px, 1fr) 110px 110px 72px;
-  align-items: center;
-  gap: 12px;
-}
+- Keep rows compact, dividers quiet, and hover/focus states token-driven; orange identifies focus or the primary row action.
+- Use teal only for secondary status meaning, not as a competing primary selection color.
+- Do not turn each row into a floating card or add lift animations. Dense data should scan as one contained surface.
+- Keep overflow local to the table viewport, never the document.
 
-.head {
-  padding: 0 14px;
-  color: var(--text-soft);
-  font-size: 12px;
-  border-bottom: 1px solid var(--border);
-}
+## Asset
 
-.body { min-height: 0; overflow-x: hidden; overflow-y: auto; padding: 8px; }
-
-.row {
-  width: 100%;
-  min-height: 46px;
-  margin: 0 0 6px;
-  border: 1px solid transparent;
-  border-radius: var(--radius-sm);
-  padding: 0 8px;
-  color: var(--text);
-  text-align: left;
-  background: transparent;
-  transition: background var(--ease), border-color var(--ease);
-
-  &:hover { background: var(--bg-elevated); border-color: var(--border); }
-  &:focus-visible { outline: 0; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
-}
-```
-
-## Rules
-
-- Put horizontal overflow on `.viewport` so the header and rows move together on narrow screens.
-- Keep vertical record scrolling on `.body`.
-- Do not let a fixed-width row grid overflow and get clipped by `.root`.
+Use the [canonical DataTable component](../../assets/react/components/DataTable/). The Skill builder publishes its complete TSX, CSS Module, and barrel export under `assets/react/components/DataTable/`.

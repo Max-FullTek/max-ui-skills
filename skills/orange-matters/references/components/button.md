@@ -1,131 +1,38 @@
 # Button
 
-Use for command buttons, icon buttons, toolbar actions, and compact CTA controls.
+Use for commands, toolbar actions, compact calls to action, and icon controls.
 
-## React
+## Contract
+
+- Accepts native `ButtonHTMLAttributes<HTMLButtonElement>` and forwards them to the underlying button.
+- `tone?: "primary" | "primaryOutline" | "secondary" | "secondaryOutline" | "ghost" | "danger" | "iconOnly"` defaults to `ghost`.
+- `icon?: ReactNode` renders before the optional label in `children`.
+- `className` is merged with the component styles; native `type`, `disabled`, event, and ARIA props remain available.
+- Use `primary` for the main action, `secondary` for the teal action family, `danger` for destructive commands, and outline or ghost tones for lower emphasis.
+
+## Minimal usage
 
 ```tsx
-import type { ButtonHTMLAttributes, ReactNode } from "react";
-import styles from "./Button.module.scss";
-
-type ButtonTone =
-  | "primary"
-  | "primaryOutline"
-  | "secondary"
-  | "secondaryOutline"
-  | "ghost"
-  | "danger"
-  | "iconOnly";
-
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  tone?: ButtonTone;
-  icon?: ReactNode;
-};
-
-export function Button({ tone = "ghost", icon, children, className = "", ...props }: ButtonProps) {
-  return (
-    <button className={`${styles.root} ${styles[tone]} ${className}`} {...props}>
-      {icon}
-      {children && <span>{children}</span>}
-    </button>
-  );
-}
+<Button tone="primary" icon={<Save aria-hidden="true" />} type="submit">
+  Save
+</Button>
 ```
 
-## SCSS Module
+## Accessibility
 
-```scss
-.root {
-  min-height: 36px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 0 14px;
-  color: var(--text);
-  background: var(--bg-elevated);
-  transition:
-    transform var(--ease),
-    box-shadow var(--ease),
-    border-color var(--ease),
-    background var(--ease);
+- Give icon-only buttons an `aria-label`; add a tooltip or `title` when the meaning is not obvious.
+- Use the native `disabled` attribute for unavailable commands and set `type="button"` when a button inside a form must not submit it.
+- Decorative icons should use `aria-hidden="true"`; the visible label or accessible name owns the command text.
+- Preserve a visible focus state and a stable hit target.
 
-  svg {
-    width: 16px;
-    height: 16px;
-  }
+## Orange Matters guardrails
 
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-soft);
-  }
+- Primary buttons use the orange-to-orange-red family; teal is secondary and must not compete as another primary system.
+- Keep controls compact. Avoid oversized marketing CTA geometry in product screens.
+- Hover may lift by about `-1px`; active presses down with a small inset shadow.
+- Focus uses an orange border or glow, never the browser-blue default.
+- `iconOnly` stays square and rounded; `danger` remains pink/red rather than orange.
 
-  &:active {
-    transform: translateY(1px);
-    box-shadow: inset 0 2px 5px color-mix(in srgb, #000 12%, transparent);
-  }
+## Asset
 
-  &:focus-visible {
-    outline: 0;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 4px var(--accent-soft);
-  }
-}
-
-.primary {
-  color: #fff;
-  border-color: transparent;
-  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-  box-shadow: 0 12px 26px var(--accent-soft);
-}
-
-.primaryOutline {
-  color: var(--accent-strong);
-  border-color: color-mix(in srgb, var(--accent) 44%, transparent);
-  background: color-mix(in srgb, var(--accent-soft) 38%, var(--bg-elevated));
-
-  &:hover {
-    color: #fff;
-    border-color: transparent;
-    background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-  }
-}
-
-.secondary {
-  color: #fff;
-  border-color: transparent;
-  background: linear-gradient(135deg, var(--secondary), var(--secondary-strong));
-}
-
-.secondaryOutline {
-  color: var(--secondary-strong);
-  border-color: color-mix(in srgb, var(--secondary) 48%, transparent);
-  background: var(--secondary-soft);
-
-  &:hover {
-    color: #fff;
-    border-color: transparent;
-    background: linear-gradient(135deg, var(--secondary), var(--secondary-strong));
-  }
-}
-
-.danger {
-  color: #fff;
-  border-color: transparent;
-  background: var(--danger);
-}
-
-.iconOnly {
-  width: 38px;
-  padding: 0;
-}
-```
-
-## Interaction Rules
-
-- Hover: fill outline buttons, lift up `translateY(-1px)`, and deepen shadow.
-- Active: press down `translateY(1px)` and use inset shadow.
-- Focus: orange border/glow, never blue browser focus.
-- Keep labels short; icon-only buttons need an accessible label and tooltip when meaning is not obvious.
+[Canonical Button source](../../assets/react/components/Button/)

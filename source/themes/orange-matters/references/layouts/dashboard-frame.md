@@ -1,140 +1,55 @@
 # Dashboard Frame
 
-Use for product screens with a top header, collapsible left sidebar, and main work area. Keep this layout recipe small; page-specific content belongs in page modules.
+Use `DashboardFrame` as the full-viewport application shell that composes a header, sidebar, backdrop, and locally scrolling workspace.
 
-## React Slots And External State
+## Contract
+
+- `header`, `sidebar`, and `children` are composition slots. The frame does not create product navigation or header controls.
+- The consuming application owns external `theme`, `sidebarOpen`, and `sidebarFloating` state, including responsive breakpoint decisions.
+- `showBackdrop` defaults to `sidebarFloating && sidebarOpen`; `onBackdropClick` closes the drawer and `backdropLabel` names that action.
+- `workspaceLabel` names the `main` region. `className` permits scoped integration without changing the frame contract.
+- Synchronize `theme` to `document.documentElement.dataset.theme`, preserving the previous host value and restoring or removing it on cleanup.
+- Collapse the sidebar grid column when closed or floating. A floating sidebar overlays the workspace; the frame must not reserve horizontal space for it.
+
+## Minimal usage
 
 ```tsx
-import { useEffect, type ReactNode } from "react";
-import styles from "./DashboardFrame.module.scss";
-
-export type DashboardTheme = "light" | "dark";
-
-export type DashboardFrameProps = {
-  theme: DashboardTheme;
-  header: ReactNode;
-  sidebar: ReactNode;
-  sidebarOpen: boolean;
-  sidebarFloating: boolean;
-  children: ReactNode;
-  showBackdrop?: boolean;
-  backdropLabel?: string;
-  onBackdropClick?: () => void;
-  workspaceLabel?: string;
-  className?: string;
-};
-
-export function DashboardFrame({
-  theme,
-  header,
-  sidebar,
-  sidebarOpen,
-  sidebarFloating,
-  children,
-  showBackdrop = sidebarFloating && sidebarOpen,
-  backdropLabel = "Close sidebar",
-  onBackdropClick,
-  workspaceLabel = "Workspace",
-  className = ""
-}: DashboardFrameProps) {
-  useEffect(() => {
-    const documentElement = document.documentElement;
-    const previousTheme = documentElement.getAttribute("data-theme");
-    documentElement.dataset.theme = theme;
-
-    return () => {
-      if (previousTheme === null) documentElement.removeAttribute("data-theme");
-      else documentElement.setAttribute("data-theme", previousTheme);
-    };
-  }, [theme]);
-
-  const rootClassName = className ? `${styles.root} ${className}` : styles.root;
-
-  return (
-    <div
-      className={rootClassName}
-      data-theme={theme}
-      data-sidebar-open={sidebarOpen}
-      data-sidebar-floating={sidebarFloating}
-    >
-      {header}
-      {showBackdrop && (
-        <button
-          className={styles.backdrop}
-          type="button"
-          aria-label={backdropLabel}
-          onClick={onBackdropClick}
-        />
-      )}
-      {sidebar}
-      <main className={styles.main} aria-label={workspaceLabel}>
-        {children}
-      </main>
-    </div>
-  );
-}
-```
-
-## SCSS Module
-
-```scss
-.root {
-  --header-height: 72px;
-  --sidebar-width: 264px;
-
-  position: relative;
-  width: 100dvw;
-  height: 100dvh;
-  display: grid;
-  grid-template:
-    "header header" var(--header-height)
-    "menu main" minmax(0, 1fr) / var(--sidebar-width) minmax(0, 1fr);
-  color: var(--text);
-  overflow: hidden;
-  background: var(--app-background, var(--bg));
-  transition: grid-template-columns var(--ease);
-}
-
-.root[data-sidebar-open="false"],
-.root[data-sidebar-floating="true"] {
-  --sidebar-width: 0px;
-}
-
-.main {
-  grid-area: main;
-  min-width: 0;
-  min-height: 0;
-  overflow: auto;
-  padding: 18px;
-}
-
-.backdrop {
-  position: absolute;
-  inset: var(--header-height) 0 0 min(280px, calc(100dvw - 40px));
-  z-index: 7;
-  border: 0;
-  padding: 0;
-  background: rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(6px);
-}
-
-@media (max-width: 820px) {
-  .root {
-    --header-height: 116px;
-    grid-template:
-      "header" var(--header-height)
-      "main" minmax(0, 1fr) / minmax(0, 1fr);
+<DashboardFrame
+  theme={theme}
+  header={<Header sidebarOpen={sidebarOpen} onSidebarToggle={toggleSidebar} />}
+  sidebar={
+    <Menubar
+      items={items}
+      open={sidebarOpen}
+      floating={sidebarFloating}
+      onItemSelect={setPage}
+      onClose={closeSidebar}
+    />
   }
-
-  .main { padding: 12px; }
-}
+  sidebarOpen={sidebarOpen}
+  sidebarFloating={sidebarFloating}
+  onBackdropClick={closeSidebar}
+  workspaceLabel="Operations workspace"
+>
+  <CurrentPage />
+</DashboardFrame>
 ```
 
-## Rules
+## Accessibility
 
-- The frame owns document-level theme synchronization while preserving and restoring the host's previous `data-theme` value.
-- The consuming application owns theme state, sidebar state, the floating breakpoint, and the concrete Header/Menubar composition passed through slots.
-- Keep shared frame CSS independent of any theme's accent/secondary background composition; themes may provide `--app-background`.
-- When floating, the sidebar overlays main content; do not reserve a grid column for it.
-- The backdrop starts after the drawer width so clicking the visible main area closes the drawer.
-- Keep page content inside `main` with local scrolling. Never restore document-level scroll for app screens.
+- Give the workspace and backdrop action concise accessible labels.
+- Pair the header sidebar toggle with the sidebar's stable ID through `aria-controls` and expose `aria-expanded`.
+- Prevent closed navigation from receiving focus and return focus sensibly when a floating drawer closes.
+- Keep source order logical: header, backdrop when present, navigation, then main workspace.
+
+## Orange Matters guardrails
+
+- Fill `100dvw × 100dvh` and keep the root overflow hidden. Put scrolling in the main workspace, sidebar, tables, and other intentional local regions.
+- Use a top header and left sidebar by default. On narrow screens, collapse the sidebar and reopen it as a left floating drawer with a backdrop.
+- Keep layout structure theme-neutral; apply Orange Matters through semantic tokens such as the warm/charcoal application background, glass surfaces, and orange focus.
+- Prefer fluid workspace width and compact padding. Do not add a narrow global max-width wrapper or restore document scrolling.
+- Preserve the host's previous document theme when the frame unmounts or moves between environments.
+
+## Asset
+
+Use the [canonical DashboardFrame layout](../../../../react/layouts/DashboardFrame/). The Skill builder publishes its complete TSX, CSS Module, and barrel export under `assets/react/layouts/DashboardFrame/`.

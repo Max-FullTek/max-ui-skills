@@ -18,7 +18,7 @@ Use these conventions for shared React sources and for theme packages assembled 
 ## Canonical Structure
 
 ```text
-source/react/
+assets/react/
   styles/
     globals.scss
   layouts/
@@ -37,7 +37,7 @@ source/react/
       index.ts
 ```
 
-Theme token values, structural theme overrides, and exclusive components live under `source/themes/<theme>/`, not beside the shared React contracts.
+Theme token values and exclusive assets live inside the installed Skill alongside the shared React assets.
 
 ## Component Pattern
 
